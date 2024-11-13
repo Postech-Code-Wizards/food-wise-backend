@@ -1,4 +1,4 @@
-package br.com.foodWise.foodWise.model;
+package br.com.foodWise.foodWise.model.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
