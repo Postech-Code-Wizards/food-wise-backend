@@ -6,33 +6,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "menu")
+public class Menu {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private int id;
 
-    @Column(name = "email",nullable = false)
-    private String email;
+    @OneToOne
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private RestaurantProfile restaurantProfile;
 
-    @Column(name = "password_hash", nullable = false)
-    private String password;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "user_type", nullable = false)
-    private char userType;
-
-    @Column(name = "is_active")
-    private boolean isActive;
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
