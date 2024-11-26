@@ -1,38 +1,40 @@
 package br.com.foodWise.foodWise.model.entities;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "restaurant_review")
+public class RestaurantReview {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private int id;
 
-    @Column(name = "email",nullable = false)
-    private String email;
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private CustomerProfile customerProfile;
 
-    @Column(name = "password_hash", nullable = false)
-    private String password;
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private RestaurantProfile restaurantProfile;
 
-    @Column(name = "user_type", nullable = false)
-    private char userType;
+    @Column(name = "rating")
+    private byte rating;
 
-    @Column(name = "is_active")
-    private boolean isActive;
+    @Column(name = "review_text")
+    private String reviewText;
 
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
