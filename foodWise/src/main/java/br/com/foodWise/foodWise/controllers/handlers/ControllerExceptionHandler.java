@@ -1,33 +1,57 @@
 package br.com.foodWise.foodWise.controllers.handlers;
 
-import br.com.foodWise.foodWise.dto.ResourceNotFoundDTO;
-import br.com.foodWise.foodWise.dto.ValidationErrorDTO;
-import br.com.foodWise.foodWise.service.exceptions.ResourceNotFoundExceptions;
+import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Stream;
 
-@ControllerAdvice
+import static java.util.stream.Collectors.toList;
+
+@RestControllerAdvice
 public class ControllerExceptionHandler {
 
-    @ExceptionHandler(ResourceNotFoundExceptions.class)
-    public ResponseEntity<ResourceNotFoundDTO> handlerResourceNotFoundException(ResourceNotFoundExceptions e) {
-        var status = HttpStatus.NOT_FOUND;
-        return ResponseEntity.status(status.value()).body(new ResourceNotFoundDTO(e.getMessage(), status.value()));
+    private static final String NO_MESSSAGE_AVAILABLE = "No message available";
+
+    private final MessageSource apiErrorMessageSource;
+
+    public ControllerExceptionHandler(MessageSource apiErrorMessageSource) {
+        this.apiErrorMessageSource = apiErrorMessageSource;
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationErrorDTO> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        var status = HttpStatus.BAD_REQUEST;
-        List<String> errors = new ArrayList<>();
-        for (var error : e.getBindingResult().getFieldErrors()) {
-            errors.add(error.getField() + ": " + error.getDefaultMessage());
+    public ResponseEntity<ErrorResponse> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e, Locale locale) {
+        Stream<ObjectError> errors = e.getBindingResult().getAllErrors().stream();
+        List<ErrorResponse.ApiError> apiErrors = errors
+                .map(ObjectError::getDefaultMessage)
+                .map(code -> toApiError(code, locale))
+                .collect(toList());
+        return ResponseEntity.badRequest().body(ErrorResponse.of(HttpStatus.BAD_REQUEST, apiErrors));
+    }
+
+    @ExceptionHandler({ BusinessException.class })
+    public ResponseEntity<ErrorResponse> handleNotFoundException(BusinessException ex, Locale locale) {
+        final String errorCode = ex.getCode();
+        final HttpStatus status = ex.getStatus();
+
+        final ErrorResponse errorResponse = ErrorResponse.of(status, toApiError(errorCode, locale));
+        return ResponseEntity.status(status).body(errorResponse);
+    }
+
+    public ErrorResponse.ApiError toApiError(String errorCode, Locale locale, Object... args) {
+        String message;
+        try {
+            message = apiErrorMessageSource.getMessage(errorCode, args, locale);
+        } catch (NoSuchMessageException e) {
+            message = NO_MESSSAGE_AVAILABLE;
         }
-        return ResponseEntity.status(status.value()).body(new ValidationErrorDTO(errors, status.value()));
+        return new ErrorResponse.ApiError(errorCode, message);
     }
 }
