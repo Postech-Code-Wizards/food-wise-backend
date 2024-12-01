@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 @Getter
 @Setter
@@ -17,35 +18,40 @@ import java.time.OffsetDateTime;
 public class RestaurantProfile {
 
     @Id
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
-    @Column(name = "business_name", nullable = false)
+    @Column(name = "business_name", nullable = false, length = 100)
     private String businessName;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "business_hours")
+    @Column(name = "business_hours", length = 100)
     private String businessHours;
 
     @Column(name = "delivery_radius")
-    private int deliveryRadius;
+    private Short deliveryRadius;
 
-    @Column(name = "cuisine_type")
+    @Column(name = "cuisine_type", length = 50)
     private String cuisineType;
 
-    @Column(name = "is_open")
-    private boolean isOpen;
+    @Column(name = "is_open", nullable = false)
+    private Boolean isOpen = false;
 
-//  @OneToOne
-//  private Menu menu;
+    @ManyToOne
+    @JoinColumn(name = "address_id", nullable = false)
+    private Address address;
 
     @Column(name = "created_at")
-    private OffsetDateTime createdAt;
+    private ZonedDateTime createdAt;
 
     @Column(name = "updated_at")
-    private OffsetDateTime updatedAt;
+    private ZonedDateTime updatedAt;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 @Getter
 @Setter
@@ -19,44 +21,36 @@ public class Address {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private CustomerProfile customerProfile;
-
-    @OneToOne
-    @JoinColumn(name = "restaurant_id")
-    private RestaurantProfile restaurantProfile;
-
-    @Column(name = "street")
+    @Column(name = "street", nullable = false, length = 150)
     private String street;
 
-    @Column(name = "city")
+    @Column(name = "city", nullable = false, length = 50)
     private String city;
 
-    @Column(name = "state")
+    @Column(name = "state", nullable = false, length = 50)
     private String state;
 
-    @Column(name = "neighborhood")
+    @Column(name = "neighborhood", nullable = false, length = 50)
     private String neighborhood;
 
-    @Column(name = "postal_code")
+    @Column(name = "postal_code", nullable = false, length = 50)
     private String postalCode;
 
-    @Column(name = "coutry")
+    @Column(name = "coutry",nullable = false, length = 50)
     private String coutry;
 
-    @Column(name = "latitude")
-    private float latitude;
+    @Column(name = "latitude", precision = 9, scale = 6)
+    private BigDecimal latitude;
 
-    @Column(name = "longitude")
-    private float longitude;
+    @Column(name = "longitude", precision = 9, scale = 6)
+    private BigDecimal longitude;
 
-    @Column(name = "created_at")
-    private OffsetDateTime createdAt;
+    @Column(name = "created_at", updatable = false)
+    private ZonedDateTime createdAt;
 
     @Column(name = "updated_at")
-    private OffsetDateTime updatedAt;
+    private ZonedDateTime updatedAt;
 
 }

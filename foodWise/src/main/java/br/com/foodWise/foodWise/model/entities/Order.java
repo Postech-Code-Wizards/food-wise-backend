@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 @Getter
 @Setter
@@ -19,7 +21,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -30,31 +32,30 @@ public class Order {
     private RestaurantProfile restaurantProfile;
 
     @OneToOne
-    @JoinColumn(name = "order_status_id")
+    @JoinColumn(name = "order_status_id", nullable = false)
     private OrderStatus orderStatus;
 
-    @Column(name = "order_date")
-    private OffsetDateTime orderDate;
+    @Column(name = "order_date", nullable = false)
+    private ZonedDateTime orderDate;
 
-    @OneToOne
-    @JoinColumn(name = "order_payment_id")
-    private OrderPayment orderPayment;
+    @ManyToOne
+    @JoinColumn(name = "delivery_to_customer_address_id", nullable = false)
+    private Address addressCustomer;
 
-    @OneToMany
-    @JoinColumn(name = "delivery_to_customer_address_id")
-    private Address address;
-
-    @OneToMany
-    @JoinColumn(name = "delivery_from_restaurant_address_id")
+    @ManyToOne
+    @JoinColumn(name = "delivery_from_restaurant_address_id", nullable = false)
     private Address addressRestaurant;
 
-    @Column(name = "total_price")
-    private double totalPrice;
+    @Column(name = "total_price", nullable = false, precision = 10, scale = 2)
+    private BigDecimal totalPrice;
 
-    @Column(name = "placed_at")
-    private OffsetDateTime placedAt;
+    @Column(name = "transaction_date")
+    private ZonedDateTime transactionDate;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private ZonedDateTime createdAt;
 
     @Column(name = "updated_at")
-    private OffsetDateTime updatedAt;
+    private ZonedDateTime updatedAt;
 
 }
