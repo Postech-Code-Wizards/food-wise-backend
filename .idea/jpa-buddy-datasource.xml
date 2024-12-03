@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="JpbDataSourceConfig">
-    <data-sources>
-      <data-source id="08a70d87-7aee-4718-add4-93c95cd0abd8" name="foodwise" url="jdbc:postgresql://localhost:5432/foodwise" driverClass="org.postgresql.Driver" />
-    </data-sources>
-  </component>
-</project>
