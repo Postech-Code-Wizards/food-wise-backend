@@ -1,46 +1,38 @@
 package br.com.foodWise.foodWise.model.entities;
 
-import br.com.foodWise.foodWise.model.enums.UserType;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "order_item")
+public class OrderItem {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "email",nullable = false, length = 100)
-    private String email;
+    @ManyToOne
+    @JoinColumn(name = "menu_item_id", nullable = false)
+    private MenuItem menuItem;
 
-    @Column(name = "password_hash", nullable = false, length = 254)
-    private String password;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "user_type", nullable = false)
-    private UserType userType;
-
-    @Column(name = "is_active", nullable = false)
-    private Boolean isActive= true;
+    @ManyToOne
+    @JoinColumn(name = "order_payment_id", nullable = false)
+    private OrderPayment orderPayment;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private ZonedDateTime createdAt;
 
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
-
 }

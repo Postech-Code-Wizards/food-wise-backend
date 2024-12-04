@@ -1,41 +1,47 @@
 package br.com.foodWise.foodWise.model.entities;
 
-import br.com.foodWise.foodWise.model.enums.UserType;
+
+import br.com.foodWise.foodWise.model.enums.PhoneType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "phone")
+public class Phone {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "email",nullable = false, length = 100)
-    private String email;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private CustomerProfile customerProfile;
 
-    @Column(name = "password_hash", nullable = false, length = 254)
-    private String password;
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    private RestaurantProfile restaurantProfile;
+
+    @Column(name = "area_code", nullable = false, length = 100)
+    private String areaCode;
+
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_type", nullable = false)
-    private UserType userType;
+    @Column(name = "phone_type", nullable = false)
+    private PhoneType phoneType;
 
-    @Column(name = "is_active", nullable = false)
-    private Boolean isActive= true;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private ZonedDateTime createdAt;
