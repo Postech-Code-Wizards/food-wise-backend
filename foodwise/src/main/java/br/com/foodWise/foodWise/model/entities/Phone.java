@@ -32,14 +32,6 @@ public class Phone {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private CustomerProfile customerProfile;
-
-    @ManyToOne
-    @JoinColumn(name = "restaurant_id")
-    private RestaurantProfile restaurantProfile;
-
     @Column(name = "area_code", nullable = false, length = 100)
     private String areaCode;
 

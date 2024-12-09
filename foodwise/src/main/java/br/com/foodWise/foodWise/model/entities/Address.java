@@ -21,7 +21,6 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "address")
 public class Address {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

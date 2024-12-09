@@ -1,4 +1,4 @@
-package br.com.foodWise.auth.dtos;
+package br.com.foodWise.foodWise.auth.dtos.request.register;
 
 import br.com.foodWise.foodWise.model.entities.enums.UserType;
 import lombok.AllArgsConstructor;
@@ -8,8 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterCustomerRequest {
+public class UserRequest {
+
     private String email;
     private String password;
     private UserType role;
+
 }

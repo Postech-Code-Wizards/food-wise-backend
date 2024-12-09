@@ -1,5 +1,6 @@
 package br.com.foodWise.foodWise.model.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -48,5 +49,8 @@ public class CustomerProfile {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id", referencedColumnName = "user_id")
+    private Phone phone;
 
 }

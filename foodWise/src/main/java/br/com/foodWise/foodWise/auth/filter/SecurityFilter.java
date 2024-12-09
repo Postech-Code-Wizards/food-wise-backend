@@ -1,6 +1,6 @@
-package br.com.foodWise.auth.filter;
+package br.com.foodWise.foodWise.auth.filter;
 
-import br.com.foodWise.auth.service.TokenService;
+import br.com.foodWise.foodWise.auth.service.TokenService;
 import br.com.foodWise.foodWise.model.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
