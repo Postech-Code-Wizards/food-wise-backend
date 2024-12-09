@@ -14,6 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.time.ZonedDateTime;
 
@@ -32,6 +34,7 @@ public class OrderPayment {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status", nullable = false)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     private PaymentStatus paymentStatus;
 
     @Column(name = "transaction_reference", nullable = false, length = 50)

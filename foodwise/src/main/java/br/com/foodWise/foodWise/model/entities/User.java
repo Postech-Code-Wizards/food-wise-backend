@@ -15,7 +15,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,7 +32,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "user")
+@Table(name = "tb_user")
 public class User implements UserDetails {
 
     @Id
@@ -43,8 +45,10 @@ public class User implements UserDetails {
 
     @Column(name = "password_hash", nullable = false, length = 254)
     private String password;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_type", nullable = false)
+    @Column(name = "user_type", columnDefinition = "user_type", nullable = false)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     private UserType userType;
 
     @Column(name = "is_active", nullable = false)

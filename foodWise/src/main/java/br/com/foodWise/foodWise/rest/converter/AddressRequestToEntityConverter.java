@@ -15,6 +15,12 @@ public class AddressRequestToEntityConverter implements Converter<AddressRequest
     @Override
     public Address convert(AddressRequest source) {
         var address = new Address();
+        address.setStreet(source.getStreet());
+        address.setCity(source.getCity());
+        address.setState(source.getState());
+        address.setNeighborhood(source.getNeighborhood());
+        address.setPostalCode(source.getPostalCode());
+        address.setCountry(source.getCountry());
         address.setPostalCode(source.getPostalCode());
         address.setCountry(source.getCountry());
         address.setLatitude(source.getLatitude());

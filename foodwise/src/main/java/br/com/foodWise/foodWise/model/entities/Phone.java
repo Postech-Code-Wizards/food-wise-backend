@@ -14,6 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.time.ZonedDateTime;
 
@@ -38,6 +40,7 @@ public class Phone {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "phone_type", nullable = false)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     private PhoneType phoneType;
 
     @Column(name = "created_at", nullable = false, updatable = false)

@@ -16,6 +16,8 @@ public class PhoneRequestToEntityConverter
     @Override
     public Phone convert(PhoneRequest source) {
         var phone = new Phone();
+        phone.setAreaCode(source.getAreaCode());
+        phone.setPhoneNumber(source.getPhoneNumber());
         phone.setPhoneType(source.getPhoneType());
         phone.setCreatedAt(ZonedDateTime.now());
         phone.setUpdatedAt(ZonedDateTime.now());

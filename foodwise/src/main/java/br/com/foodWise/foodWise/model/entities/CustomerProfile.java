@@ -1,5 +1,6 @@
 package br.com.foodWise.foodWise.model.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -7,6 +8,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,7 +36,7 @@ public class CustomerProfile {
     @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
@@ -48,8 +51,17 @@ public class CustomerProfile {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "id", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "phone_id", nullable = false)
     private Phone phone;
 
+    @PrePersist
+    public void onCreate() {
+        createdAt = ZonedDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        updatedAt = ZonedDateTime.now();
+    }
 }

@@ -20,10 +20,11 @@ public class CustomerProfileService {
     @Transactional
     public void registerCustomer(RegisterCustomerRequest request) {
         var userRequest = request.getUser();
-        userService.createUser(userRequest.getEmail(), userRequest.getPassword(), userRequest.getRole());
+        var user = userService.createUser(userRequest.getEmail(), userRequest.getPassword(), userRequest.getRole());
 
         var customerRequest = request.getCustomer();
         var newCustomer = this.convertToCustomerProfile(customerRequest);
+        newCustomer.setUser(user);
         customerProfileRepository.save(newCustomer);
     }
 

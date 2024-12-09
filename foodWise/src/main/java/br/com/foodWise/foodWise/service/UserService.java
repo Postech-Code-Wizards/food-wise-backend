@@ -22,7 +22,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email);
     }
 
-    public void createUser(String email, String password, UserType role) {
+    public User createUser(String email, String password, UserType role) {
         var newUser = User
                 .builder()
                 .email(email)
@@ -34,6 +34,7 @@ public class UserService implements UserDetailsService {
                 .build();
 
         this.userRepository.save(newUser);
+        return newUser;
     }
 
     private String getEncryptedPassword(String password) {

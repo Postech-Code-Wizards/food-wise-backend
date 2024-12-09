@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import java.time.ZonedDateTime;
-
 @Component
 @RequiredArgsConstructor
 public class CustomerProfileRequestToEntityConverter
@@ -19,14 +17,14 @@ public class CustomerProfileRequestToEntityConverter
     @Override
     public CustomerProfile convert(CustomerProfileRequest source) {
         var customerProfile = new CustomerProfile();
+        customerProfile.setFirstName(source.getFirstName());
+        customerProfile.setLastName(source.getLastName());
 
         customerProfile.setAddress(addressRequestToEntityConverter
                 .convert(source.getAddress()));
         customerProfile
                 .setPhone(phoneRequestToEntityConverter
                         .convert(source.getPhone()));
-        customerProfile.setCreatedAt(ZonedDateTime.now());
-        customerProfile.setUpdatedAt(ZonedDateTime.now());
 
         return customerProfile;
     }
