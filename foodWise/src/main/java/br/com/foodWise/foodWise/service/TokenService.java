@@ -1,4 +1,4 @@
-package br.com.foodWise.foodWise.auth.service;
+package br.com.foodWise.foodWise.service;
 
 
 import br.com.foodWise.foodWise.model.entities.User;
@@ -31,7 +31,8 @@ public class TokenService {
             throw new RuntimeException("Error while generating token", exception);
         }
     }
-    public String validateToken(String token){
+
+    public String validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
@@ -39,12 +40,12 @@ public class TokenService {
                     .build()
                     .verify(token)
                     .getSubject();
-        } catch (JWTVerificationException exception){
+        } catch (JWTVerificationException exception) {
             return "";
         }
     }
 
-    private Instant getExpirationDate(){
+    private Instant getExpirationDate() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 

@@ -1,6 +1,6 @@
-package br.com.foodWise.foodWise.auth.config;
+package br.com.foodWise.foodWise.infra.security.config;
 
-import br.com.foodWise.foodWise.auth.filter.SecurityFilter;
+import br.com.foodWise.foodWise.infra.security.filter.SecurityFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,12 +24,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return  httpSecurity
+        return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/register/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/customer/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/restaurant/**").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/api/v1/menu").hasRole("RESTAURANT")
                         .anyRequest().authenticated()

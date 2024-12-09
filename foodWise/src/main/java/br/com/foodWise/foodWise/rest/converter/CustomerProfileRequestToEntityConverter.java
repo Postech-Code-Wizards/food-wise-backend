@@ -1,7 +1,7 @@
-package br.com.foodWise.foodWise.auth.rest.converter;
+package br.com.foodWise.foodWise.rest.converter;
 
-import br.com.foodWise.foodWise.auth.dtos.request.register.CustomerProfileRequest;
 import br.com.foodWise.foodWise.model.entities.CustomerProfile;
+import br.com.foodWise.foodWise.rest.dtos.request.register.CustomerProfileRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -22,9 +22,9 @@ public class CustomerProfileRequestToEntityConverter
 
         customerProfile.setAddress(addressRequestToEntityConverter
                 .convert(source.getAddress()));
-        /*customerProfile
+        customerProfile
                 .setPhone(phoneRequestToEntityConverter
-                        .convert(source.getPhone()));*/
+                        .convert(source.getPhone()));
         customerProfile.setCreatedAt(ZonedDateTime.now());
         customerProfile.setUpdatedAt(ZonedDateTime.now());
 

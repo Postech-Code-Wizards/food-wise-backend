@@ -1,11 +1,15 @@
-package br.com.foodWise.foodWise.auth.rest.converter;
+package br.com.foodWise.foodWise.rest.converter;
+
+import br.com.foodWise.foodWise.model.entities.Address;
+import br.com.foodWise.foodWise.rest.dtos.request.register.AddressRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
 import java.time.ZonedDateTime;
 
-import br.com.foodWise.foodWise.auth.dtos.request.register.AddressRequest;
-import br.com.foodWise.foodWise.model.entities.Address;
-
-import org.springframework.core.convert.converter.Converter;
-
+@Component
+@RequiredArgsConstructor
 public class AddressRequestToEntityConverter implements Converter<AddressRequest, Address> {
 
     @Override

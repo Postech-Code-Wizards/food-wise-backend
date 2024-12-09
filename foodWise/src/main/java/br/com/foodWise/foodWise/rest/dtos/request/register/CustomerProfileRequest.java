@@ -1,4 +1,4 @@
-package br.com.foodWise.foodWise.auth.dtos.request.register;
+package br.com.foodWise.foodWise.rest.dtos.request.register;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

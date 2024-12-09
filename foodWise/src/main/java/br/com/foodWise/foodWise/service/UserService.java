@@ -1,4 +1,4 @@
-package br.com.foodWise.foodWise.auth.service;
+package br.com.foodWise.foodWise.service;
 
 import br.com.foodWise.foodWise.model.entities.User;
 import br.com.foodWise.foodWise.model.entities.enums.UserType;

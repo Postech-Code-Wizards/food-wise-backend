@@ -1,11 +1,12 @@
-package br.com.foodWise.foodWise.auth.rest.converter;
-import java.time.ZonedDateTime;
+package br.com.foodWise.foodWise.rest.converter;
 
-import br.com.foodWise.foodWise.auth.dtos.request.register.PhoneRequest;
 import br.com.foodWise.foodWise.model.entities.Phone;
+import br.com.foodWise.foodWise.rest.dtos.request.register.PhoneRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
+
+import java.time.ZonedDateTime;
 
 @Component
 @RequiredArgsConstructor

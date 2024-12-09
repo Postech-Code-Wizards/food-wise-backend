@@ -1,9 +1,9 @@
-package br.com.foodWise.foodWise.auth.dtos.request.register;
+package br.com.foodWise.foodWise.rest.dtos.request.register;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 
