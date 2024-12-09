@@ -1,13 +1,17 @@
 package br.com.foodWise.foodWise.model.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 
 @Getter
@@ -19,7 +23,7 @@ import java.time.ZonedDateTime;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -38,8 +42,8 @@ public class Address {
     @Column(name = "postal_code", nullable = false, length = 50)
     private String postalCode;
 
-    @Column(name = "coutry",nullable = false, length = 50)
-    private String coutry;
+    @Column(name = "country", nullable = false, length = 50)
+    private String country;
 
     @Column(name = "latitude", precision = 9, scale = 6)
     private BigDecimal latitude;

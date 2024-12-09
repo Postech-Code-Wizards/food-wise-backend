@@ -1,4 +1,4 @@
-package br.com.foodWise.foodWise.model.enums;
+package br.com.foodWise.foodWise.model.entities.enums;
 
 public enum PaymentStatus {
 

@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FoodWiseApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FoodWiseApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FoodWiseApplication.class, args);
+    }
 
 }
