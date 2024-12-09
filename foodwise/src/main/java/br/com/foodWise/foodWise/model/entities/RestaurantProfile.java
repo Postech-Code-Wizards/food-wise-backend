@@ -22,6 +22,7 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "restaurant_profile")
 public class RestaurantProfile {
+
     @Id
     @Column(name = "user_id", nullable = false)
     private Long userId;
@@ -44,18 +45,18 @@ public class RestaurantProfile {
     @Column(name = "is_open", nullable = false)
     private Boolean isOpen = false;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id", nullable = false)
-    private Address address;
-
     @Column(name = "created_at")
     private ZonedDateTime createdAt;
 
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
+
     @OneToOne
     @MapsId
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToOne
+    @JoinColumn(name = "address_id", nullable = false)
+    private Address address;
 }

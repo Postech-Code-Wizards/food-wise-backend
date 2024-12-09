@@ -2,6 +2,8 @@ package br.com.foodWise.foodWise.auth.service;
 
 import br.com.foodWise.foodWise.auth.dtos.request.register.RegisterCustomerRequest;
 import br.com.foodWise.foodWise.auth.dtos.request.register.RegisterRestaurantRequest;
+import br.com.foodWise.foodWise.service.CustomerProfileService;
+import br.com.foodWise.foodWise.service.RestaurantProfileService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

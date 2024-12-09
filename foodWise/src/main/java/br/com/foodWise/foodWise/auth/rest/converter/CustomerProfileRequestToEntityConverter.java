@@ -22,9 +22,9 @@ public class CustomerProfileRequestToEntityConverter
 
         customerProfile.setAddress(addressRequestToEntityConverter
                 .convert(source.getAddress()));
-        customerProfile
+        /*customerProfile
                 .setPhone(phoneRequestToEntityConverter
-                        .convert(source.getPhone()));
+                        .convert(source.getPhone()));*/
         customerProfile.setCreatedAt(ZonedDateTime.now());
         customerProfile.setUpdatedAt(ZonedDateTime.now());
 
