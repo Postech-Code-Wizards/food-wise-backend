@@ -1,11 +1,12 @@
 package br.com.foodWise.foodWise.service;
 
 import br.com.foodWise.foodWise.model.entities.RestaurantProfile;
+import br.com.foodWise.foodWise.model.entities.enums.UserType;
 import br.com.foodWise.foodWise.model.repositories.RestaurantProfileRepository;
 import br.com.foodWise.foodWise.rest.converter.restaurant.RestaurantProfileEntityToResponseConverter;
 import br.com.foodWise.foodWise.rest.converter.restaurant.RestaurantProfileRequestToEntityConverter;
-import br.com.foodWise.foodWise.rest.dtos.request.register.RegisterRestaurantRequest;
-import br.com.foodWise.foodWise.rest.dtos.request.register.RestaurantProfileRequest;
+import br.com.foodWise.foodWise.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
+import br.com.foodWise.foodWise.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodWise.foodWise.rest.dtos.response.RestaurantProfileResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class RestaurantProfileService {
     @Transactional
     public void registerRestaurant(RegisterRestaurantRequest request) {
         var userRequest = request.getUser();
-        var user = userService.createUser(userRequest.getEmail(), userRequest.getPassword(), userRequest.getRole());
+        var user = userService.createUser(userRequest.getEmail(), userRequest.getPassword(), UserType.RESTAURANT_OWNER);
 
         var restaurantRequest = request.getRestaurant();
         var newRestaurant = this.convertToRestaurantProfileEntity(restaurantRequest);

@@ -1,7 +1,7 @@
 package br.com.foodWise.foodWise.rest.controller;
 
 import br.com.foodWise.foodWise.model.entities.User;
-import br.com.foodWise.foodWise.rest.dtos.request.register.RegisterRestaurantRequest;
+import br.com.foodWise.foodWise.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodWise.foodWise.rest.dtos.response.RestaurantProfileResponse;
 import br.com.foodWise.foodWise.service.RestaurantProfileService;
 import jakarta.validation.Valid;

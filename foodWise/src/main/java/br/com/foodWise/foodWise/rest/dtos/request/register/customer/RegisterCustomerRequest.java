@@ -1,5 +1,6 @@
-package br.com.foodWise.foodWise.rest.dtos.request.register;
+package br.com.foodWise.foodWise.rest.dtos.request.register.customer;
 
+import br.com.foodWise.foodWise.rest.dtos.request.register.UserRequest;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;

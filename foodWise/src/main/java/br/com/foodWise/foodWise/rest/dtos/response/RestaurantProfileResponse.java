@@ -11,8 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RestaurantProfileResponse {
 
-    private String firstName;
-    private String lastName;
+    private String businessName;
+    private String description;
+    private String businessHours;
+    private Short deliveryRadius;
+    private String cuisineType;
+    private boolean isOpen;
     private Address address;
     private Phone phone;
 

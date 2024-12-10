@@ -1,11 +1,12 @@
 package br.com.foodWise.foodWise.service;
 
 import br.com.foodWise.foodWise.model.entities.CustomerProfile;
+import br.com.foodWise.foodWise.model.entities.enums.UserType;
 import br.com.foodWise.foodWise.model.repositories.CustomerProfileRepository;
 import br.com.foodWise.foodWise.rest.converter.customer.CustomerProfileEntityToResponseConverter;
 import br.com.foodWise.foodWise.rest.converter.customer.CustomerProfileRequestToEntityConverter;
-import br.com.foodWise.foodWise.rest.dtos.request.register.CustomerProfileRequest;
-import br.com.foodWise.foodWise.rest.dtos.request.register.RegisterCustomerRequest;
+import br.com.foodWise.foodWise.rest.dtos.request.register.customer.CustomerProfileRequest;
+import br.com.foodWise.foodWise.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import br.com.foodWise.foodWise.rest.dtos.response.CustomerProfileResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class CustomerProfileService {
     @Transactional
     public void registerCustomer(RegisterCustomerRequest request) {
         var userRequest = request.getUser();
-        var user = userService.createUser(userRequest.getEmail(), userRequest.getPassword(), userRequest.getRole());
+        var user = userService.createUser(userRequest.getEmail(), userRequest.getPassword(), UserType.CUSTOMER);
 
         var customerRequest = request.getCustomer();
         var newCustomer = this.convertToCustomerProfileEntity(customerRequest);
