@@ -23,6 +23,10 @@ public class UserService implements UserDetailsService {
     }
 
     public User createUser(String email, String password, UserType role) {
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("Email already exists.");
+        }
+
         var newUser = User
                 .builder()
                 .email(email)

@@ -31,6 +31,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/customer/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/restaurant/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/customer").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/api/v1/menu").hasRole("RESTAURANT")
                         .anyRequest().authenticated()
