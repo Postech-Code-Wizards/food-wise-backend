@@ -1,9 +1,11 @@
 package br.com.foodWise.foodWise.model.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -42,7 +44,7 @@ public class RestaurantProfile {
     private String cuisineType;
 
     @Column(name = "is_open", nullable = false)
-    private Boolean isOpen = false;
+    private boolean isOpen = false;
 
     @Column(name = "created_at")
     private ZonedDateTime createdAt;
@@ -55,7 +57,12 @@ public class RestaurantProfile {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "phone_id", nullable = false)
+    private Phone phone;
+
 }

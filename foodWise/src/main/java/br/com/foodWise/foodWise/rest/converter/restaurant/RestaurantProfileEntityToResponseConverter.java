@@ -1,0 +1,16 @@
+package br.com.foodWise.foodWise.rest.converter.restaurant;
+
+import br.com.foodWise.foodWise.model.entities.RestaurantProfile;
+import br.com.foodWise.foodWise.rest.dtos.response.RestaurantProfileResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+@Component
+@RequiredArgsConstructor
+public class RestaurantProfileEntityToResponseConverter implements Converter<RestaurantProfile, RestaurantProfileResponse> {
+    @Override
+    public RestaurantProfileResponse convert(RestaurantProfile source) {
+        return null;
+    }
+}

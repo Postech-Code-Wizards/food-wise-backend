@@ -1,4 +1,4 @@
-package br.com.foodWise.foodWise.rest.converter;
+package br.com.foodWise.foodWise.rest.converter.common;
 
 import br.com.foodWise.foodWise.model.entities.Address;
 import br.com.foodWise.foodWise.rest.dtos.request.register.AddressRequest;

@@ -1,6 +1,8 @@
-package br.com.foodWise.foodWise.rest.converter;
+package br.com.foodWise.foodWise.rest.converter.customer;
 
 import br.com.foodWise.foodWise.model.entities.CustomerProfile;
+import br.com.foodWise.foodWise.rest.converter.common.AddressRequestToEntityConverter;
+import br.com.foodWise.foodWise.rest.converter.common.PhoneRequestToEntityConverter;
 import br.com.foodWise.foodWise.rest.dtos.request.register.CustomerProfileRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

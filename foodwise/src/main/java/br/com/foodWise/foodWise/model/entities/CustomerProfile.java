@@ -8,13 +8,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.ZonedDateTime;
 
@@ -40,9 +40,11 @@ public class CustomerProfile {
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private ZonedDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
 
@@ -55,13 +57,4 @@ public class CustomerProfile {
     @JoinColumn(name = "phone_id", nullable = false)
     private Phone phone;
 
-    @PrePersist
-    public void onCreate() {
-        createdAt = ZonedDateTime.now();
-    }
-
-    @PreUpdate
-    public void onUpdate() {
-        updatedAt = ZonedDateTime.now();
-    }
 }

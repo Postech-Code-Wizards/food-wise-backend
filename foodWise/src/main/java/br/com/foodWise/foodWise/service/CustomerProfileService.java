@@ -2,8 +2,8 @@ package br.com.foodWise.foodWise.service;
 
 import br.com.foodWise.foodWise.model.entities.CustomerProfile;
 import br.com.foodWise.foodWise.model.repositories.CustomerProfileRepository;
-import br.com.foodWise.foodWise.rest.converter.CustomerProfileEntityToResponseConverter;
-import br.com.foodWise.foodWise.rest.converter.CustomerProfileRequestToEntityConverter;
+import br.com.foodWise.foodWise.rest.converter.customer.CustomerProfileEntityToResponseConverter;
+import br.com.foodWise.foodWise.rest.converter.customer.CustomerProfileRequestToEntityConverter;
 import br.com.foodWise.foodWise.rest.dtos.request.register.CustomerProfileRequest;
 import br.com.foodWise.foodWise.rest.dtos.request.register.RegisterCustomerRequest;
 import br.com.foodWise.foodWise.rest.dtos.response.CustomerProfileResponse;
