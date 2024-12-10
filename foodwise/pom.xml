@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.foodWise</groupId>
-	<artifactId>foodWise</artifactId>
+	<artifactId>foodwise</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>foodWise</name>
 	<description>Unified Restaurant Management Platform</description>
@@ -58,6 +58,13 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.6.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-database-postgresql</artifactId>
+			<version>10.21.0</version>
+			<scope>runtime</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
