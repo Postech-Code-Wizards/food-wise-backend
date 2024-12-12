@@ -36,13 +36,13 @@ public class RestaurantProfileService {
 
     public RestaurantProfileResponse retrieveRestaurantByBusinessName(String businessName) {
         var restaurantProfile = restaurantProfileRepository
-                .findByBusinessName(businessName).orElseThrow(IllegalAccessError::new);
+                .findByBusinessName(businessName).orElseThrow(IllegalArgumentException::new);
         return convertToRestaurantProfileResponse(restaurantProfile);
     }
 
     public RestaurantProfileResponse retrieveRestaurantByEmail(String email) {
         var restaurantProfile = restaurantProfileRepository
-                .findByUserEmail(email).orElseThrow(IllegalAccessError::new);
+                .findByUserEmail(email).orElseThrow(IllegalArgumentException::new);
         return convertToRestaurantProfileResponse(restaurantProfile);
     }
 

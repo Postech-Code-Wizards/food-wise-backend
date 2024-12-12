@@ -35,7 +35,7 @@ public class CustomerProfileService {
 
     public CustomerProfileResponse retrieveCustomerByEmail(@RequestParam String email) {
         var customerProfile = customerProfileRepository
-                .findByUserEmail(email).orElseThrow(IllegalAccessError::new);
+                .findByUserEmail(email).orElseThrow(IllegalArgumentException::new);
         return convertToCustomerProfileResponse(customerProfile);
     }
 

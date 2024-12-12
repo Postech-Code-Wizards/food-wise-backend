@@ -46,7 +46,7 @@ public class MenuItem {
     private String category;
 
     @Column(name = "is_available", nullable = false)
-    private Boolean isAvailable = true;
+    private boolean isAvailable = true;
 
     @Column(name = "image_url", length = 254)
     private String imageUrl;
