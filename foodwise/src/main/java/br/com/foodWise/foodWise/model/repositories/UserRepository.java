@@ -1,6 +1,6 @@
-package br.com.foodWise.foodWise.model.repositories;
+package br.com.foodwise.foodwise.model.repositories;
 
-import br.com.foodWise.foodWise.model.entities.User;
+import br.com.foodwise.foodwise.model.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {

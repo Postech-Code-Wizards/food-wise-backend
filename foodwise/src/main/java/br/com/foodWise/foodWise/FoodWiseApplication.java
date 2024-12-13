@@ -1,4 +1,4 @@
-package br.com.foodWise.foodWise;
+package br.com.foodwise.foodwise;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,7 +1,7 @@
-package br.com.foodWise.foodWise.controllers;
+package br.com.foodwise.foodwise.controllers;
 
-import br.com.foodWise.foodWise.model.entities.User;
-import br.com.foodWise.foodWise.service.UserService;
+import br.com.foodwise.foodwise.model.entities.User;
+import br.com.foodwise.foodwise.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package br.com.foodWise.foodWise.controllers.handlers;
+package br.com.foodwise.foodwise.controllers.handlers;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -37,12 +37,18 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler({ BusinessException.class })
-    public ResponseEntity<ErrorResponse> handleNotFoundException(BusinessException ex, Locale locale) {
+    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException ex, Locale locale) {
         final String errorCode = ex.getCode();
         final HttpStatus status = ex.getStatus();
+        final String message = ex.getMessage();
 
-        final ErrorResponse errorResponse = ErrorResponse.of(status, toApiError(errorCode, locale));
+        String defaultMessage = apiErrorMessageSource.getMessage(errorCode, null, locale);
+
+        String finalMessage = (message != null && !message.isEmpty() ? message + " " : "") + defaultMessage;
+
+        final ErrorResponse errorResponse = ErrorResponse.of(status, new ErrorResponse.ApiError(errorCode, finalMessage));
         return ResponseEntity.status(status).body(errorResponse);
+
     }
 
     public ErrorResponse.ApiError toApiError(String errorCode, Locale locale, Object... args) {

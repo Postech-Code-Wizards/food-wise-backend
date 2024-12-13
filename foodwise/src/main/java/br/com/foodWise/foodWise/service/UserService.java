@@ -1,19 +1,17 @@
-package br.com.foodWise.foodWise.service;
+package br.com.foodwise.foodwise.service;
 
-import br.com.foodWise.foodWise.model.entities.User;
-import br.com.foodWise.foodWise.model.repositories.UserRepository;
-import br.com.foodWise.foodWise.service.exceptions.user.UserNotFound;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import br.com.foodwise.foodwise.model.entities.User;
+import br.com.foodwise.foodwise.model.repositories.UserRepository;
+import br.com.foodwise.foodwise.service.exceptions.ResourceNotFound;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class UserService {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -21,8 +19,14 @@ public class UserService {
 
     public Optional<User> getUser(Long userId) {
 
-        logger.info("Buscando usuario! ");
+        log.debug("Buscando usuario!");
 
-        return Optional.ofNullable(userRepository.findById(userId).orElseThrow(UserNotFound::new));
+        //Optional<User> user = userRepository.findById(userId);
+
+        if (userId == 2) {
+            throw new ResourceNotFound("Usuário");
+        }
+
+        return null;
     }
 }

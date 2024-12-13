@@ -1,4 +1,4 @@
-package br.com.foodWise.foodWise.config;
+package br.com.foodwise.foodwise.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

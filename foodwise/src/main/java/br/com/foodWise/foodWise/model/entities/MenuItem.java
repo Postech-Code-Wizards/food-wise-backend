@@ -1,4 +1,4 @@
-package br.com.foodWise.foodWise.model.entities;
+package br.com.foodwise.foodwise.model.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 
 @Getter

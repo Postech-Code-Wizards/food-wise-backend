@@ -1,4 +1,4 @@
-package br.com.foodWise.foodWise.controllers.handlers;
+package br.com.foodwise.foodwise.controllers.handlers;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,5 +10,6 @@ public class BusinessException extends RuntimeException {
 
     private final String code;
     private final HttpStatus status;
+    private final String message;
 
 }

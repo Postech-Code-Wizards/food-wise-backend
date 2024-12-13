@@ -1,4 +1,4 @@
-package br.com.foodWise.foodWise.controllers.handlers;
+package br.com.foodwise.foodwise.controllers.handlers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
