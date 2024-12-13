@@ -1,5 +1,6 @@
-package br.com.foodWise.controllers.handlers;
+package br.com.foodWise.rest.controller.handlers;
 
+import br.com.foodWise.rest.controller.exception.BusinessException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.HttpStatus;

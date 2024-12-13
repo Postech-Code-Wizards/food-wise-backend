@@ -1,4 +1,4 @@
-package br.com.foodWise.controllers.handlers;
+package br.com.foodWise.rest.controller.handlers;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AllArgsConstructor;

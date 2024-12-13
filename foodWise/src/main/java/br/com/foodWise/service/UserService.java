@@ -3,7 +3,7 @@ package br.com.foodWise.service;
 import br.com.foodWise.model.entities.User;
 import br.com.foodWise.model.entities.enums.UserType;
 import br.com.foodWise.model.repositories.UserRepository;
-import br.com.foodWise.service.exceptions.ResourceNotFoundException;
+import br.com.foodWise.rest.controller.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

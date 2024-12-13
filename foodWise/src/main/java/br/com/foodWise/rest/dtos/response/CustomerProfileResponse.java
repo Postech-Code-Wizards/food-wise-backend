@@ -1,7 +1,7 @@
 package br.com.foodWise.rest.dtos.response;
 
-import br.com.foodWise.foodWise.model.entities.Address;
-import br.com.foodWise.foodWise.model.entities.Phone;
+import br.com.foodWise.model.entities.Address;
+import br.com.foodWise.model.entities.Phone;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
