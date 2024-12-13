@@ -1,4 +1,4 @@
-package br.com.foodWise.foodWise.model.enums;
+package br.com.foodwise.foodwise.model.enums;
 
 public enum UserType {
 

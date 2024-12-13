@@ -1,14 +1,12 @@
-package br.com.foodWise.foodWise.model.entities;
+package br.com.foodwise.foodwise.model.entities;
 
-import br.com.foodWise.foodWise.model.enums.UserType;
+import br.com.foodwise.foodwise.model.enums.UserType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 
 @Getter

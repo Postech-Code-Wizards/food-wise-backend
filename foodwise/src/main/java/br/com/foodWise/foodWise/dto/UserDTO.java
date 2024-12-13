@@ -1,4 +1,4 @@
-package br.com.foodWise.foodWise.dto;
+package br.com.foodwise.foodwise.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

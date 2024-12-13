@@ -1,4 +1,4 @@
-package br.com.foodWise.foodWise.model.entities;
+package br.com.foodwise.foodwise.model.entities;
 
 
 import jakarta.persistence.*;
