@@ -1,11 +1,11 @@
-package br.com.foodWise;
+package br.com.foodwise;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "br.com.foodWise.foodWise")
+@ComponentScan(basePackages = "br.com.foodwise")
 public class FoodWiseApplication {
 
     public static void main(String[] args) {

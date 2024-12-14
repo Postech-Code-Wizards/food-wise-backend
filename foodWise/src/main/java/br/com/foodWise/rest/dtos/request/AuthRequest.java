@@ -1,4 +1,4 @@
-package br.com.foodWise.rest.dtos.request;
+package br.com.foodwise.rest.dtos.request;
 
 public record AuthRequest(String email, String password) {
 }

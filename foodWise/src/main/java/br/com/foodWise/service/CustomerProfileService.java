@@ -1,13 +1,14 @@
-package br.com.foodWise.service;
+package br.com.foodwise.service;
 
-import br.com.foodWise.model.entities.CustomerProfile;
-import br.com.foodWise.model.entities.enums.UserType;
-import br.com.foodWise.model.repositories.CustomerProfileRepository;
-import br.com.foodWise.rest.converter.customer.CustomerProfileEntityToResponseConverter;
-import br.com.foodWise.rest.converter.customer.CustomerProfileRequestToEntityConverter;
-import br.com.foodWise.rest.dtos.request.register.customer.CustomerProfileRequest;
-import br.com.foodWise.rest.dtos.request.register.customer.RegisterCustomerRequest;
-import br.com.foodWise.rest.dtos.response.CustomerProfileResponse;
+import br.com.foodwise.model.entities.CustomerProfile;
+import br.com.foodwise.model.entities.enums.UserType;
+import br.com.foodwise.model.repositories.CustomerProfileRepository;
+import br.com.foodwise.rest.controller.exception.ResourceNotFoundException;
+import br.com.foodwise.rest.converter.customer.CustomerProfileEntityToResponseConverter;
+import br.com.foodwise.rest.converter.customer.CustomerProfileRequestToEntityConverter;
+import br.com.foodwise.rest.dtos.request.register.customer.CustomerProfileRequest;
+import br.com.foodwise.rest.dtos.request.register.customer.RegisterCustomerRequest;
+import br.com.foodwise.rest.dtos.response.CustomerProfileResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,8 @@ public class CustomerProfileService {
 
     public CustomerProfileResponse retrieveCustomerByEmail(@RequestParam String email) {
         var customerProfile = customerProfileRepository
-                .findByUserEmail(email).orElseThrow(IllegalArgumentException::new);
+                .findByUserEmail(email).orElseThrow(() -> new ResourceNotFoundException
+                        ("Customer not found with email: " + email));
         return convertToCustomerProfileResponse(customerProfile);
     }
 

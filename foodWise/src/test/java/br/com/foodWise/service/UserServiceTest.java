@@ -1,6 +1,4 @@
-package br.com.foodWise.service;
-
-import static org.junit.jupiter.api.Assertions.*;
+package br.com.foodwise.service;
 
 class UserServiceTest {
 

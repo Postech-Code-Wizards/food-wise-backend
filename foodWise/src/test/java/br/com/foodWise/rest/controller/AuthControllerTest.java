@@ -1,6 +1,4 @@
-package br.com.foodWise.rest.controller;
-
-import static org.junit.jupiter.api.Assertions.*;
+package br.com.foodwise.rest.controller;
 
 class AuthControllerTest {
 

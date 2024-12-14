@@ -1,9 +1,9 @@
-package br.com.foodWise.rest.controller;
+package br.com.foodwise.rest.controller;
 
-import br.com.foodWise.model.entities.User;
-import br.com.foodWise.rest.dtos.request.AuthRequest;
-import br.com.foodWise.rest.dtos.response.AuthResponse;
-import br.com.foodWise.service.TokenService;
+import br.com.foodwise.model.entities.User;
+import br.com.foodwise.rest.dtos.request.AuthRequest;
+import br.com.foodwise.rest.dtos.response.AuthResponse;
+import br.com.foodwise.service.TokenService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

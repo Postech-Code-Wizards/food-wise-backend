@@ -1,6 +1,6 @@
-package br.com.foodWise.model.entities;
+package br.com.foodwise.model.entities;
 
-import br.com.foodWise.model.entities.enums.UserType;
+import br.com.foodwise.model.entities.enums.UserType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -62,6 +61,10 @@ public class User implements UserDetails {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
+
+    public <E> User(String email, String password, List<E> role_customer) {
+
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

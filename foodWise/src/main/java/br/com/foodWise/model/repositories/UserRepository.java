@@ -1,9 +1,11 @@
-package br.com.foodWise.model.repositories;
+package br.com.foodwise.model.repositories;
 
-import br.com.foodWise.model.entities.User;
+import br.com.foodwise.model.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     UserDetails findByEmail(String email);
 

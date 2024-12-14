@@ -1,6 +1,6 @@
-package br.com.foodWise.model.repositories;
+package br.com.foodwise.model.repositories;
 
-import br.com.foodWise.model.entities.CustomerProfile;
+import br.com.foodwise.model.entities.CustomerProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

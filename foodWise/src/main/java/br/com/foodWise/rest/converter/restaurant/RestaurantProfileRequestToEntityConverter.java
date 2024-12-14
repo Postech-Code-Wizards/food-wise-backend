@@ -1,9 +1,9 @@
-package br.com.foodWise.rest.converter.restaurant;
+package br.com.foodwise.rest.converter.restaurant;
 
-import br.com.foodWise.model.entities.RestaurantProfile;
-import br.com.foodWise.rest.converter.common.AddressRequestToEntityConverter;
-import br.com.foodWise.rest.converter.common.PhoneRequestToEntityConverter;
-import br.com.foodWise.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
+import br.com.foodwise.model.entities.RestaurantProfile;
+import br.com.foodwise.rest.converter.common.AddressRequestToEntityConverter;
+import br.com.foodwise.rest.converter.common.PhoneRequestToEntityConverter;
+import br.com.foodwise.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.core.convert.converter.Converter;

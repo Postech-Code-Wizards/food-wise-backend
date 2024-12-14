@@ -1,4 +1,5 @@
-package br.com.foodWise.model.entities.enums;
+package br.com.foodwise.model.entities.enums;
+
 public enum PhoneType {
     MOBILE,
     WORK,

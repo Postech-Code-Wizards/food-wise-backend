@@ -1,4 +1,4 @@
-package br.com.foodWise.service;
+package br.com.foodwise.service;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

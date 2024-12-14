@@ -1,4 +1,4 @@
-package br.com.foodWise.model.entities;
+package br.com.foodwise.model.entities;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

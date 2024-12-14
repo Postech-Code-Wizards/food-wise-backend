@@ -1,7 +1,7 @@
-package br.com.foodWise.rest.converter.common;
+package br.com.foodwise.rest.converter.common;
 
-import br.com.foodWise.model.entities.Address;
-import br.com.foodWise.rest.dtos.request.register.AddressRequest;
+import br.com.foodwise.model.entities.Address;
+import br.com.foodwise.rest.dtos.request.register.AddressRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.core.convert.converter.Converter;

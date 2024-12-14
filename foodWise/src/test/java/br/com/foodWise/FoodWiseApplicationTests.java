@@ -1,4 +1,4 @@
-package br.com.foodWise;
+package br.com.foodwise;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,6 +1,6 @@
-package br.com.foodWise.rest.dtos.request.register;
+package br.com.foodwise.rest.dtos.request.register;
 
-import br.com.foodWise.model.entities.enums.PhoneType;
+import br.com.foodwise.model.entities.enums.PhoneType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

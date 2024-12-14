@@ -1,7 +1,7 @@
-package br.com.foodWise.rest.converter.restaurant;
+package br.com.foodwise.rest.converter.restaurant;
 
-import br.com.foodWise.model.entities.RestaurantProfile;
-import br.com.foodWise.rest.dtos.response.RestaurantProfileResponse;
+import br.com.foodwise.model.entities.RestaurantProfile;
+import br.com.foodwise.rest.dtos.response.RestaurantProfileResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.core.convert.converter.Converter;

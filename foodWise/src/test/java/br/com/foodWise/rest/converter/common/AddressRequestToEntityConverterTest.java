@@ -1,6 +1,4 @@
-package br.com.foodWise.rest.converter.common;
-
-import static org.junit.jupiter.api.Assertions.*;
+package br.com.foodwise.rest.converter.common;
 
 class AddressRequestToEntityConverterTest {
 

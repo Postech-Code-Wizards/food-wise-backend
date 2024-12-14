@@ -1,4 +1,4 @@
-package br.com.foodWise.rest.controller.exception;
+package br.com.foodwise.rest.controller.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

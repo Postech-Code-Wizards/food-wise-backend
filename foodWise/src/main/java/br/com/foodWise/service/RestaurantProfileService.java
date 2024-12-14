@@ -1,13 +1,13 @@
-package br.com.foodWise.service;
+package br.com.foodwise.service;
 
-import br.com.foodWise.model.entities.RestaurantProfile;
-import br.com.foodWise.model.entities.enums.UserType;
-import br.com.foodWise.model.repositories.RestaurantProfileRepository;
-import br.com.foodWise.rest.converter.restaurant.RestaurantProfileEntityToResponseConverter;
-import br.com.foodWise.rest.converter.restaurant.RestaurantProfileRequestToEntityConverter;
-import br.com.foodWise.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
-import br.com.foodWise.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
-import br.com.foodWise.rest.dtos.response.RestaurantProfileResponse;
+import br.com.foodwise.model.entities.RestaurantProfile;
+import br.com.foodwise.model.entities.enums.UserType;
+import br.com.foodwise.model.repositories.RestaurantProfileRepository;
+import br.com.foodwise.rest.converter.restaurant.RestaurantProfileEntityToResponseConverter;
+import br.com.foodwise.rest.converter.restaurant.RestaurantProfileRequestToEntityConverter;
+import br.com.foodwise.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
+import br.com.foodwise.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
+import br.com.foodwise.rest.dtos.response.RestaurantProfileResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
-package br.com.foodWise.infra.security.config;
+package br.com.foodwise.infra.security.config;
 
-import br.com.foodWise.infra.security.filter.SecurityFilter;
+import br.com.foodwise.infra.security.filter.SecurityFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

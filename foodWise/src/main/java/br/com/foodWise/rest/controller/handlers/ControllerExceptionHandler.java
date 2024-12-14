@@ -1,6 +1,6 @@
-package br.com.foodWise.rest.controller.handlers;
+package br.com.foodwise.rest.controller.handlers;
 
-import br.com.foodWise.rest.controller.exception.BusinessException;
+import br.com.foodwise.rest.controller.exception.BusinessException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.toList;
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 
-    private static final String NO_MESSSAGE_AVAILABLE = "No message available";
+    private static final String NO_MESSAGE_AVAILABLE = "No message available";
 
     private final MessageSource apiErrorMessageSource;
 
@@ -28,16 +28,23 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e, Locale locale) {
-        Stream<ObjectError> errors = e.getBindingResult().getAllErrors().stream();
-        List<ErrorResponse.ApiError> apiErrors = errors
-                .map(ObjectError::getDefaultMessage)
-                .map(code -> toApiError(code, locale))
-                .collect(toList());
-        return ResponseEntity.badRequest().body(ErrorResponse.of(HttpStatus.BAD_REQUEST, apiErrors));
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e, Locale locale) {
+        List<ErrorResponse.ApiError> apiErrors = e.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> {
+                    var defaultMessage = error.getDefaultMessage();
+                    return new ErrorResponse.ApiError("VALIDATION_ERROR", defaultMessage);
+                })
+                .toList();
+
+        return ResponseEntity
+                .badRequest()
+                .body(ErrorResponse.of(HttpStatus.BAD_REQUEST, apiErrors));
     }
 
-    @ExceptionHandler({ BusinessException.class })
+
+    @ExceptionHandler({BusinessException.class})
     public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException ex, Locale locale) {
         final String errorCode = ex.getCode();
         final HttpStatus status = ex.getStatus();
@@ -57,7 +64,7 @@ public class ControllerExceptionHandler {
         try {
             message = apiErrorMessageSource.getMessage(errorCode, args, locale);
         } catch (NoSuchMessageException e) {
-            message = NO_MESSSAGE_AVAILABLE;
+            message = NO_MESSAGE_AVAILABLE;
         }
         return new ErrorResponse.ApiError(errorCode, message);
     }

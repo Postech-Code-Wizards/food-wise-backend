@@ -1,9 +1,9 @@
-package br.com.foodWise.rest.controller;
+package br.com.foodwise.rest.controller;
 
-import br.com.foodWise.model.entities.User;
-import br.com.foodWise.rest.dtos.request.register.customer.RegisterCustomerRequest;
-import br.com.foodWise.rest.dtos.response.CustomerProfileResponse;
-import br.com.foodWise.service.CustomerProfileService;
+import br.com.foodwise.model.entities.User;
+import br.com.foodwise.rest.dtos.request.register.customer.RegisterCustomerRequest;
+import br.com.foodwise.rest.dtos.response.CustomerProfileResponse;
+import br.com.foodwise.service.CustomerProfileService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;

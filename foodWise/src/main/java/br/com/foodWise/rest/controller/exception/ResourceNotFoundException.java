@@ -1,6 +1,5 @@
-package br.com.foodWise.rest.controller.exception;
+package br.com.foodwise.rest.controller.exception;
 
-import br.com.foodWise.rest.controller.exception.BusinessException;
 import org.springframework.http.HttpStatus;
 
 public class ResourceNotFoundException extends BusinessException {

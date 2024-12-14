@@ -1,6 +1,6 @@
-package br.com.foodWise.model.entities;
+package br.com.foodwise.model.entities;
 
-import br.com.foodWise.model.entities.enums.PaymentStatus;
+import br.com.foodwise.model.entities.enums.PaymentStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

@@ -1,9 +1,9 @@
-package br.com.foodWise.rest.converter.customer;
+package br.com.foodwise.rest.converter.customer;
 
-import br.com.foodWise.model.entities.CustomerProfile;
-import br.com.foodWise.rest.converter.common.AddressRequestToEntityConverter;
-import br.com.foodWise.rest.converter.common.PhoneRequestToEntityConverter;
-import br.com.foodWise.rest.dtos.request.register.customer.CustomerProfileRequest;
+import br.com.foodwise.model.entities.CustomerProfile;
+import br.com.foodwise.rest.converter.common.AddressRequestToEntityConverter;
+import br.com.foodwise.rest.converter.common.PhoneRequestToEntityConverter;
+import br.com.foodwise.rest.dtos.request.register.customer.CustomerProfileRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.core.convert.converter.Converter;

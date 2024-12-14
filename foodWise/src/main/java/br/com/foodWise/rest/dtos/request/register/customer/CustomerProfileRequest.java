@@ -1,7 +1,7 @@
-package br.com.foodWise.rest.dtos.request.register.customer;
+package br.com.foodwise.rest.dtos.request.register.customer;
 
-import br.com.foodWise.rest.dtos.request.register.AddressRequest;
-import br.com.foodWise.rest.dtos.request.register.PhoneRequest;
+import br.com.foodwise.rest.dtos.request.register.AddressRequest;
+import br.com.foodwise.rest.dtos.request.register.PhoneRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,11 +14,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CustomerProfileRequest {
 
-    @NotNull
     @NotBlank
     private String firstName;
 
-    @NotNull
     @NotBlank
     private String lastName;
 

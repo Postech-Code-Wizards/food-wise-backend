@@ -1,4 +1,4 @@
-package br.com.foodWise.rest.dtos.request.register;
+package br.com.foodwise.rest.dtos.request.register;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

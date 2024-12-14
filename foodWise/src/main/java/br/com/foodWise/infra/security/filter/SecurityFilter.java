@@ -1,7 +1,7 @@
-package br.com.foodWise.infra.security.filter;
+package br.com.foodwise.infra.security.filter;
 
-import br.com.foodWise.model.repositories.UserRepository;
-import br.com.foodWise.service.TokenService;
+import br.com.foodwise.model.repositories.UserRepository;
+import br.com.foodwise.service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

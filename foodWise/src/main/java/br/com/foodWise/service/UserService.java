@@ -1,9 +1,9 @@
-package br.com.foodWise.service;
+package br.com.foodwise.service;
 
-import br.com.foodWise.model.entities.User;
-import br.com.foodWise.model.entities.enums.UserType;
-import br.com.foodWise.model.repositories.UserRepository;
-import br.com.foodWise.rest.controller.exception.ResourceNotFoundException;
+import br.com.foodwise.model.entities.User;
+import br.com.foodwise.model.entities.enums.UserType;
+import br.com.foodwise.model.repositories.UserRepository;
+import br.com.foodwise.rest.controller.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

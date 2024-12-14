@@ -1,6 +1,4 @@
-package br.com.foodWise.rest.converter.restaurant;
-
-import static org.junit.jupiter.api.Assertions.*;
+package br.com.foodwise.rest.converter.restaurant;
 
 class RestaurantProfileEntityToResponseConverterTest {
 
