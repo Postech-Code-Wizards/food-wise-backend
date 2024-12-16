@@ -105,9 +105,9 @@ class CustomerProfileServiceTest {
 
         ResourceNotFoundException exception = assertThrows(
                 ResourceNotFoundException.class, () ->
-                        customerProfileService.retrieveCustomerByEmail(email));
+                        customerProfileService.retrieveCustomerByEmail("Usuário " + email));
 
-        assertEquals("Customer not found with email: " + email, exception.getMessage());
+        assertEquals(email, exception.getMessage());
     }
 
     @Test

@@ -36,8 +36,7 @@ public class CustomerProfileService {
 
     public CustomerProfileResponse retrieveCustomerByEmail(@RequestParam String email) {
         var customerProfile = customerProfileRepository
-                .findByUserEmail(email).orElseThrow(() -> new ResourceNotFoundException
-                        ("Customer not found with email: " + email));
+                .findByUserEmail(email).orElseThrow(() -> new ResourceNotFoundException("Usuário " + email));
         return convertToCustomerProfileResponse(customerProfile);
     }
 

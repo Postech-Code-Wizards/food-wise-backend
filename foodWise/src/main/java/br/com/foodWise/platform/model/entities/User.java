@@ -61,11 +61,6 @@ public class User implements UserDetails {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
-
-    public <E> User(String email, String password, List<E> role_customer) {
-
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.userType == UserType.ADMIN)
