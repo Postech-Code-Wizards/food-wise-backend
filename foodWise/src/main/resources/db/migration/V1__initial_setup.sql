@@ -1,10 +1,20 @@
 CREATE TYPE user_type AS ENUM ('CUSTOMER', 'RESTAURANT_OWNER', 'ADMIN');
-CREATE TABLE "user" (
+CREATE TABLE "tb_user" (
     id BIGSERIAL PRIMARY KEY,
     email VARCHAR(100) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     user_type user_type NOT NULL,
     is_active BOOLEAN DEFAULT TRUE NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT current_timestamp NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT current_timestamp
+);
+
+CREATE TYPE phone_type AS ENUM ('MOBILE', 'WORK', 'HOME', 'FAX');
+CREATE TABLE "phone" (
+    id BIGSERIAL PRIMARY KEY,
+    area_code VARCHAR(100) NOT NULL,
+    phone_number TEXT NOT NULL,
+    phone_type phone_type NOT NULL,
     created_at TIMESTAMPTZ DEFAULT current_timestamp NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT current_timestamp
 );
@@ -28,11 +38,13 @@ CREATE TABLE "customer_profile" (
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     address_id BIGINT NOT NULL,
+    phone_id BIGINT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT current_timestamp NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT current_timestamp,
 
-    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES "user" (id),
-    CONSTRAINT fk_address FOREIGN KEY (address_id) REFERENCES "address" (id)
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES "tb_user" (id),
+    CONSTRAINT fk_address FOREIGN KEY (address_id) REFERENCES "address" (id),
+    CONSTRAINT fk_phone FOREIGN KEY (phone_id) REFERENCES "phone" (id)
 );
 
 CREATE TABLE "restaurant_profile" (
@@ -44,26 +56,13 @@ CREATE TABLE "restaurant_profile" (
     cuisine_type VARCHAR(50),
     is_open BOOLEAN DEFAULT FALSE NOT NULL,
     address_id BIGINT NOT NULL,
+    phone_id BIGINT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT current_timestamp NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT current_timestamp,
 
-    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES "user" (id),
-    CONSTRAINT fk_address FOREIGN KEY (address_id) REFERENCES "address" (id)
-);
-
-CREATE TYPE phone_type AS ENUM ('MOBILE', 'WORK', 'HOME', 'FAX');
-CREATE TABLE "phone" (
-    id BIGSERIAL PRIMARY KEY,
-    customer_id BIGINT,
-    restaurant_id BIGINT,
-    area_code VARCHAR(100) NOT NULL,
-    phone_number TEXT NOT NULL,
-    phone_type phone_type NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT current_timestamp NOT NULL,
-    updated_at TIMESTAMPTZ DEFAULT current_timestamp,
-
-    CONSTRAINT fk_customer FOREIGN KEY (customer_id) REFERENCES "customer_profile" (user_id),
-    CONSTRAINT fk_restaurant FOREIGN KEY (restaurant_id) REFERENCES "restaurant_profile" (user_id)
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES "tb_user" (id),
+    CONSTRAINT fk_address FOREIGN KEY (address_id) REFERENCES "address" (id),
+    CONSTRAINT fk_phone FOREIGN KEY (phone_id) REFERENCES "phone" (id)
 );
 
 CREATE TABLE "restaurant_review" (
