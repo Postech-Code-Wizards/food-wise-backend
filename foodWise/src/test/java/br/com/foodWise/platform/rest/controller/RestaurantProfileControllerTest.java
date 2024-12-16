@@ -93,7 +93,8 @@ class RestaurantProfileControllerTest {
                 "cuisineType, '', 'Cuisine type is required'",
                 "address, null, 'Address is required'",
                 "businessHours, '25:00-26:00', 'Business hours must match the pattern HH:mm-HH:mm'",
-                "businessHours, '09:00-25:00', 'Business hours must match the pattern HH:mm-HH:mm'"})
+                "businessHours, '09:00-25:00', 'Business hours must match the pattern HH:mm-HH:mm'"
+        })
         void shouldRejectInvalidFields(String fieldName, String fieldValue, String expectedMessage) throws Exception {
             var request = buildValidRegisterRestaurantRequest();
             setInvalidField(request, fieldName, fieldValue);

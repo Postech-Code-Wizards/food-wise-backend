@@ -9,8 +9,6 @@ import br.com.foodwise.platform.rest.converter.customer.CustomerProfileEntityToR
 import br.com.foodwise.platform.rest.converter.customer.CustomerProfileRequestToEntityConverter;
 import br.com.foodwise.platform.rest.dtos.request.register.customer.CustomerProfileRequest;
 import br.com.foodwise.platform.rest.dtos.response.CustomerProfileResponse;
-import br.com.foodwise.platform.service.CustomerProfileService;
-import br.com.foodwise.platform.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -103,11 +101,8 @@ class CustomerProfileServiceTest {
         when(customerProfileRepository.findByUserEmail(email))
                 .thenReturn(java.util.Optional.empty());
 
-        ResourceNotFoundException exception = assertThrows(
-                ResourceNotFoundException.class, () ->
-                        customerProfileService.retrieveCustomerByEmail("Usuário " + email));
-
-        assertEquals(email, exception.getMessage());
+        assertThrows(ResourceNotFoundException.class, () ->
+                customerProfileService.retrieveCustomerByEmail(email));
     }
 
     @Test

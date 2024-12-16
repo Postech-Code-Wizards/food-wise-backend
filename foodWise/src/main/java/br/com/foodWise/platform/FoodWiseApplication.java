@@ -6,10 +6,10 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "br.com.foodwise.platform")
-public class FoodWiseApplication {
+public class FoodwiseApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FoodWiseApplication.class, args);
+        SpringApplication.run(FoodwiseApplication.class, args);
     }
 
 }

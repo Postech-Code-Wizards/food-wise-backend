@@ -12,11 +12,11 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiConfig {
 
     @Bean
-    public OpenAPI foodWiseOpenAPI() {
+    public OpenAPI foodwiseOpenAPI() {
         return new OpenAPI()
                 .info(
-                        new Info().title("FoodWise API")
-                                .description("FoodWise API")
+                        new Info().title("Foodwise API")
+                                .description("Foodwise API")
                                 .version("1.0.0")
                                 .license(new License().name("Apache 2.0").url("https://github.com/Postech-Code-Wizards/"))
                 );
