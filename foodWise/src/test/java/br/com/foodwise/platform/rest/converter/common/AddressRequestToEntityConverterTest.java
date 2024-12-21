@@ -1,6 +1,5 @@
 package br.com.foodwise.platform.rest.converter.common;
 
-import br.com.foodwise.platform.rest.converter.common.AddressRequestToEntityConverter;
 import br.com.foodwise.platform.rest.dtos.request.register.AddressRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -4,7 +4,6 @@ import br.com.foodwise.platform.model.entities.Address;
 import br.com.foodwise.platform.model.entities.Phone;
 import br.com.foodwise.platform.rest.converter.common.AddressRequestToEntityConverter;
 import br.com.foodwise.platform.rest.converter.common.PhoneRequestToEntityConverter;
-import br.com.foodwise.platform.rest.converter.restaurant.RestaurantProfileRequestToEntityConverter;
 import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

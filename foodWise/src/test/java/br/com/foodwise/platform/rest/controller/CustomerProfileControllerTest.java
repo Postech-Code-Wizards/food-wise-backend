@@ -1,7 +1,6 @@
 package br.com.foodwise.platform.rest.controller;
 
 import br.com.foodwise.platform.model.entities.enums.UserType;
-import br.com.foodwise.platform.rest.controller.CustomerProfileController;
 import br.com.foodwise.platform.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import br.com.foodwise.platform.service.CustomerProfileService;
 import com.fasterxml.jackson.databind.ObjectMapper;

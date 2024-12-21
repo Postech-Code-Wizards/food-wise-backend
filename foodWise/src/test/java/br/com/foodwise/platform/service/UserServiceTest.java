@@ -4,7 +4,6 @@ import br.com.foodwise.platform.model.entities.User;
 import br.com.foodwise.platform.model.entities.enums.UserType;
 import br.com.foodwise.platform.model.repositories.UserRepository;
 import br.com.foodwise.platform.rest.controller.exception.BusinessException;
-import br.com.foodwise.platform.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

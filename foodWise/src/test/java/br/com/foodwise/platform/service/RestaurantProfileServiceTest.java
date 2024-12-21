@@ -9,8 +9,6 @@ import br.com.foodwise.platform.rest.converter.restaurant.RestaurantProfileEntit
 import br.com.foodwise.platform.rest.converter.restaurant.RestaurantProfileRequestToEntityConverter;
 import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.rest.dtos.response.RestaurantProfileResponse;
-import br.com.foodwise.platform.service.RestaurantProfileService;
-import br.com.foodwise.platform.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

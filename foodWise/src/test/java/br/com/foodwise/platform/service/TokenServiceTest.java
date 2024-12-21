@@ -1,7 +1,6 @@
 package br.com.foodwise.platform.service;
 
 import br.com.foodwise.platform.model.entities.User;
-import br.com.foodwise.platform.service.TokenService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.junit.jupiter.api.BeforeEach;

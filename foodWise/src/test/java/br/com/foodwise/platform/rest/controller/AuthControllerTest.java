@@ -1,7 +1,6 @@
 package br.com.foodwise.platform.rest.controller;
 
 import br.com.foodwise.platform.model.entities.User;
-import br.com.foodwise.platform.rest.controller.AuthController;
 import br.com.foodwise.platform.rest.dtos.request.AuthRequest;
 import br.com.foodwise.platform.rest.dtos.response.AuthResponse;
 import br.com.foodwise.platform.service.TokenService;
