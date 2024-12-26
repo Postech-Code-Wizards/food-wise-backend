@@ -22,15 +22,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final SecurityFilter securityFilter;
 
-    private static final String[] AUTH_WHITELIST = {
-            "/api/v1/auth/**",
-            "/v3/api-docs/**",
-            "/v3/api-docs.yaml",
-            "/swagger-ui/**",
-            "/swagger-ui.html",
-            "**"
-    };
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -40,7 +31,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/customer/register/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/restaurant/register/**").permitAll()
-                        .requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/menu").hasRole("RESTAURANT")
                         .anyRequest().authenticated()
                 )
