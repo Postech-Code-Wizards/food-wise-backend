@@ -78,6 +78,19 @@ class CustomerProfileControllerTest {
 
             verify(customerProfileService).retrieveCustomerByEmail("test@code-wizards.com");
         }
+
+        @Test
+        void deleteCustomer() throws Exception {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/customer/1"))
+                    .andExpect(MockMvcResultMatchers.status().isOk());
+        }
+
+        @Test
+        void deleteInvalidCustomer() throws Exception {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/customer/a"))
+                    .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        }
+
     }
 
     @Nested
@@ -112,6 +125,17 @@ class CustomerProfileControllerTest {
                     .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message").value("Phone number must only contain digits"));
 
             verify(customerProfileService, times(0)).registerCustomer(any(RegisterCustomerRequest.class));
+        }
+
+    }
+
+    @Nested
+    class NotAuthenticatedEndpointsContext {
+
+        @Test
+        void deleteCustomerNotAuthenticated() throws Exception {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/customer/1"))
+                    .andExpect(MockMvcResultMatchers.status().isForbidden());
         }
 
     }

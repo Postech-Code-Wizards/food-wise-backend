@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,5 +49,13 @@ public class RestaurantProfileController {
                                                                                       String businessName) {
         var response = restaurantProfileService.retrieveRestaurantByBusinessName(businessName);
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id")
+                                       @NotNull
+                                       long id) {
+        restaurantProfileService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

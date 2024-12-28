@@ -1,0 +1,1 @@
+ALTER TABLE "tb_user" ADD COLUMN deleted_at TIMESTAMPTZ DEFAULT current_timestamp;

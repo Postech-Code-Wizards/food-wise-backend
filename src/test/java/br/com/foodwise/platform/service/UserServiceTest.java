@@ -4,12 +4,15 @@ import br.com.foodwise.platform.model.entities.User;
 import br.com.foodwise.platform.model.entities.enums.UserType;
 import br.com.foodwise.platform.model.repositories.UserRepository;
 import br.com.foodwise.platform.rest.controller.exception.BusinessException;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.Optional;
 
 import static br.com.foodwise.platform.factory.SecurityHelperFactory.buildMockUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -88,4 +91,29 @@ class UserServiceTest {
         assertTrue(new BCryptPasswordEncoder().matches(password, newUser.getPassword()));
         verify(userRepository).save(any(User.class));
     }
+
+    @Test
+    void deleteUserCustomerFound(){
+        var id = Instancio.create(long.class);
+        var user = Instancio.create(User.class);
+
+        when(userRepository.findByIdAndUserTypeAndDeletedAtIsNull(id, UserType.CUSTOMER)).thenReturn(Optional.of(user));
+
+        userService.delete(id, UserType.CUSTOMER);
+
+        verify(userRepository, times(1)).findByIdAndUserTypeAndDeletedAtIsNull(id, UserType.CUSTOMER);
+        assertEquals(user.isActive(), Boolean.FALSE);
+        assertNotNull(user.getDeletedAt());
+    }
+
+    @Test
+    void deleteUserCustomerNotFound(){
+        var id = Instancio.create(long.class);
+
+        when(userRepository.findByIdAndUserTypeAndDeletedAtIsNull(id, UserType.CUSTOMER)).thenReturn(Optional.empty());
+
+        var exception = assertThrows(BusinessException.class, () -> userService.delete(id, UserType.CUSTOMER));
+        assertEquals("USER_DOES_NOT_EXIST", exception.getCode());
+    }
+
 }
