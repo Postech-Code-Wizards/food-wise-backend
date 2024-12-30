@@ -48,7 +48,6 @@ public class CustomerProfileService {
         existingCustomer.setUpdatedAt(ZonedDateTime.now());
         existingCustomer.setPhone(customerProfile.getPhone());
 
-        userService.updateUser(customerProfile.getUser());
         customerProfileRepository.save(existingCustomer);
     }
 

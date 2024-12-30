@@ -29,9 +29,6 @@ public class RestaurantProfileRequestToEntityConverter implements Converter<Rest
         restaurantProfile
                 .setPhone(phoneRequestToEntityConverter
                         .convert(source.getPhone()));
-        restaurantProfile
-                .setUser(userRequestToEntityConverter
-                        .convert(source.getUserRequest()));
 
         return restaurantProfile;
     }

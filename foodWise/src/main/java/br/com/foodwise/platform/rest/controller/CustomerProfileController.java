@@ -1,10 +1,12 @@
 package br.com.foodwise.platform.rest.controller;
 
 import br.com.foodwise.platform.model.entities.User;
+import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.customer.CustomerProfileRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import br.com.foodwise.platform.rest.dtos.response.CustomerProfileResponse;
 import br.com.foodwise.platform.service.CustomerProfileService;
+import br.com.foodwise.platform.service.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/customer")
 public class CustomerProfileController {
     private final CustomerProfileService customerProfileService;
+    private final UserService userService;
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerProfileController.class);
 
@@ -46,12 +49,23 @@ public class CustomerProfileController {
     }
 
     @PutMapping("{/id}")
-    public ResponseEntity<CustomerProfileRequest> changeMyProfile(
+    public ResponseEntity<Void> changeMyProfile(
             @PathVariable("id") Long id,
             @Valid @RequestBody CustomerProfileRequest customerProfileRequest
     ) {
         logger.info("PUT -> /api/VX/customer/id");
         this.customerProfileService.updateCustomerProfile(customerProfileRequest, id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping("{/id}")
+    public ResponseEntity<Void> changeMyEmailOrPassword(
+            @PathVariable("id") Long id,
+            @Valid @RequestBody UserRequest userRequest
+    ) {
+        logger.info("PUT -> /api/VX/user/id");
+        this.userService.updateUser(userRequest, id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

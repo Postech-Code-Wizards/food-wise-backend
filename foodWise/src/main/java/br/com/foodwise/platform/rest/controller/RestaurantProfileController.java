@@ -1,10 +1,12 @@
 package br.com.foodwise.platform.rest.controller;
 
 import br.com.foodwise.platform.model.entities.User;
+import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.rest.dtos.response.RestaurantProfileResponse;
 import br.com.foodwise.platform.service.RestaurantProfileService;
+import br.com.foodwise.platform.service.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class RestaurantProfileController {
 
     private final RestaurantProfileService restaurantProfileService;
+    private final UserService userService;
 
     private static final Logger logger = LoggerFactory.getLogger(RestaurantProfileController.class);
 
@@ -56,6 +59,17 @@ public class RestaurantProfileController {
     ) {
         logger.info("PUT -> /api/VX/restaurant/id");
         restaurantProfileService.updateRestaurantProfile(restaurantProfileRequest, id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PostMapping("{/id}")
+    public ResponseEntity<RestaurantProfileRequest> changeMyEmailOrPassword(
+            @PathVariable("id") Long id,
+            @Valid @RequestBody UserRequest userRequest
+    ) {
+        logger.info("PUT -> /api/VX/user/id");
+        userService.updateUser(userRequest, id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

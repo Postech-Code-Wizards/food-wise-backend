@@ -53,7 +53,6 @@ public class RestaurantProfileService {
         existingRestaurantProfile.setAddress(restaurantProfile.getAddress());
         existingRestaurantProfile.setPhone(restaurantProfile.getPhone());
 
-        userService.updateUser(restaurantProfile.getUser());
         restaurantProfileRepository.save(existingRestaurantProfile);
     }
 

@@ -32,10 +32,6 @@ public class CustomerProfileRequestToEntityConverter
                 .setPhone(phoneRequestToEntityConverter
                         .convert(source.getPhone()));
 
-        customerProfile
-                .setUser(userRequestToEntityConverter
-                        .convert(source.getUserRequest()));
-
         return customerProfile;
     }
 }
