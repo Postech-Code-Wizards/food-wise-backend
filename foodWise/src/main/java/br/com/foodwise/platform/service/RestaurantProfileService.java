@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.time.ZonedDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class RestaurantProfileService {
@@ -33,6 +35,26 @@ public class RestaurantProfileService {
         var newRestaurant = this.convertToRestaurantProfileEntity(restaurantRequest);
         newRestaurant.setUser(user);
         restaurantProfileRepository.save(newRestaurant);
+    }
+
+    @Transactional
+    public void updateRestaurantProfile(RestaurantProfileRequest restaurantProfileRequest, Long id){
+        var existingRestaurantProfile = restaurantProfileRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("RESTAURANT_DOES_NOT_EXIST"));
+
+        var restaurantProfile = convertToRestaurantProfileEntity(restaurantProfileRequest);
+
+        existingRestaurantProfile.setBusinessName(restaurantProfile.getBusinessName());
+        existingRestaurantProfile.setDescription(restaurantProfile.getDescription());
+        existingRestaurantProfile.setBusinessHours(restaurantProfile.getBusinessHours());
+        existingRestaurantProfile.setDeliveryRadius(restaurantProfile.getDeliveryRadius());
+        existingRestaurantProfile.setCuisineType(restaurantProfile.getCuisineType());
+        existingRestaurantProfile.setUpdatedAt(ZonedDateTime.now());
+        existingRestaurantProfile.setAddress(restaurantProfile.getAddress());
+        existingRestaurantProfile.setPhone(restaurantProfile.getPhone());
+
+        userService.updateUser(restaurantProfile.getUser());
+        restaurantProfileRepository.save(existingRestaurantProfile);
     }
 
     public RestaurantProfileResponse retrieveRestaurantByBusinessName(String businessName) {

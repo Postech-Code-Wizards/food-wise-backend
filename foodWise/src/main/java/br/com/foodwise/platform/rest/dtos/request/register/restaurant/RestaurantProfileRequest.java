@@ -2,6 +2,7 @@ package br.com.foodwise.platform.rest.dtos.request.register.restaurant;
 
 import br.com.foodwise.platform.rest.dtos.request.register.AddressRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.PhoneRequest;
+import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -46,5 +47,8 @@ public class RestaurantProfileRequest {
 
     @Valid
     private PhoneRequest phone;
+
+    @Valid
+    private UserRequest userRequest;
 
 }

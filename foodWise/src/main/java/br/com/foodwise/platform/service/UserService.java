@@ -4,6 +4,8 @@ import br.com.foodwise.platform.model.entities.User;
 import br.com.foodwise.platform.model.entities.enums.UserType;
 import br.com.foodwise.platform.model.repositories.UserRepository;
 import br.com.foodwise.platform.rest.controller.exception.BusinessException;
+import br.com.foodwise.platform.rest.controller.exception.ResourceNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,4 +49,16 @@ public class UserService implements UserDetailsService {
         return new BCryptPasswordEncoder().encode(password);
     }
 
+    @Transactional
+    public void updateUser(User newUserInformation) {
+        var existingUser = userRepository.findById(newUserInformation.getId())
+                .orElseThrow(()-> new ResourceNotFoundException("USER_DOES_NOT_EXIST"));
+
+        existingUser.setEmail(newUserInformation.getEmail());
+        existingUser.setPassword(newUserInformation.getPassword());
+        existingUser.setUpdatedAt(ZonedDateTime.now());
+        existingUser.setActive(true);
+
+        userRepository.save(existingUser);
+    }
 }
