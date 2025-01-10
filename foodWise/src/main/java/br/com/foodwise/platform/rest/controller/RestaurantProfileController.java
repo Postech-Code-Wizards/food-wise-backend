@@ -52,7 +52,7 @@ public class RestaurantProfileController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PostMapping("{/id}")
+    @PutMapping("/{id}/profile")
     public ResponseEntity<RestaurantProfileRequest> changeMyProfile(
             @PathVariable("id") Long id,
             @Valid @RequestBody RestaurantProfileRequest restaurantProfileRequest
@@ -63,8 +63,8 @@ public class RestaurantProfileController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PostMapping("{/id}")
-    public ResponseEntity<RestaurantProfileRequest> changeMyEmailOrPassword(
+    @PutMapping("/{id}/credentials")
+    public ResponseEntity<RestaurantProfileRequest> changeMyCredentials(
             @PathVariable("id") Long id,
             @Valid @RequestBody UserRequest userRequest
     ) {

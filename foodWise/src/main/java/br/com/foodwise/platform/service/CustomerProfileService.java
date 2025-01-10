@@ -66,7 +66,7 @@ public class CustomerProfileService {
         var customer = customerProfileRequestToEntityConverter
                 .convert(customerProfileRequest);
         if (ObjectUtils.isEmpty(customer)) {
-            throw new IllegalArgumentException("Customer profile conversion failed.");
+            throw new ResourceNotFoundException("CUSTOMER_PROFILE_EXCEPTION");
         }
         return customer;
     }

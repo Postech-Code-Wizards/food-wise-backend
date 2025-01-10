@@ -48,7 +48,7 @@ public class CustomerProfileController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PutMapping("{/id}")
+    @PutMapping("/{id}/profile")
     public ResponseEntity<Void> changeMyProfile(
             @PathVariable("id") Long id,
             @Valid @RequestBody CustomerProfileRequest customerProfileRequest
@@ -59,8 +59,8 @@ public class CustomerProfileController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PutMapping("{/id}")
-    public ResponseEntity<Void> changeMyEmailOrPassword(
+    @PutMapping("/{id}/credentials")
+    public ResponseEntity<Void> changeCredentials(
             @PathVariable("id") Long id,
             @Valid @RequestBody UserRequest userRequest
     ) {

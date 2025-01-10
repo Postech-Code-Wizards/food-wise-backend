@@ -26,7 +26,7 @@ public class AddressRequest {
     private String neighborhood;
 
     @NotBlank(message = "Postal code is required")
-    @Pattern(regexp = "^[0-9]{5}(-[0-9]{3})?$", message = "Postal code must match the pattern XXXXX ou XXXXX-XXX")
+    @Pattern(regexp = "^[0-9]{5}(-[0-9]{3})?$", message = "Postal code must match the pattern XXXXX or XXXXX-XXX")
     private String postalCode;
 
     @NotBlank(message = "Country is required")

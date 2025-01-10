@@ -38,9 +38,9 @@ public class RestaurantProfileService {
     }
 
     @Transactional
-    public void updateRestaurantProfile(RestaurantProfileRequest restaurantProfileRequest, Long id){
+    public void updateRestaurantProfile(RestaurantProfileRequest restaurantProfileRequest, Long id) {
         var existingRestaurantProfile = restaurantProfileRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("RESTAURANT_DOES_NOT_EXIST"));
+                .orElseThrow(() -> new ResourceNotFoundException("RESTAURANT_DOES_NOT_EXIST"));
 
         var restaurantProfile = convertToRestaurantProfileEntity(restaurantProfileRequest);
 
@@ -73,7 +73,7 @@ public class RestaurantProfileService {
         var restaurant = restaurantProfileRequestToEntityConverter
                 .convert(restaurantProfileRequest);
         if (ObjectUtils.isEmpty(restaurant)) {
-            throw new IllegalArgumentException("Restaurant profile conversion failed.");
+            throw new ResourceNotFoundException("RESTAURANT_PROFILE_EXCEPTION");
         }
         return restaurant;
     }

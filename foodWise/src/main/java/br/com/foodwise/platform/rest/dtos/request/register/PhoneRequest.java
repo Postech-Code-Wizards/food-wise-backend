@@ -4,7 +4,6 @@ import br.com.foodwise.platform.model.entities.enums.PhoneType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +17,10 @@ public class PhoneRequest {
     private String areaCode;
 
     @NotBlank(message = "Phone number is required")
-    @Pattern(regexp = "\\d+", message = "Phone number must only contain digits")
-    @Size(min = 11, max = 11, message = "Phone number must have 11 digits xx xxxxx xxxx")
+    @Pattern(
+            regexp = "^(\\+\\d{1,3})?\\d{10,11}$",
+            message = "Phone number must have 10 or 11 digits, with an optional international code prefixed by '+'."
+    )
     private String phoneNumber;
 
     @NotNull(message = "Phone type is required")

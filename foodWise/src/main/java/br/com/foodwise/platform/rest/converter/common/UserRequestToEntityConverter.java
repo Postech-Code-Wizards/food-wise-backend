@@ -2,9 +2,13 @@ package br.com.foodwise.platform.rest.converter.common;
 
 import br.com.foodwise.platform.model.entities.User;
 import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
+@Component
+@RequiredArgsConstructor
 public class UserRequestToEntityConverter implements Converter<UserRequest, User> {
     @Override
     public User convert(UserRequest source) {

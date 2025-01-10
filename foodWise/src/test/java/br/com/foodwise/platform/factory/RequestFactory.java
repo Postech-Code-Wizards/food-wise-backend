@@ -9,17 +9,19 @@ import br.com.foodwise.platform.rest.dtos.request.register.customer.RegisterCust
 import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 
+import java.math.BigDecimal;
+
 public class RequestFactory {
     public static RegisterCustomerRequest buildRegisterCustomerRequest(String email, String password) {
         return new RegisterCustomerRequest(new UserRequest(email, password), new CustomerProfileRequest("John", "Doe", buildAddressRequest(), buildPhoneRequest()));
     }
 
     public static PhoneRequest buildPhoneRequest() {
-        return new PhoneRequest("555", "1234567890", PhoneType.MOBILE);
+        return new PhoneRequest("55", "00123456789", PhoneType.MOBILE);
     }
 
     public static AddressRequest buildAddressRequest() {
-        return new AddressRequest("123 Main St", "City", "State", "Neighborhood", "12345", "Country", null, null);
+        return new AddressRequest("123 Main St", "City", "ST", "Neighborhood", "12345", "Country", BigDecimal.ZERO, BigDecimal.ZERO);
     }
 
     public static RegisterRestaurantRequest buildValidRegisterRestaurantRequest() {

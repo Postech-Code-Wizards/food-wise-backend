@@ -52,15 +52,15 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void updateUser(UserRequest userRequest, Long id) {
         var existingUser = userRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("USER_DOES_NOT_EXIST"));
+                .orElseThrow(() -> new ResourceNotFoundException("USER_DOES_NOT_EXIST"));
 
         var user = convertUserRequestToUser(userRequest);
 
-        if(ObjectUtils.isNotEmpty(user.getEmail())){
+        if (ObjectUtils.isNotEmpty(user.getEmail())) {
             existingUser.setEmail(user.getEmail());
         }
 
-        if (ObjectUtils.isNotEmpty(user.getPassword())){
+        if (ObjectUtils.isNotEmpty(user.getPassword())) {
             existingUser.setPassword(getEncryptedPassword(user.getPassword()));
         }
 
@@ -70,13 +70,11 @@ public class UserService implements UserDetailsService {
         userRepository.save(existingUser);
     }
 
-    private User convertUserRequestToUser(UserRequest userRequest){
+    private User convertUserRequestToUser(UserRequest userRequest) {
         return userRequestToEntityConverter.convert(userRequest);
     }
 
     private String getEncryptedPassword(String password) {
         return new BCryptPasswordEncoder().encode(password);
     }
-
-
 }
