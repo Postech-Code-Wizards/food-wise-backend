@@ -40,7 +40,7 @@ public class RestaurantProfileService {
     @Transactional
     public void updateRestaurantProfile(RestaurantProfileRequest restaurantProfileRequest, Long id) {
         var existingRestaurantProfile = restaurantProfileRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("RESTAURANT_DOES_NOT_EXIST"));
+                .orElseThrow(() -> new ResourceNotFoundException("RESTAURANT_DOES_NOT_EXIST", ""));
 
         var restaurantProfile = convertToRestaurantProfileEntity(restaurantProfileRequest);
 

@@ -10,20 +10,21 @@ import br.com.foodwise.platform.rest.converter.customer.CustomerProfileRequestTo
 import br.com.foodwise.platform.rest.dtos.request.register.customer.CustomerProfileRequest;
 import br.com.foodwise.platform.rest.dtos.response.CustomerProfileResponse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static br.com.foodwise.platform.factory.RequestFactory.buildCustomerProfileRequest;
-import static br.com.foodwise.platform.factory.RequestFactory.buildValidRegisterCustomerRequest;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import javax.swing.text.html.Option;
+import java.time.ZonedDateTime;
+import java.util.Optional;
+
+import static br.com.foodwise.platform.factory.RequestFactory.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerProfileServiceTest {
@@ -44,6 +45,7 @@ class CustomerProfileServiceTest {
     @InjectMocks
     private CustomerProfileService customerProfileService;
 
+    @InjectMocks
     private CustomerProfileRequest customerProfileRequest;
 
     @BeforeEach
@@ -109,6 +111,49 @@ class CustomerProfileServiceTest {
     void shouldThrowExceptionWhenCustomerProfileRequestIsNull() {
         assertThrows(IllegalArgumentException.class, () ->
                 customerProfileService.convertToCustomerProfileEntity(null));
+    }
+
+    @Test
+    @DisplayName("Success case for Customer Profile Update")
+    void shouldUpdateCustomerProfileSuccessfully() {
+        CustomerProfileRequest customerNewData = buildCustomerProfileRequest();
+        var customerProfile = buildCustomerProfileEntity();
+
+        when(customerProfileRepository.findById(anyLong())).thenReturn(Optional.of(customerProfile));
+
+        var customerProfileEntity = new CustomerProfile();
+        customerProfileEntity.setUpdatedAt(ZonedDateTime.now());
+        when(customerProfileRequestToEntityConverter.convert(any())).thenReturn(customerProfileEntity);
+
+        customerProfileService.updateCustomerProfile(customerNewData, anyLong());
+
+        verify(customerProfileRepository, times(1)).findById(anyLong());
+        assertEquals(customerProfileEntity.getFirstName(), customerProfile.getFirstName());
+        assertEquals(customerProfileEntity.getLastName(), customerProfile.getLastName());
+        assertEquals(customerProfileEntity.getAddress(), customerProfile.getAddress());
+        assertEquals(customerProfileEntity.getPhone(), customerProfile.getPhone());
+        assertNotNull(customerProfileEntity.getUpdatedAt());
+    }
+
+    @Test
+    @DisplayName("Fail case for Customer Profile Update")
+    void shouldThrowExceptionForNotFindingCustomerProfile() {
+        CustomerProfileRequest customerNewData = buildCustomerProfileRequest();
+
+        long nonExistentUserId = 500000000L;
+
+        doReturn(Optional.empty()).when(customerProfileRepository).findById(nonExistentUserId);
+
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> customerProfileService.updateCustomerProfile(customerNewData, nonExistentUserId)
+        );
+
+        assertEquals("CUSTOMER_DOES_NOT_EXIST", exception.getMessage());
+
+        verify(customerProfileRepository, times(1)).findById(nonExistentUserId);
+
+        verify(customerProfileRepository, never()).save(any());
     }
 
 }

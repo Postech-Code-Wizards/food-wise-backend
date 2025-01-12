@@ -10,20 +10,21 @@ import br.com.foodwise.platform.rest.converter.restaurant.RestaurantProfileReque
 import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.rest.dtos.response.RestaurantProfileResponse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static br.com.foodwise.platform.factory.RequestFactory.buildRestaurantProfileRequest;
-import static br.com.foodwise.platform.factory.RequestFactory.buildValidRegisterRestaurantRequest;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.time.ZonedDateTime;
+import java.util.Optional;
+
+import static br.com.foodwise.platform.factory.RequestFactory.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class RestaurantProfileServiceTest {
@@ -134,6 +135,53 @@ class RestaurantProfileServiceTest {
     void shouldThrowExceptionWhenRestaurantProfileRequestIsNull() {
         assertThrows(IllegalArgumentException.class, () ->
                 restaurantProfileService.convertToRestaurantProfileEntity(null));
+    }
+
+    @Test
+    @DisplayName("Success case for Restaurant Profile Update")
+    void shouldUpdateRestaurantProfileSuccessfully() {
+
+        RestaurantProfileRequest restaurantNewData = buildRestaurantProfileRequest();
+
+        var restaurantProfile = buildRestaurantProfileEntity();
+
+        when(restaurantProfileRepository.findById(anyLong())).thenReturn(Optional.of(restaurantProfile));
+
+        var restaurantProfileEntity = new RestaurantProfile();
+        restaurantProfileEntity.setUpdatedAt(ZonedDateTime.now());
+        when(restaurantProfileRequestToEntityConverter.convert(any())).thenReturn(restaurantProfileEntity);
+
+        restaurantProfileService.updateRestaurantProfile(restaurantNewData, anyLong());
+
+        verify(restaurantProfileRepository, times(1)).findById(anyLong());
+        assertEquals(restaurantProfileEntity.getBusinessName(), restaurantProfile.getBusinessName());
+        assertEquals(restaurantProfileEntity.getDescription(), restaurantProfile.getDescription());
+        assertEquals(restaurantProfileEntity.getDeliveryRadius(), restaurantProfile.getDeliveryRadius());
+        assertEquals(restaurantProfileEntity.getAddress(), restaurantProfile.getAddress());
+        assertEquals(restaurantProfileEntity.getPhone(), restaurantProfile.getPhone());
+        assertEquals(restaurantProfileEntity.getCuisineType(), restaurantProfile.getCuisineType());
+        assertNotNull(restaurantProfileEntity.getUpdatedAt());
+    }
+
+    @Test
+    @DisplayName("Fail case for Restaurant Profile Update")
+    void shouldThrowExceptionForNotFindingRestaurantProfile() {
+        RestaurantProfileRequest restaurantNewData = buildRestaurantProfileRequest();
+
+        long nonExistentUserId = 500000000L;
+
+        doReturn(Optional.empty()).when(restaurantProfileRepository).findById(nonExistentUserId);
+
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> restaurantProfileService.updateRestaurantProfile(restaurantNewData, nonExistentUserId)
+        );
+
+        assertEquals("RESTAURANT_DOES_NOT_EXIST", exception.getMessage());
+
+        verify(restaurantProfileRepository, times(1)).findById(nonExistentUserId);
+
+        verify(restaurantProfileRepository, never()).save(any());
     }
 
 }

@@ -38,7 +38,7 @@ public class CustomerProfileService {
 
     @Transactional
     public void updateCustomerProfile(CustomerProfileRequest customerProfileRequest, Long id) {
-        var existingCustomer = customerProfileRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("CUSTOMER_DOES_NOT_EXIST"));
+        var existingCustomer = customerProfileRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("CUSTOMER_DOES_NOT_EXIST", ""));
 
         var customerProfile = convertToCustomerProfileEntity(customerProfileRequest);
 

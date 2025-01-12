@@ -1,9 +1,15 @@
 package br.com.foodwise.platform.service;
 
+import br.com.foodwise.platform.model.entities.RestaurantProfile;
 import br.com.foodwise.platform.model.entities.User;
 import br.com.foodwise.platform.model.entities.enums.UserType;
 import br.com.foodwise.platform.model.repositories.UserRepository;
 import br.com.foodwise.platform.rest.controller.exception.BusinessException;
+import br.com.foodwise.platform.rest.controller.exception.ResourceNotFoundException;
+import br.com.foodwise.platform.rest.converter.common.UserRequestToEntityConverter;
+import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,6 +17,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.ZonedDateTime;
+import java.util.Optional;
+
+import static br.com.foodwise.platform.factory.RequestFactory.*;
 import static br.com.foodwise.platform.factory.SecurityHelperFactory.buildMockUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -18,16 +28,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private UserRequestToEntityConverter userRequestToEntityConverter;
 
     @InjectMocks
     private UserService userService;
@@ -87,5 +98,48 @@ class UserServiceTest {
         assertNotEquals(password, newUser.getPassword());
         assertTrue(new BCryptPasswordEncoder().matches(password, newUser.getPassword()));
         verify(userRepository).save(any(User.class));
+    }
+
+    @Test
+    @DisplayName("Success case for User Update")
+    void shouldUpdateUserSuccessfully() {
+
+        UserRequest userNewData = buildUserRequest();
+
+        var user = buildUserEntity();
+
+        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+
+        var userEntity = new User();
+        userEntity.setUpdatedAt(ZonedDateTime.now());
+        when(userRequestToEntityConverter.convert(any())).thenReturn(userEntity);
+
+        userService.updateUser(userNewData, anyLong());
+
+        verify(userRepository, times(1)).findById(anyLong());
+        assertEquals(userNewData.getEmail(), user.getEmail());
+        assertEquals(userNewData.getPassword(), user.getPassword());
+        assertNotNull(user.getUpdatedAt());
+    }
+
+    @Test
+    @DisplayName("Fail case for User Update")
+    void shouldThrowExceptionForNotFindingUser() {
+        UserRequest userNewData = buildUserRequest();
+
+        long nonExistentUserId = 500000000L;
+
+        doReturn(Optional.empty()).when(userRepository).findById(nonExistentUserId);
+
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> userService.updateUser(userNewData, nonExistentUserId)
+        );
+
+        assertEquals("USER_DOES_NOT_EXIST", exception.getCode());
+
+        verify(userRepository, times(1)).findById(nonExistentUserId);
+
+        verify(userRepository, never()).save(any());
     }
 }
