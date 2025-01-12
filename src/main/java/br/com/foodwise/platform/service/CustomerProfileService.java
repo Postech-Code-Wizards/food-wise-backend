@@ -53,4 +53,10 @@ public class CustomerProfileService {
         }
         return customer;
     }
+
+    @Transactional
+    public void delete(long id) {
+        userService.delete(id, UserType.CUSTOMER);
+    }
+
 }

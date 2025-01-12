@@ -61,4 +61,10 @@ public class RestaurantProfileService {
         return restaurantProfileEntityToResponseConverter
                 .convert(restaurantProfile);
     }
+
+    @Transactional
+    public void delete(long id) {
+        userService.delete(id, UserType.RESTAURANT_OWNER);
+    }
+
 }

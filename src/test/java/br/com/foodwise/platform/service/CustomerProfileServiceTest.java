@@ -9,6 +9,7 @@ import br.com.foodwise.platform.rest.converter.customer.CustomerProfileEntityToR
 import br.com.foodwise.platform.rest.converter.customer.CustomerProfileRequestToEntityConverter;
 import br.com.foodwise.platform.rest.dtos.request.register.customer.CustomerProfileRequest;
 import br.com.foodwise.platform.rest.dtos.response.CustomerProfileResponse;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerProfileServiceTest {
@@ -109,6 +111,13 @@ class CustomerProfileServiceTest {
     void shouldThrowExceptionWhenCustomerProfileRequestIsNull() {
         assertThrows(IllegalArgumentException.class, () ->
                 customerProfileService.convertToCustomerProfileEntity(null));
+    }
+
+    @Test
+    void deleteCustomer(){
+        var id = Instancio.create(long.class);
+        customerProfileService.delete(id);
+        verify(userService, times(1)).delete(id, UserType.CUSTOMER);
     }
 
 }

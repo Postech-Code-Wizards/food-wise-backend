@@ -80,6 +80,19 @@ class RestaurantProfileControllerTest {
 
             verify(restaurantProfileService).retrieveRestaurantByBusinessName(businessName);
         }
+
+        @Test
+        void deleteRestaurant() throws Exception {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/restaurant/1"))
+                    .andExpect(MockMvcResultMatchers.status().isOk());
+        }
+
+        @Test
+        void deleteInvalidRestaurant() throws Exception {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/restaurant/a"))
+                    .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        }
+
     }
 
     @Nested
@@ -132,6 +145,17 @@ class RestaurantProfileControllerTest {
 
             verify(restaurantProfileService, times(1)).registerRestaurant(any(RegisterRestaurantRequest.class));
         }
+    }
+
+    @Nested
+    class NotAuthenticatedEndpointsContext {
+
+        @Test
+        void deleteRestaurantNotAuthenticated() throws Exception {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/restaurant/1"))
+                    .andExpect(MockMvcResultMatchers.status().isForbidden());
+        }
+
     }
 
 }

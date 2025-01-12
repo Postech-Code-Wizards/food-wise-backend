@@ -47,4 +47,17 @@ public class UserService implements UserDetailsService {
         return new BCryptPasswordEncoder().encode(password);
     }
 
+    public void delete (long id, UserType userType) {
+
+        var user = userRepository.findByIdAndUserTypeAndDeletedAtIsNull(id, userType);
+        if(user.isEmpty()){
+            throw new BusinessException("USER_DOES_NOT_EXIST", HttpStatus.NOT_FOUND, "");
+        }
+
+        User userFound = user.get();
+        userFound.setActive(false);
+        userFound.setDeletedAt(ZonedDateTime.now());
+
+    }
+
 }

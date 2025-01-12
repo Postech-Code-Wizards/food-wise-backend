@@ -69,6 +69,9 @@ public class User implements UserDetails {
         else return List.of(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
     }
 
+    @Column(name = "deleted_at")
+    private ZonedDateTime deletedAt;
+
     @Override
     public String getUsername() {
         return null;
