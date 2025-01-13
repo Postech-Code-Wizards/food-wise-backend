@@ -57,7 +57,7 @@ class CustomerProfileControllerTest {
 
             given(customerProfileService.retrieveCustomerByEmail(TEST_EMAIL)).willReturn(response);
 
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customer")
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customer/retrieve-login")
                             .param("email", TEST_EMAIL))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value(response.getFirstName()));

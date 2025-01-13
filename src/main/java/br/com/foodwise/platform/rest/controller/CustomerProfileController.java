@@ -31,7 +31,7 @@ public class CustomerProfileController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping
+    @GetMapping("/retrieve-login")
     public ResponseEntity<CustomerProfileResponse> retrieveCustomerByEmail(@RequestParam @NotNull String email) {
         var response = customerProfileService.retrieveCustomerByEmail(email);
         return ResponseEntity.status(HttpStatus.OK).body(response);

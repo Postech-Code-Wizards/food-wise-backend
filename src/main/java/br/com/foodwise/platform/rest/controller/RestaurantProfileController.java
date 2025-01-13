@@ -58,4 +58,10 @@ public class RestaurantProfileController {
         restaurantProfileService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @GetMapping("/retrieve-login")
+    public ResponseEntity<RestaurantProfileResponse> retrieveRestaurantByEmail(@RequestParam @NotNull String email) {
+        var response = restaurantProfileService.retrieveRestaurantByEmail(email);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }
