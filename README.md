@@ -41,9 +41,10 @@ Before running the project, make sure you have the following tools installed:
 
 - **4. Run the project**  
     ```bash
-    docker-compose up --build
+    docker-compose up -d --build
     ```
 
+The application will be available at the URL: http://localhost:8080
 
 ## Installation
 
