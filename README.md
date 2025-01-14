@@ -23,7 +23,27 @@ Before running the project, make sure you have the following tools installed:
 
 ## Docker
 
-TODO - Describe the Docker steps here ...
+- **1. Installation docker and docker compose**  
+  Visit for installation: [Docker](https://docs.docker.com/get-docker/)
+
+
+- **2. Clone the repository**  
+  Clone the repository:
+    ```bash
+    git clone https://github.com/Postech-Code-Wizards/food-wise-backend.git
+    ```
+
+- **3. Access the repository**  
+  Access the repository:
+    ```bash
+    cd food-wise-backend
+    ```
+
+- **4. Run the project**  
+    ```bash
+    docker-compose up --build
+    ```
+
 
 ## Installation
 

@@ -18,7 +18,7 @@ public class GeneralExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handlerInternalServerError(Exception exception, Locale locale) {
-        final String errorCode = "error-1";
+        final String errorCode = "INTERNAL_SERVER_ERROR";
         final HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         final ErrorResponse errorResponse = ErrorResponse.of(status, exceptionHandler.toApiError(errorCode, locale));
         return ResponseEntity.status(status).body(errorResponse);

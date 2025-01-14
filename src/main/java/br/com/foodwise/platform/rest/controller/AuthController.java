@@ -4,6 +4,8 @@ import br.com.foodwise.platform.model.entities.User;
 import br.com.foodwise.platform.rest.dtos.request.AuthRequest;
 import br.com.foodwise.platform.rest.dtos.response.AuthResponse;
 import br.com.foodwise.platform.service.TokenService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/auth")
+@Tag(name = "Authentication", description = "Authentication crud controller")
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
 
+    @Operation(
+            description = "Authenticates the user in the system",
+            summary = "Authentication user"
+    )
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthRequest request) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(request.email(), request.password());
