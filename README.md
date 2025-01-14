@@ -34,7 +34,7 @@ Before running the project, make sure you have the following tools installed:
     ```
 
 - **3. Access the repository**  
-  Access the repository:
+  In the terminal, navigate to the root of your project:
     ```bash
     cd food-wise-backend
     ```
