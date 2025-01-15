@@ -164,33 +164,33 @@ class CustomerProfileControllerTest {
 
 
         @Test
-        @DisplayName("Should return 204 when customer credentials is updated successfully")
+        @DisplayName("Should return 204 when user email is updated successfully")
         void changeMyCustomerUserCredentialsSuccess() throws Exception {
             Long id = 1L;
             var customerCredentialsUpdate = new UserRequest(TEST_EMAIL, "newPassword");
             var request = objectMapper.writeValueAsString(customerCredentialsUpdate);
 
-            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/customer/{id}/credentials", id)
+            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/customer/{id}/updateEmail", id)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(request))
                     .andExpect(MockMvcResultMatchers.status().isNoContent());
 
-            verify(userService, times(1)).updateUser(any(UserRequest.class), eq(id));
+            verify(userService, times(1)).updateUserEmail(any(UserRequest.class), eq(id));
         }
 
         @Test
-        @DisplayName("Should return 400 when user credentials is empty")
+        @DisplayName("Should return 400 when user email is empty")
         void changeMyCustomerUserCredentialsEmpty() throws Exception {
             Long id = 1L;
             var customerCredentialsUpdate = new UserRequest("test@code-wizards.com", "");
             var request = objectMapper.writeValueAsString(customerCredentialsUpdate);
 
-            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/customer/{id}/credentials", id)
+            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/customer/{id}/updateEmail", id)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(request))
                     .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-            verify(userService, times(0)).updateUser(any(UserRequest.class), eq(id));
+            verify(userService, times(0)).updateUserEmail(any(UserRequest.class), eq(id));
         }
     }
 

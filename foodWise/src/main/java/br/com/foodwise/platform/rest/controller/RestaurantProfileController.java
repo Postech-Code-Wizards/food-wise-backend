@@ -63,13 +63,13 @@ public class RestaurantProfileController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PutMapping("/{id}/credentials")
-    public ResponseEntity<RestaurantProfileRequest> changeMyCredentials(
+    @PutMapping("/{id}/updateEmail")
+    public ResponseEntity<RestaurantProfileRequest> changeMyEmail(
             @PathVariable("id") Long id,
             @Valid @RequestBody UserRequest userRequest
     ) {
         logger.info("PUT -> /api/VX/user/id");
-        userService.updateUser(userRequest, id);
+        userService.updateUserEmail(userRequest, id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

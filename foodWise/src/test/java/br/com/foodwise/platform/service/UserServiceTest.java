@@ -101,8 +101,8 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Success case for User Update")
-    void shouldUpdateUserSuccessfully() {
+    @DisplayName("Success case for User Email Update")
+    void shouldUpdateUserEmailSuccessfully() {
 
         UserRequest userNewData = buildUserRequest();
 
@@ -114,17 +114,16 @@ class UserServiceTest {
         userEntity.setUpdatedAt(ZonedDateTime.now());
         when(userRequestToEntityConverter.convert(any())).thenReturn(userEntity);
 
-        userService.updateUser(userNewData, anyLong());
+        userService.updateUserEmail(userNewData, anyLong());
 
         verify(userRepository, times(1)).findById(anyLong());
         assertEquals(userNewData.getEmail(), user.getEmail());
-        assertEquals(userNewData.getPassword(), user.getPassword());
         assertNotNull(user.getUpdatedAt());
     }
 
     @Test
-    @DisplayName("Fail case for User Update")
-    void shouldThrowExceptionForNotFindingUser() {
+    @DisplayName("Fail case for User Email Update")
+    void shouldThrowExceptionForNotFindingUserEmail() {
         UserRequest userNewData = buildUserRequest();
 
         long nonExistentUserId = 500000000L;
@@ -133,7 +132,7 @@ class UserServiceTest {
 
         ResourceNotFoundException exception = assertThrows(
                 ResourceNotFoundException.class,
-                () -> userService.updateUser(userNewData, nonExistentUserId)
+                () -> userService.updateUserEmail(userNewData, nonExistentUserId)
         );
 
         assertEquals("USER_DOES_NOT_EXIST", exception.getCode());

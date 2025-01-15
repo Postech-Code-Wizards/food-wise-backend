@@ -50,7 +50,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void updateUser(UserRequest userRequest, Long id) {
+    public void updateUserEmail(UserRequest userRequest, Long id) {
         var existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("USER_DOES_NOT_EXIST", ""));
 
@@ -58,10 +58,6 @@ public class UserService implements UserDetailsService {
 
         if (ObjectUtils.isNotEmpty(user.getEmail())) {
             existingUser.setEmail(user.getEmail());
-        }
-
-        if (ObjectUtils.isNotEmpty(user.getPassword())) {
-            existingUser.setPassword(getEncryptedPassword(user.getPassword()));
         }
 
         existingUser.setUpdatedAt(ZonedDateTime.now());

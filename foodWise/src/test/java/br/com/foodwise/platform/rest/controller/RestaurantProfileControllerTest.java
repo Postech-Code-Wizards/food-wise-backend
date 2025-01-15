@@ -180,18 +180,18 @@ class RestaurantProfileControllerTest {
         }
 
         @Test
-        @DisplayName("Should return 204 when restaurant USER is updated successfully")
+        @DisplayName("Should return 204 when restaurant USER Email is updated successfully")
         void changeMyRestaurantUserSuccess() throws Exception {
             Long id = 1L;
             var userRequest = new UserRequest(TEST_EMAIL, "newPassword");
             String requestBody = objectMapper.writeValueAsString(userRequest);
 
-            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurant/{id}/credentials", id)
+            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurant/{id}/updateEmail", id)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(requestBody))
                     .andExpect(MockMvcResultMatchers.status().isNoContent());
 
-            verify(userService, times(1)).updateUser(any(UserRequest.class), eq(id));
+            verify(userService, times(1)).updateUserEmail(any(UserRequest.class), eq(id));
         }
 
         @Test
@@ -200,12 +200,12 @@ class RestaurantProfileControllerTest {
             Long id = 1L;
             String requestBody = objectMapper.writeValueAsString(new UserRequest());
 
-            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurant/{id}/credentials", id)
+            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurant/{id}/updateEmail", id)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(requestBody))
                     .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-            verify(userService, times(0)).updateUser(any(UserRequest.class), eq(id));
+            verify(userService, times(0)).updateUserEmail(any(UserRequest.class), eq(id));
         }
     }
 

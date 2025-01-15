@@ -59,13 +59,13 @@ public class CustomerProfileController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PutMapping("/{id}/credentials")
-    public ResponseEntity<Void> changeCredentials(
+    @PutMapping("/{id}/updateEmail")
+    public ResponseEntity<Void> changeMyEmail(
             @PathVariable("id") Long id,
             @Valid @RequestBody UserRequest userRequest
     ) {
         logger.info("PUT -> /api/VX/user/id");
-        this.userService.updateUser(userRequest, id);
+        this.userService.updateUserEmail(userRequest, id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
