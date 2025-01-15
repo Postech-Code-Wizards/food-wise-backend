@@ -151,9 +151,6 @@ class UserServiceTest {
 
         Long id = 5549875L;
 
-
-        //doReturn(Optional.empty()).when(userRepository).findById(id);
-
         when(userRepository.findById(id)).thenReturn(Optional.of(user));
 
         BusinessException exception = assertThrows(
