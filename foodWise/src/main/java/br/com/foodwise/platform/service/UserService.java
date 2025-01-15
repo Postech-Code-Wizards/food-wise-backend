@@ -56,7 +56,7 @@ public class UserService implements UserDetailsService {
 
         var user = convertUserRequestToUser(userRequest);
 
-        if (ObjectUtils.isNotEmpty(user.getEmail())) {
+        if (ObjectUtils.isNotEmpty(user.getEmail()) && !userRequest.getPassword().equals(existingUser.getPassword())) {
             existingUser.setEmail(user.getEmail());
         }
 
