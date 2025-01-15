@@ -7,9 +7,11 @@ import br.com.foodwise.platform.rest.controller.exception.BusinessException;
 import br.com.foodwise.platform.rest.controller.exception.ResourceNotFoundException;
 import br.com.foodwise.platform.rest.converter.common.UserRequestToEntityConverter;
 import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.rest.dtos.request.register.customer.PasswordRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -64,6 +66,23 @@ public class UserService implements UserDetailsService {
         existingUser.setActive(true);
 
         userRepository.save(existingUser);
+    }
+
+    public void updatePassword(PasswordRequest passwordRequest, Long id){
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("USER_DOES_NOT_EXIST", ""));
+
+        if (existingUser.getPassword().equals(passwordRequest.getPassword())) {
+            existingUser.setPassword(getEncryptedPassword(passwordRequest.getNewPassword()));
+        }else{
+            throw new BusinessException("INCORRECT_PASSWORD", HttpStatus.BAD_REQUEST, "");
+        }
+
+        existingUser.setUpdatedAt(ZonedDateTime.now());
+        existingUser.setActive(true);
+
+        userRepository.save(existingUser);
+
     }
 
     private User convertUserRequestToUser(UserRequest userRequest) {

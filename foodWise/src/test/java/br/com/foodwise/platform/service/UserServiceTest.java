@@ -8,6 +8,7 @@ import br.com.foodwise.platform.rest.controller.exception.BusinessException;
 import br.com.foodwise.platform.rest.controller.exception.ResourceNotFoundException;
 import br.com.foodwise.platform.rest.converter.common.UserRequestToEntityConverter;
 import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.rest.dtos.request.register.customer.PasswordRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -138,6 +139,31 @@ class UserServiceTest {
         assertEquals("USER_DOES_NOT_EXIST", exception.getCode());
 
         verify(userRepository, times(1)).findById(nonExistentUserId);
+
+        verify(userRepository, never()).save(any());
+    }
+
+    @Test
+    void shouldthrowexceptiondutoincorrectpassword(){
+        PasswordRequest passwordRequestNew = buildPasswordRequest();
+
+        var user = buildUserEntity();
+
+        Long id = 5549875L;
+
+
+        //doReturn(Optional.empty()).when(userRepository).findById(id);
+
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+
+        BusinessException exception = assertThrows(
+                BusinessException.class,
+                () -> userService.updatePassword(passwordRequestNew, id)
+        );
+
+        assertEquals("INCORRECT_PASSWORD", exception.getCode());
+
+        verify(userRepository, times(1)).findById(id);
 
         verify(userRepository, never()).save(any());
     }
