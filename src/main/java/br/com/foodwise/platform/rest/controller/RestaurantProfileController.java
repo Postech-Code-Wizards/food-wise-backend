@@ -7,6 +7,10 @@ import br.com.foodwise.platform.rest.dtos.request.register.restaurant.Restaurant
 import br.com.foodwise.platform.rest.dtos.response.RestaurantProfileResponse;
 import br.com.foodwise.platform.service.RestaurantProfileService;
 import br.com.foodwise.platform.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -60,6 +64,31 @@ public class RestaurantProfileController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @Operation(summary = "Updates Restaurant profile data", description = "Update restaurant profile data, such as " +
+            "businessName, description, businessHours, deliveryRadius, cuisineType, address and phone")
+    @ApiResponse(
+            responseCode = "204", description = "NO CONTENT, no data to return"
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "Not Found when customer id is wrong",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(
+                            """
+                                    {
+                                        "statusCode": 404,
+                                        "errors": [
+                                            {
+                                                "code": "RESTAURANT_DOES_NOT_EXIST",
+                                                "message": "Restaurante não existe"
+                                            }
+                                        ]
+                                    }
+                                    """
+                    )
+            )
+    )
     @PutMapping("/{id}/profile")
     public ResponseEntity<RestaurantProfileRequest> changeMyProfile(
             @PathVariable("id") Long id,
@@ -71,6 +100,30 @@ public class RestaurantProfileController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @Operation(summary = "Updates Restaurant USER E-mail", description = "Update restaurant USER email")
+    @ApiResponse(
+            responseCode = "204", description = "NO CONTENT, no data to return"
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "Not Found when customer id is wrong",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(
+                            """
+                                    {
+                                        "statusCode": 404,
+                                        "errors": [
+                                            {
+                                                "code": "USER_DOES_NOT_EXIST",
+                                                "message": "Usuário não existe"
+                                            }
+                                        ]
+                                    }
+                                    """
+                    )
+            )
+    )
     @PutMapping("/{id}/updateEmail")
     public ResponseEntity<RestaurantProfileRequest> changeMyEmail(
             @PathVariable("id") Long id,

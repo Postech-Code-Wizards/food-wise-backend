@@ -7,6 +7,10 @@ import br.com.foodwise.platform.rest.dtos.request.register.customer.RegisterCust
 import br.com.foodwise.platform.rest.dtos.response.CustomerProfileResponse;
 import br.com.foodwise.platform.service.CustomerProfileService;
 import br.com.foodwise.platform.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +60,31 @@ public class CustomerProfileController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @Operation(summary = "Updates Customer profile data", description = "Update customer profile data, such as" +
+            "firstName, lastName, address and phone ")
+    @ApiResponse(
+            responseCode = "204", description = "NO CONTENT, no data to return"
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "Not Found when customer id is wrong",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(
+                            """
+                                    {
+                                        "statusCode": 404,
+                                        "errors": [
+                                            {
+                                                "code": "CUSTOMER_DOES_NOT_EXIST",
+                                                "message": "Cliente não existe"
+                                            }
+                                        ]
+                                    }
+                                    """
+                    )
+            )
+    )
     @PutMapping("/{id}/profile")
     public ResponseEntity<Void> changeMyProfile(
             @PathVariable("id") Long id,
@@ -67,6 +96,30 @@ public class CustomerProfileController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @Operation(summary = "Updates Customer USER E-mail", description = "Update customer USER email")
+    @ApiResponse(
+            responseCode = "204", description = "NO CONTENT, no data to return"
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "Not Found when customer id is wrong",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(
+                            """
+                                    {
+                                        "statusCode": 404,
+                                        "errors": [
+                                            {
+                                                "code": "USER_DOES_NOT_EXIST",
+                                                "message": "Usuário não existe"
+                                            }
+                                        ]
+                                    }
+                                    """
+                    )
+            )
+    )
     @PutMapping("/{id}/updateEmail")
     public ResponseEntity<Void> changeMyEmail(
             @PathVariable("id") Long id,
