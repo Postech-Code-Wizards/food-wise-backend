@@ -7,6 +7,7 @@ import br.com.foodwise.platform.rest.dtos.request.register.AddressRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.PhoneRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.customer.CustomerProfileRequest;
+import br.com.foodwise.platform.rest.dtos.request.register.customer.PasswordRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
@@ -22,6 +23,10 @@ public class RequestFactory {
 
     public static UserRequest buildUserRequest() {
         return new UserRequest("test@code-wizards.com", "password123");
+    }
+
+    public static PasswordRequest buildPasswordRequest(){
+        return new PasswordRequest("1234567b", "b7654321");
     }
 
     public static PhoneRequest buildPhoneRequest() {

@@ -2,6 +2,7 @@ package br.com.foodwise.platform.rest.controller;
 
 import br.com.foodwise.platform.model.entities.User;
 import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.rest.dtos.request.register.customer.PasswordRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.rest.dtos.response.RestaurantProfileResponse;
@@ -78,6 +79,17 @@ public class RestaurantProfileController {
     ) {
         logger.info("PUT -> /api/VX/user/id");
         userService.updateUserEmail(userRequest, id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping("/{id}/updatePassword")
+    public ResponseEntity<Void> changePassword(
+            @PathVariable("id") Long id,
+            @Valid @RequestBody PasswordRequest passwordRequest
+    ) {
+        logger.info("PUT -> /api/VX/user/id");
+        this.userService.updatePassword(passwordRequest, id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

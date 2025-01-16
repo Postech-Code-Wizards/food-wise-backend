@@ -7,6 +7,7 @@ import br.com.foodwise.platform.rest.controller.exception.BusinessException;
 import br.com.foodwise.platform.rest.controller.exception.ResourceNotFoundException;
 import br.com.foodwise.platform.rest.converter.common.UserRequestToEntityConverter;
 import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.rest.dtos.request.register.customer.PasswordRequest;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,8 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
-import static br.com.foodwise.platform.factory.RequestFactory.buildUserEntity;
-import static br.com.foodwise.platform.factory.RequestFactory.buildUserRequest;
+import static br.com.foodwise.platform.factory.RequestFactory.*;
 import static br.com.foodwise.platform.factory.SecurityHelperFactory.buildMockUser;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -158,6 +158,28 @@ class UserServiceTest {
         assertEquals("USER_DOES_NOT_EXIST", exception.getCode());
 
         verify(userRepository, times(1)).findById(nonExistentUserId);
+
+        verify(userRepository, never()).save(any());
+    }
+
+    @Test
+    void shouldthrowexceptiondutoincorrectpassword(){
+        PasswordRequest passwordRequestNew = buildPasswordRequest();
+
+        var user = buildUserEntity();
+
+        Long id = 5549875L;
+
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+
+        BusinessException exception = assertThrows(
+                BusinessException.class,
+                () -> userService.updatePassword(passwordRequestNew, id)
+        );
+
+        assertEquals("INCORRECT_PASSWORD", exception.getCode());
+
+        verify(userRepository, times(1)).findById(id);
 
         verify(userRepository, never()).save(any());
     }
