@@ -4,6 +4,10 @@ import br.com.foodwise.platform.model.entities.User;
 import br.com.foodwise.platform.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import br.com.foodwise.platform.rest.dtos.response.CustomerProfileResponse;
 import br.com.foodwise.platform.service.CustomerProfileService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +35,31 @@ public class CustomerProfileController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @Operation(summary = "Validate if the customer profile exists by email",
+            description = "Validate if the customer profile exists by email")
+    @ApiResponse(
+            responseCode = "200", description = "Success request"
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "Not Found when customer id is wrong",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(
+                            """
+                                    {
+                                        "statusCode": 404,
+                                        "errors": [
+                                            {
+                                                "code": "error-2",
+                                                "message": "Not found"
+                                            }
+                                        ]
+                                    }
+                                    """
+                    )
+            )
+    )
     @GetMapping("/retrieve-login")
     public ResponseEntity<CustomerProfileResponse> retrieveCustomerByEmail(@RequestParam @NotNull String email) {
         var response = customerProfileService.retrieveCustomerByEmail(email);
