@@ -7,11 +7,6 @@ import br.com.foodwise.platform.rest.dtos.request.register.customer.RegisterCust
 import br.com.foodwise.platform.rest.dtos.response.CustomerProfileResponse;
 import br.com.foodwise.platform.service.CustomerProfileService;
 import br.com.foodwise.platform.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -27,129 +22,25 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("api/v1/customer")
 @Tag(name = "Customer", description = "Customer crud controller")
-public class CustomerProfileController {
+public class CustomerProfileController implements CustomerProfileApi {
     private final CustomerProfileService customerProfileService;
     private final UserService userService;
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerProfileController.class);
 
-
-    @Operation(
-            description = "Register a new Customer",
-            summary = "Customer registration",
-            responses = {
-                    @ApiResponse(description = "Created", responseCode = "201"),
-                    @ApiResponse(
-                            responseCode = "409",
-                            description = "Email already exists",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            """
-                                            {
-                                                "statusCode": 409,
-                                                "errors": [
-                                                    {
-                                                        "code": "EMAIL_ALREADY_EXISTS",
-                                                        "message": "Email already exists"
-                                                    }
-                                                ]
-                                            }
-                                            """
-                                    )
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Sorry, internal server error, try again later",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            """
-                                            {
-                                                "statusCode": 500,
-                                                "errors": [
-                                                    {
-                                                        "code": "INTERNAL_SERVER_ERROR",
-                                                        "message": "Sorry, internal server error, try again later"
-                                                    }
-                                                ]
-                                            }
-                                            """
-                                    )
-                            )
-                    )
-
-            }
-    )
-    @PostMapping("/register")
+    @Override
     public ResponseEntity<Void> registerCustomer(@RequestBody @Valid RegisterCustomerRequest request) {
         customerProfileService.registerCustomer(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @Operation(
-            description = "Returns the profile of the customer searched by email",
-            summary = "Customer profile",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Ok",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = CustomerProfileResponse.class)
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "Not Found customer profile",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            """
-                                            {
-                                                "statusCode": 404,
-                                                "errors": [
-                                                    {
-                                                        "code": "NOT_FOUND",
-                                                        "message": "Customer mail not found"
-                                                    }
-                                                ]
-                                            }
-                                            """
-                                    )
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Sorry, internal server error, try again later",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            """
-                                            {
-                                                "statusCode": 500,
-                                                "errors": [
-                                                    {
-                                                        "code": "INTERNAL_SERVER_ERROR",
-                                                        "message": "Sorry, internal server error, try again later"
-                                                    }
-                                                ]
-                                            }
-                                            """
-                                    )
-                            )
-                    )
-
-            }
-    )
-    @GetMapping("/retrieve-login")
+    @Override
     public ResponseEntity<CustomerProfileResponse> retrieveCustomerByEmail(@RequestParam @NotNull String email) {
         var response = customerProfileService.retrieveCustomerByEmail(email);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/my-profile")
+    @Override
     public ResponseEntity<CustomerProfileResponse> retrieveMyProfile() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         var user = (User) authentication.getPrincipal();
@@ -158,55 +49,7 @@ public class CustomerProfileController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @Operation(
-            description = "Delete customer profile by id",
-            summary = "Customer profile",
-            responses = {
-                    @ApiResponse(responseCode = "200",description = "Ok"),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "User does not exist",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            """
-                                            {
-                                                "statusCode": 404,
-                                                "errors": [
-                                                    {
-                                                        "code": "USER_DOES_NOT_EXIST",
-                                                        "message": "User does not exist"
-                                                    }
-                                                ]
-                                            }
-                                            """
-                                    )
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Sorry, internal server error, try again later",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            """
-                                            {
-                                                "statusCode": 500,
-                                                "errors": [
-                                                    {
-                                                        "code": "INTERNAL_SERVER_ERROR",
-                                                        "message": "Sorry, internal server error, try again later"
-                                                    }
-                                                ]
-                                            }
-                                            """
-                                    )
-                            )
-                    )
-
-            }
-    )
-    @DeleteMapping("/{id}")
+    @Override
     public ResponseEntity<Void> delete(@PathVariable("id")
                                        @NotNull
                                        long id) {
@@ -214,32 +57,7 @@ public class CustomerProfileController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Updates Customer profile data", description = "Update customer profile data, such as" +
-            "firstName, lastName, address and phone ")
-    @ApiResponse(
-            responseCode = "204", description = "NO CONTENT, no data to return"
-    )
-    @ApiResponse(
-            responseCode = "404",
-            description = "Not Found when customer id is wrong",
-            content = @Content(
-                    mediaType = "application/json",
-                    examples = @ExampleObject(
-                            """
-                                    {
-                                        "statusCode": 404,
-                                        "errors": [
-                                            {
-                                                "code": "CUSTOMER_DOES_NOT_EXIST",
-                                                "message": "Cliente não existe"
-                                            }
-                                        ]
-                                    }
-                                    """
-                    )
-            )
-    )
-    @PutMapping("/{id}/profile")
+    @Override
     public ResponseEntity<Void> changeMyProfile(
             @PathVariable("id") Long id,
             @Valid @RequestBody CustomerProfileRequest customerProfileRequest
@@ -250,31 +68,7 @@ public class CustomerProfileController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @Operation(summary = "Updates Customer USER E-mail", description = "Update customer USER email")
-    @ApiResponse(
-            responseCode = "204", description = "NO CONTENT, no data to return"
-    )
-    @ApiResponse(
-            responseCode = "404",
-            description = "Not Found when customer id is wrong",
-            content = @Content(
-                    mediaType = "application/json",
-                    examples = @ExampleObject(
-                            """
-                                    {
-                                        "statusCode": 404,
-                                        "errors": [
-                                            {
-                                                "code": "USER_DOES_NOT_EXIST",
-                                                "message": "Usuário não existe"
-                                            }
-                                        ]
-                                    }
-                                    """
-                    )
-            )
-    )
-    @PutMapping("/{id}/updateEmail")
+    @Override
     public ResponseEntity<Void> changeMyEmail(
             @PathVariable("id") Long id,
             @Valid @RequestBody UserRequest userRequest
