@@ -37,7 +37,32 @@ public class CustomerProfileController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping
+    @Operation(summary = "Validate if the customer profile exists by email",
+            description = "Validate if the customer profile exists by email")
+    @ApiResponse(
+            responseCode = "200", description = "Success request"
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "Not Found when customer id is wrong",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(
+                            """
+                                    {
+                                        "statusCode": 404,
+                                        "errors": [
+                                            {
+                                                "code": "error-2",
+                                                "message": "Not found"
+                                            }
+                                        ]
+                                    }
+                                    """
+                    )
+            )
+    )
+    @GetMapping("/retrieve-login")
     public ResponseEntity<CustomerProfileResponse> retrieveCustomerByEmail(@RequestParam @NotNull String email) {
         var response = customerProfileService.retrieveCustomerByEmail(email);
         return ResponseEntity.status(HttpStatus.OK).body(response);

@@ -30,6 +30,7 @@ import static br.com.foodwise.platform.factory.ResponseFactory.buildRestaurantPr
 import static br.com.foodwise.platform.factory.SecurityHelperFactory.authenticateUser;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -98,6 +99,20 @@ class RestaurantProfileControllerTest {
         void deleteInvalidRestaurant() throws Exception {
             mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/restaurant/a"))
                     .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        }
+
+        @Test
+        void shouldRetrieveRestaurantByEmailSuccessfully() throws Exception {
+            var response = buildRestaurantProfileResponse();
+
+            given(restaurantProfileService.retrieveRestaurantByEmail(TEST_EMAIL)).willReturn(response);
+
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/restaurant/retrieve-login")
+                            .param("email", TEST_EMAIL))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.businessName").value(response.getBusinessName()));
+
+            verify(restaurantProfileService).retrieveRestaurantByEmail(TEST_EMAIL);
         }
 
     }

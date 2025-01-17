@@ -134,4 +134,35 @@ public class RestaurantProfileController {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @Operation(summary = "Validate if the restaurant profile exists by email",
+            description = "Validate if the restaurant profile exists by email")
+    @ApiResponse(
+            responseCode = "200", description = "Success request"
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "Not Found when restaurant id is wrong",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(
+                            """
+                                    {
+                                        "statusCode": 404,
+                                        "errors": [
+                                            {
+                                                "code": "error-2",
+                                                "message": "Not found"
+                                            }
+                                        ]
+                                    }
+                                    """
+                    )
+            )
+    )
+    @GetMapping("/retrieve-login")
+    public ResponseEntity<RestaurantProfileResponse> retrieveRestaurantByEmail(@RequestParam @NotNull String email) {
+        var response = restaurantProfileService.retrieveRestaurantByEmail(email);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }
