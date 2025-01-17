@@ -1,6 +1,8 @@
 # Foodwise
-
 **Foodwise** is a project developed with **Java JDK 21** and **Spring Boot**. The objective of this application is to provide a platform to help users request/offer meals in a practical and quick way. This project demonstrates the creation of a modern and scalable application with Java, using the latest technologies.
+
+## About the project 
+![Foodwise Project Description](https://github.com/user-attachments/assets/ed76d10b-392b-4594-a456-ecc9572e70f0)
 
 ## Prerequisites
 
@@ -134,8 +136,9 @@ To run the tests, use the following command:
 
 ## Contribution
 Contributions are very welcome! If you would like to contribute to Foodwise, please follow these steps::    
+
 - **1. Fork this repository.**
 - **2. Create a branch with your modification (git checkout -b my-modification).**
 - **3. Make your changes and commit them (git commit -am 'Modification description').**
 - **4. Push your modifications to the repository (git push origin my-modification).**
-- **5. Open a Pull Request.**  
+- **5. Open a Pull Request.**
