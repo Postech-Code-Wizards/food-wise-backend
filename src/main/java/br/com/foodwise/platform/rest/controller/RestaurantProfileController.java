@@ -6,6 +6,11 @@ import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RegisterRe
 import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.rest.dtos.response.RestaurantProfileResponse;
 import br.com.foodwise.platform.service.RestaurantProfileService;
+import br.com.foodwise.platform.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
