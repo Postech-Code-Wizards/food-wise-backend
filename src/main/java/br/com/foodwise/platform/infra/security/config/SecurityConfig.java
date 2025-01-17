@@ -32,6 +32,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/customer/register/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/restaurant/register/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/menu").hasRole("RESTAURANT")
+                        .requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
