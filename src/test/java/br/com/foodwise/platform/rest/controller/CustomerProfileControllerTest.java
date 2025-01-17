@@ -1,10 +1,14 @@
 package br.com.foodwise.platform.rest.controller;
 
 import br.com.foodwise.platform.model.entities.enums.UserType;
+import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.rest.dtos.request.register.customer.CustomerProfileRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import br.com.foodwise.platform.service.CustomerProfileService;
+import br.com.foodwise.platform.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,14 +21,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static br.com.foodwise.platform.factory.RequestFactory.buildCustomerProfileRequest;
 import static br.com.foodwise.platform.factory.RequestFactory.buildRegisterCustomerRequest;
 import static br.com.foodwise.platform.factory.ResponseFactory.buildCustomerProfileResponse;
 import static br.com.foodwise.platform.factory.SecurityHelperFactory.authenticateUser;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
@@ -35,6 +39,9 @@ class CustomerProfileControllerTest {
 
     @MockBean
     private CustomerProfileService customerProfileService;
+
+    @MockBean
+    private UserService userService;
 
     @InjectMocks
     private CustomerProfileController customerProfileController;
@@ -57,7 +64,7 @@ class CustomerProfileControllerTest {
 
             given(customerProfileService.retrieveCustomerByEmail(TEST_EMAIL)).willReturn(response);
 
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customer")
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customer/retrieve-login")
                             .param("email", TEST_EMAIL))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value(response.getFirstName()));
@@ -138,5 +145,77 @@ class CustomerProfileControllerTest {
                     .andExpect(MockMvcResultMatchers.status().isForbidden());
         }
 
+    }
+
+    @Nested
+    class UpdateContext {
+
+        private static final String TEST_EMAIL = "test@code-wizards.com";
+
+        @BeforeEach
+        void setUp() {
+            authenticateUser(TEST_EMAIL, "testPassword", UserType.CUSTOMER);
+        }
+
+        @Test
+        @DisplayName("Should return 204 when customer profile is updated successfully")
+        void changeMyCustomerProfileSuccess() throws Exception {
+            Long id = 1L;
+            var customerProfileRequest = buildCustomerProfileRequest();
+            String requestBody = objectMapper.writeValueAsString(customerProfileRequest);
+
+            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/customer/{id}/profile", id)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody))
+                    .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+            verify(customerProfileService, times(1)).updateCustomerProfile(any(CustomerProfileRequest.class), eq(id));
+        }
+
+        @Test
+        @DisplayName("Should return 400 when customer profile is empty")
+        void changeMyCustomerProfileEmpty() throws Exception {
+            Long id = 1L;
+            var invalidRequest = new CustomerProfileRequest();
+            String requestBody = objectMapper.writeValueAsString(invalidRequest);
+
+            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/customer/{id}/profile", id)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody))
+                    .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+            verify(customerProfileService, times(0)).updateCustomerProfile(any(CustomerProfileRequest.class), eq(id));
+        }
+
+
+        @Test
+        @DisplayName("Should return 204 when user email is updated successfully")
+        void changeMyCustomerUserCredentialsSuccess() throws Exception {
+            Long id = 1L;
+            var customerCredentialsUpdate = new UserRequest(TEST_EMAIL, "newPassword");
+            var request = objectMapper.writeValueAsString(customerCredentialsUpdate);
+
+            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/customer/{id}/updateEmail", id)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(request))
+                    .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+            verify(userService, times(1)).updateUserEmail(any(UserRequest.class), eq(id));
+        }
+
+        @Test
+        @DisplayName("Should return 400 when user email is empty")
+        void changeMyCustomerUserCredentialsEmpty() throws Exception {
+            Long id = 1L;
+            var customerCredentialsUpdate = new UserRequest("test@code-wizards.com", "");
+            var request = objectMapper.writeValueAsString(customerCredentialsUpdate);
+
+            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/customer/{id}/updateEmail", id)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(request))
+                    .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+            verify(userService, times(0)).updateUserEmail(any(UserRequest.class), eq(id));
+        }
     }
 }

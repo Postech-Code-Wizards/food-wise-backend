@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.ZonedDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class CustomerProfileService {
@@ -34,6 +36,21 @@ public class CustomerProfileService {
         customerProfileRepository.save(newCustomer);
     }
 
+    @Transactional
+    public void updateCustomerProfile(CustomerProfileRequest customerProfileRequest, Long id) {
+        var existingCustomer = customerProfileRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("CUSTOMER_DOES_NOT_EXIST", ""));
+
+        var customerProfile = convertToCustomerProfileEntity(customerProfileRequest);
+
+        existingCustomer.setFirstName(customerProfile.getFirstName());
+        existingCustomer.setLastName(customerProfile.getLastName());
+        existingCustomer.setAddress(customerProfile.getAddress());
+        existingCustomer.setUpdatedAt(ZonedDateTime.now());
+        existingCustomer.setPhone(customerProfile.getPhone());
+
+        customerProfileRepository.save(existingCustomer);
+    }
+
     public CustomerProfileResponse retrieveCustomerByEmail(@RequestParam String email) {
         var customerProfile = customerProfileRepository
                 .findByUserEmail(email).orElseThrow(() -> new ResourceNotFoundException("Usuário " + email));
@@ -49,7 +66,7 @@ public class CustomerProfileService {
         var customer = customerProfileRequestToEntityConverter
                 .convert(customerProfileRequest);
         if (ObjectUtils.isEmpty(customer)) {
-            throw new IllegalArgumentException("Customer profile conversion failed.");
+            throw new ResourceNotFoundException("CUSTOMER_PROFILE_EXCEPTION");
         }
         return customer;
     }
