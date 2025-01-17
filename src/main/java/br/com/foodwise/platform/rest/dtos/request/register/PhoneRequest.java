@@ -17,7 +17,10 @@ public class PhoneRequest {
     private String areaCode;
 
     @NotBlank(message = "Phone number is required")
-    @Pattern(regexp = "\\d+", message = "Phone number must only contain digits")
+    @Pattern(
+            regexp = "^(\\+\\d{1,3})?\\d{10,11}$",
+            message = "Phone number must have 10 or 11 digits, with an optional international code prefixed by '+'."
+    )
     private String phoneNumber;
 
     @NotNull(message = "Phone type is required")
