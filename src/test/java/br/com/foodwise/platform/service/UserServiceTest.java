@@ -106,7 +106,7 @@ class UserServiceTest {
         userService.delete(id, UserType.CUSTOMER);
 
         verify(userRepository, times(1)).findByIdAndUserTypeAndDeletedAtIsNull(id, UserType.CUSTOMER);
-        assertEquals(user.isActive(), Boolean.FALSE);
+        assertEquals(Boolean.FALSE, user.isActive());
         assertNotNull(user.getDeletedAt());
     }
 
