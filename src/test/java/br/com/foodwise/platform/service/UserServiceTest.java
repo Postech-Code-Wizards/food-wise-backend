@@ -124,19 +124,19 @@ class UserServiceTest {
     @DisplayName("Success case for User Email Update")
     void shouldUpdateUserEmailSuccessfully() {
 
+        long id = 1L;
         UserRequest userNewData = buildUserRequest();
 
         var user = buildUserEntity();
-
-        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+        when(userRepository.findByIdAndUserTypeAndDeletedAtIsNull(id, UserType.CUSTOMER)).thenReturn(Optional.of(user));
 
         var userEntity = new User();
         userEntity.setUpdatedAt(ZonedDateTime.now());
         when(userRequestToEntityConverter.convert(any())).thenReturn(userEntity);
 
-        userService.updateUserEmail(userNewData, anyLong());
+        userService.updateUserEmail(userNewData, id, UserType.CUSTOMER);
 
-        verify(userRepository, times(1)).findById(anyLong());
+        verify(userRepository, times(1)).findByIdAndUserTypeAndDeletedAtIsNull(id, UserType.CUSTOMER);
         assertEquals(userNewData.getEmail(), user.getEmail());
         assertNotNull(user.getUpdatedAt());
     }
@@ -148,16 +148,14 @@ class UserServiceTest {
 
         long nonExistentUserId = 500000000L;
 
-        doReturn(Optional.empty()).when(userRepository).findById(nonExistentUserId);
-
         ResourceNotFoundException exception = assertThrows(
                 ResourceNotFoundException.class,
-                () -> userService.updateUserEmail(userNewData, nonExistentUserId)
+                () -> userService.updateUserEmail(userNewData, nonExistentUserId, UserType.CUSTOMER)
         );
 
         assertEquals("USER_DOES_NOT_EXIST", exception.getCode());
 
-        verify(userRepository, times(1)).findById(nonExistentUserId);
+        verify(userRepository, times(1)).findByIdAndUserTypeAndDeletedAtIsNull(nonExistentUserId, UserType.CUSTOMER);
 
         verify(userRepository, never()).save(any());
     }
