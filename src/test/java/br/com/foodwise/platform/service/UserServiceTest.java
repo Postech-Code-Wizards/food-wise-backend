@@ -56,7 +56,7 @@ class UserServiceTest {
         var password = "securePassword";
         var role = UserType.CUSTOMER;
 
-        when(userRepository.existsByEmail(email)).thenReturn(false);
+        when(userRepository.existsByEmailAndIsActiveIsTrue(email)).thenReturn(false);
 
         User newUser = userService.createUser(email, password, role);
 
@@ -73,7 +73,7 @@ class UserServiceTest {
         var password = "securePassword";
         var role = UserType.CUSTOMER;
 
-        when(userRepository.existsByEmail(email)).thenReturn(true);
+        when(userRepository.existsByEmailAndIsActiveIsTrue(email)).thenReturn(true);
 
         var exception = assertThrows(BusinessException.class, () -> userService.createUser(email, password, role));
         assertEquals("EMAIL_ALREADY_EXISTS", exception.getCode());
@@ -86,7 +86,7 @@ class UserServiceTest {
         var password = "plainPassword";
         var role = UserType.ADMIN;
 
-        when(userRepository.existsByEmail(email)).thenReturn(false);
+        when(userRepository.existsByEmailAndIsActiveIsTrue(email)).thenReturn(false);
 
         var newUser = userService.createUser(email, password, role);
 

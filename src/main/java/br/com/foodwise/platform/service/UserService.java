@@ -31,7 +31,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User createUser(String email, String password, UserType role) {
-        if (userRepository.existsByEmail(email)) {
+        if (userRepository.existsByEmailAndIsActiveIsTrue(email)) {
             throw new BusinessException("EMAIL_ALREADY_EXISTS", HttpStatus.CONFLICT, "");
         }
 
