@@ -8,7 +8,6 @@ import br.com.foodwise.platform.rest.controller.exception.ResourceNotFoundExcept
 import br.com.foodwise.platform.rest.converter.common.UserRequestToEntityConverter;
 import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
 import org.instancio.Instancio;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +21,6 @@ import java.util.Optional;
 
 import static br.com.foodwise.platform.factory.RequestFactory.buildUserEntity;
 import static br.com.foodwise.platform.factory.RequestFactory.buildUserRequest;
-import static br.com.foodwise.platform.factory.SecurityHelperFactory.authenticateUser;
 import static br.com.foodwise.platform.factory.SecurityHelperFactory.buildMockUser;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,11 +38,6 @@ class UserServiceTest {
 
     @InjectMocks
     private UserService userService;
-
-    @BeforeEach
-    void setUp() {
-        authenticateUser("TEST_EMAIL", "testPassword", UserType.CUSTOMER);
-    }
 
     @Test
     void loadUserByUsername_shouldReturnUserDetailsWhenEmailExists() {
@@ -105,8 +98,8 @@ class UserServiceTest {
 
     @Test
     void deleteUserCustomerFound() {
-        final var id = 0L;
-        final var user = Instancio.create(User.class);
+        var id = Instancio.create(long.class);
+        var user = Instancio.create(User.class);
 
         when(userRepository.findByIdAndUserTypeAndDeletedAtIsNull(id, UserType.CUSTOMER)).thenReturn(Optional.of(user));
 
@@ -119,28 +112,12 @@ class UserServiceTest {
 
     @Test
     void deleteUserCustomerNotFound() {
-        final var id = 0L;
+        var id = Instancio.create(long.class);
 
         when(userRepository.findByIdAndUserTypeAndDeletedAtIsNull(id, UserType.CUSTOMER)).thenReturn(Optional.empty());
 
         var exception = assertThrows(BusinessException.class, () -> userService.delete(id, UserType.CUSTOMER));
         assertEquals("USER_DOES_NOT_EXIST", exception.getCode());
-    }
-
-    @Test
-    void deleteUserCustomerIsNotAuthenticated() {
-        final var id = 1L;
-
-        var exception = assertThrows(BusinessException.class, () -> userService.delete(id, UserType.CUSTOMER));
-        assertEquals("DELETION_OF_UNAUTHENTICATED", exception.getCode());
-    }
-
-    @Test
-    void deleteUserRestaurantIsNotAuthenticated() {
-        final var id = 1L;
-
-        var exception = assertThrows(BusinessException.class, () -> userService.delete(id, UserType.RESTAURANT_OWNER));
-        assertEquals("DELETION_OF_UNAUTHENTICATED", exception.getCode());
     }
 
     @Test

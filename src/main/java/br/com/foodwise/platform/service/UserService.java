@@ -11,7 +11,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -76,27 +75,16 @@ public class UserService implements UserDetailsService {
     }
 
     public void delete (long id, UserType userType) {
-        validateUserIsAuthenticated(id);
-        User userFound = findActiveUser(id, userType);
-        deleteUser(userFound);
-    }
 
-    private static void deleteUser(User userFound) {
+        var user = userRepository.findByIdAndUserTypeAndDeletedAtIsNull(id, userType);
+        if(user.isEmpty()){
+            throw new BusinessException("USER_DOES_NOT_EXIST", HttpStatus.NOT_FOUND, "");
+        }
+
+        User userFound = user.get();
         userFound.setActive(false);
         userFound.setDeletedAt(ZonedDateTime.now());
-    }
 
-    private User findActiveUser(long id, UserType userType) {
-        return userRepository.findByIdAndUserTypeAndDeletedAtIsNull(id, userType)
-                .orElseThrow(() -> new BusinessException("USER_DOES_NOT_EXIST", HttpStatus.NOT_FOUND, "User not found or already deleted"));
-    }
-
-    private void validateUserIsAuthenticated(long id){
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var userAuthenticated = (User) authentication.getPrincipal();
-        if(id != userAuthenticated.getId()){
-            throw new BusinessException("DELETION_OF_UNAUTHENTICATED", HttpStatus.CONFLICT, "");
-        }
     }
 
 }
