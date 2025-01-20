@@ -74,7 +74,7 @@ public class CustomerProfileController implements CustomerProfileApi {
             @Valid @RequestBody UserRequest userRequest
     ) {
         logger.info("PUT -> /api/VX/user/id");
-        this.userService.updateUserEmail(userRequest, id);
+        this.customerProfileService.updateCustomerUserEmail(userRequest, id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

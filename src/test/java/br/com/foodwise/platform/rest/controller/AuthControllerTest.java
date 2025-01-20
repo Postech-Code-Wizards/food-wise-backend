@@ -1,9 +1,11 @@
 package br.com.foodwise.platform.rest.controller;
 
 import br.com.foodwise.platform.model.entities.User;
+import br.com.foodwise.platform.rest.controller.exception.BusinessException;
 import br.com.foodwise.platform.rest.dtos.request.AuthRequest;
 import br.com.foodwise.platform.rest.dtos.response.AuthResponse;
 import br.com.foodwise.platform.service.TokenService;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -15,6 +17,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+
+import java.time.ZonedDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -63,7 +67,6 @@ class AuthControllerTest {
         verify(tokenService).generateToken(user);
     }
 
-
     @Test
     void shouldThrowException_whenAuthenticationFails() {
         var email = "test@code-wizards.com";
@@ -78,5 +81,22 @@ class AuthControllerTest {
 
         verify(authenticationManager).authenticate(authenticationToken);
         verifyNoInteractions(tokenService);
+    }
+
+    @Test
+    void shouldThrowException_whenUserIsDeleted() {
+        final var email = "tes1t@code-wizards.com";
+        final var password = "password";
+
+        var authRequest = new AuthRequest(email, password);
+        var authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
+        var user = Instancio.create(User.class);
+        user.setDeletedAt(ZonedDateTime.now());
+        var authentication = mock(Authentication.class);
+
+        when(authenticationManager.authenticate(authenticationToken)).thenReturn(authentication);
+        when(authentication.getPrincipal()).thenReturn(user);
+
+        assertThrows(BusinessException.class, () -> authController.login(authRequest));
     }
 }

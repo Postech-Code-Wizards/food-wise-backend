@@ -200,7 +200,7 @@ class CustomerProfileControllerTest {
                             .content(request))
                     .andExpect(MockMvcResultMatchers.status().isNoContent());
 
-            verify(userService, times(1)).updateUserEmail(any(UserRequest.class), eq(id));
+            verify(customerProfileService, times(1)).updateCustomerUserEmail(any(UserRequest.class), eq(id));
         }
 
         @Test
@@ -215,7 +215,7 @@ class CustomerProfileControllerTest {
                             .content(request))
                     .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-            verify(userService, times(0)).updateUserEmail(any(UserRequest.class), eq(id));
+            verify(customerProfileService, times(0)).updateCustomerUserEmail(any(UserRequest.class), eq(id));
         }
     }
 }
