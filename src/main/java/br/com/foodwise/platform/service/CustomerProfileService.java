@@ -6,6 +6,7 @@ import br.com.foodwise.platform.model.repositories.CustomerProfileRepository;
 import br.com.foodwise.platform.rest.controller.exception.ResourceNotFoundException;
 import br.com.foodwise.platform.rest.converter.customer.CustomerProfileEntityToResponseConverter;
 import br.com.foodwise.platform.rest.converter.customer.CustomerProfileRequestToEntityConverter;
+import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.customer.CustomerProfileRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import br.com.foodwise.platform.rest.dtos.response.CustomerProfileResponse;
@@ -49,6 +50,11 @@ public class CustomerProfileService {
         existingCustomer.setPhone(customerProfile.getPhone());
 
         customerProfileRepository.save(existingCustomer);
+    }
+
+    @Transactional
+    public void updateCustomerUserEmail(UserRequest userRequest, Long id){
+        userService.updateUserEmail(userRequest, id, UserType.CUSTOMER);
     }
 
     public CustomerProfileResponse retrieveCustomerByEmail(@RequestParam String email) {

@@ -50,8 +50,8 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void updateUserEmail(UserRequest userRequest, Long id) {
-        var existingUser = userRepository.findById(id)
+    public void updateUserEmail(UserRequest userRequest, Long id, UserType userType) {
+        var existingUser = userRepository.findByIdAndUserTypeAndDeletedAtIsNull(id, userType)
                 .orElseThrow(() -> new ResourceNotFoundException("USER_DOES_NOT_EXIST", ""));
 
         var user = convertUserRequestToUser(userRequest);

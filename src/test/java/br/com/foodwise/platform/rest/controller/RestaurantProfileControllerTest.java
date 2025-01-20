@@ -222,7 +222,7 @@ class RestaurantProfileControllerTest {
         @DisplayName("Should return 204 when restaurant USER Email is updated successfully")
         void changeMyRestaurantUserSuccess() throws Exception {
             Long id = 1L;
-            var userRequest = new UserRequest(TEST_EMAIL, "newPassword");
+            var userRequest = new UserRequest(TEST_EMAIL, "testPassword");
             String requestBody = objectMapper.writeValueAsString(userRequest);
 
             mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurant/{id}/updateEmail", id)
@@ -230,7 +230,7 @@ class RestaurantProfileControllerTest {
                             .content(requestBody))
                     .andExpect(MockMvcResultMatchers.status().isNoContent());
 
-            verify(userService, times(1)).updateUserEmail(any(UserRequest.class), eq(id));
+            verify(restaurantProfileService, times(1)).updateRestarantUserEmail(any(UserRequest.class), eq(id));
         }
 
         @Test
@@ -244,7 +244,7 @@ class RestaurantProfileControllerTest {
                             .content(requestBody))
                     .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-            verify(userService, times(0)).updateUserEmail(any(UserRequest.class), eq(id));
+            verify(restaurantProfileService, times(0)).updateRestarantUserEmail(any(UserRequest.class), eq(id));
         }
     }
 

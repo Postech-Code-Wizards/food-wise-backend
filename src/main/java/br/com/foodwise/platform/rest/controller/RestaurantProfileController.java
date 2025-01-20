@@ -77,7 +77,7 @@ public class RestaurantProfileController implements RestaurantProfileApi {
             @Valid @RequestBody UserRequest userRequest
     ) {
         logger.info("PUT -> /api/VX/user/id");
-        userService.updateUserEmail(userRequest, id);
+        restaurantProfileService.updateRestarantUserEmail(userRequest, id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
