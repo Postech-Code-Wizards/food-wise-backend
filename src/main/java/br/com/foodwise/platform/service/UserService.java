@@ -43,6 +43,7 @@ public class UserService implements UserDetailsService {
                 .isActive(true)
                 .userType(role)
                 .password(getEncryptedPassword(password))
+                .deletedAt(null)
                 .build();
 
         this.userRepository.save(newUser);
