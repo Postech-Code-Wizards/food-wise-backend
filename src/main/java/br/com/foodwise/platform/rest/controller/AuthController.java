@@ -24,14 +24,14 @@ public class AuthController implements AuthApi {
 
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
-    private AuthService authService;
+    private final AuthService authService;
 
     @Override
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthRequest request) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(request.email(), request.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        AuthService.validateUserIsActive(auth);
+        authService.validateUserIsActive(auth);
         var token = tokenService.generateToken((User) auth.getPrincipal());
 
         return ResponseEntity.ok(new AuthResponse(token));
