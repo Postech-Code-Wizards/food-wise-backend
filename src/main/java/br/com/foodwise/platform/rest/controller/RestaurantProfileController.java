@@ -83,13 +83,12 @@ public class RestaurantProfileController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PutMapping("/{id}/updatePassword")
+    @PutMapping("/updatePassword")
     public ResponseEntity<Void> changePassword(
-            @PathVariable("id") Long id,
             @Valid @RequestBody PasswordRequest passwordRequest
     ) {
-        logger.info("PUT -> /api/VX/user/id");
-        this.userService.updatePassword(passwordRequest, id);
+        logger.info("PUT -> /api/VX/user");
+        this.userService.updatePassword(passwordRequest);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

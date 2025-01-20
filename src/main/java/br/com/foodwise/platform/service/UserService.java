@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -67,20 +68,23 @@ public class UserService implements UserDetailsService {
         userRepository.save(existingUser);
     }
 
-    public void updatePassword(PasswordRequest passwordRequest, Long id){
-        User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("USER_DOES_NOT_EXIST", ""));
+    public void updatePassword(PasswordRequest passwordRequest) {
 
-        if (existingUser.getPassword().equals(passwordRequest.getPassword())) {
-            existingUser.setPassword(getEncryptedPassword(passwordRequest.getNewPassword()));
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var user = (User) authentication.getPrincipal();
+
+        boolean isValid = encoder.matches(passwordRequest.getPassword(), user.getPassword());
+
+        if (isValid) {
+            user.setPassword(getEncryptedPassword(passwordRequest.getNewPassword()));
         }else{
             throw new BusinessException("INCORRECT_PASSWORD", HttpStatus.BAD_REQUEST, "");
         }
 
-        existingUser.setUpdatedAt(ZonedDateTime.now());
-        existingUser.setActive(true);
-
-        userRepository.save(existingUser);
+        user.setUpdatedAt(ZonedDateTime.now());
+        userRepository.save(user);
     }
 
     private User convertUserRequestToUser(UserRequest userRequest) {

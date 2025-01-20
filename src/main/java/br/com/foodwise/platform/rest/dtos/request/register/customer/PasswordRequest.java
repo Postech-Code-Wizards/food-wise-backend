@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.rest.dtos.request.register.customer;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ public class PasswordRequest {
     private String password;
 
     @NotBlank(message = "New password is required")
-    @Min(8)
+    @Size(min = 8, message = "A senha deve ter pelo menos 8 caracteres")
     private String newPassword;
 
 }
