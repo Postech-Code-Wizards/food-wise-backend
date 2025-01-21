@@ -129,7 +129,7 @@ class CustomerProfileControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(requestBody))
                     .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message").value("Phone number must only contain digits"));
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message").value("Phone number must have 10 or 11 digits, with an optional international code prefixed by '+'."));
 
             verify(customerProfileService, times(0)).registerCustomer(any(RegisterCustomerRequest.class));
         }

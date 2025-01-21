@@ -2,6 +2,7 @@ package br.com.foodwise.platform.rest.controller;
 
 import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.customer.CustomerProfileRequest;
+import br.com.foodwise.platform.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import br.com.foodwise.platform.rest.dtos.response.CustomerProfileResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -294,4 +295,31 @@ public interface CustomerProfileApi {
             @PathVariable("id") Long id,
             @Valid @RequestBody UserRequest userRequest
     );
+
+    @Operation(summary = "Updates customer password", description = "Update customer password")
+    @ApiResponse(
+            responseCode = "204", description = "No content, no data to return"
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "Incorrect password for customer",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(
+                            """
+                                    {
+                                        "statusCode": 400,
+                                        "errors": [
+                                            {
+                                                "code": "INCORRECT_PASSWORD",
+                                                "message": "Password is incorrect! Try again"
+                                            }
+                                        ]
+                                    }
+                                    """
+                    )
+            )
+    )
+    @PutMapping("/updatePassword")
+    public ResponseEntity<Void> changePassword(@Valid @RequestBody PasswordRequest passwordRequest);
 }

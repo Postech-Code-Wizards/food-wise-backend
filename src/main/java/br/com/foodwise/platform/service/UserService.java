@@ -7,6 +7,7 @@ import br.com.foodwise.platform.rest.controller.exception.BusinessException;
 import br.com.foodwise.platform.rest.controller.exception.ResourceNotFoundException;
 import br.com.foodwise.platform.rest.converter.common.UserRequestToEntityConverter;
 import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.rest.dtos.request.register.PasswordRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -98,6 +99,24 @@ public class UserService implements UserDetailsService {
         if(id != userAuthenticated.getId()){
             throw new BusinessException("DELETION_OF_UNAUTHENTICATED", HttpStatus.CONFLICT, "");
         }
+    }
+
+    public void updatePassword(PasswordRequest passwordRequest) {
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var user = (User) authentication.getPrincipal();
+
+        boolean isValid = encoder.matches(passwordRequest.getPassword(), user.getPassword());
+        if (isValid) {
+            user.setPassword(getEncryptedPassword(passwordRequest.getNewPassword()));
+        } else {
+            throw new BusinessException("INCORRECT_PASSWORD", HttpStatus.BAD_REQUEST, "");
+        }
+
+        user.setUpdatedAt(ZonedDateTime.now());
+        userRepository.save(user);
     }
 
 }

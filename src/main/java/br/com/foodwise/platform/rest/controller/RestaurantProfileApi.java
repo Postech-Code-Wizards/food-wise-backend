@@ -1,6 +1,7 @@
 package br.com.foodwise.platform.rest.controller;
 
 import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.rest.dtos.response.RestaurantProfileResponse;
@@ -247,7 +248,7 @@ public interface RestaurantProfileApi {
     )
     @ApiResponse(
             responseCode = "404",
-            description = "Not Found when customer id is wrong",
+            description = "Not Found when restaurant id is wrong",
             content = @Content(
                     mediaType = "application/json",
                     examples = @ExampleObject(
@@ -277,7 +278,7 @@ public interface RestaurantProfileApi {
     )
     @ApiResponse(
             responseCode = "404",
-            description = "Not Found when customer id is wrong",
+            description = "Not Found when restaurant id is wrong",
             content = @Content(
                     mediaType = "application/json",
                     examples = @ExampleObject(
@@ -328,4 +329,31 @@ public interface RestaurantProfileApi {
     )
     @GetMapping("/retrieve-login")
     public ResponseEntity<RestaurantProfileResponse> retrieveRestaurantByEmail(@RequestParam @NotNull String email);
+
+    @Operation(summary = "Updates restaurant password", description = "Update restaurant password")
+    @ApiResponse(
+            responseCode = "204", description = "No content, no data to return"
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "Incorrect password for restaurant",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(
+                            """
+                                    {
+                                        "statusCode": 400,
+                                        "errors": [
+                                            {
+                                                "code": "INCORRECT_PASSWORD",
+                                                "message": "Password is incorrect! Try again"
+                                            }
+                                        ]
+                                    }
+                                    """
+                    )
+            )
+    )
+    @PutMapping("/updatePassword")
+    public ResponseEntity<Void> changePassword(@Valid @RequestBody PasswordRequest passwordRequest);
 }
