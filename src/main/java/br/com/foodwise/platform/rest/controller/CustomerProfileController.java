@@ -3,6 +3,7 @@ package br.com.foodwise.platform.rest.controller;
 import br.com.foodwise.platform.model.entities.User;
 import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.customer.CustomerProfileRequest;
+import br.com.foodwise.platform.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import br.com.foodwise.platform.rest.dtos.response.CustomerProfileResponse;
 import br.com.foodwise.platform.service.CustomerProfileService;
@@ -75,6 +76,14 @@ public class CustomerProfileController implements CustomerProfileApi {
     ) {
         logger.info("PUT -> /api/VX/user/id");
         this.customerProfileService.updateCustomerUserEmail(userRequest, id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Override
+    public ResponseEntity<Void> changePassword(@Valid @RequestBody PasswordRequest passwordRequest) {
+        logger.info("PUT -> /api/VX/user");
+        this.userService.updatePassword(passwordRequest);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

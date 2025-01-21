@@ -105,11 +105,11 @@ class RestaurantProfileServiceTest {
         when(restaurantProfileRequestToEntityConverter.convert(any()))
                 .thenReturn(null);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class, () -> restaurantProfileService
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class, () -> restaurantProfileService
                         .convertToRestaurantProfileEntity(restaurantProfileRequest));
 
-        assertEquals("Restaurant profile conversion failed.", exception.getMessage());
+        assertEquals("RESTAURANT_PROFILE_EXCEPTION", exception.getMessage());
     }
 
     @Test
@@ -134,7 +134,7 @@ class RestaurantProfileServiceTest {
 
     @Test
     void shouldThrowExceptionWhenRestaurantProfileRequestIsNull() {
-        assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(ResourceNotFoundException.class, () ->
                 restaurantProfileService.convertToRestaurantProfileEntity(null));
     }
 

@@ -89,11 +89,11 @@ class CustomerProfileServiceTest {
         when(customerProfileRequestToEntityConverter.convert(any()))
                 .thenReturn(null);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class, () -> customerProfileService
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class, () -> customerProfileService
                         .convertToCustomerProfileEntity(customerProfileRequest));
 
-        assertEquals("Customer profile conversion failed.",
+        assertEquals("CUSTOMER_PROFILE_EXCEPTION",
                 exception.getMessage());
     }
 
@@ -109,7 +109,7 @@ class CustomerProfileServiceTest {
 
     @Test
     void shouldThrowExceptionWhenCustomerProfileRequestIsNull() {
-        assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(ResourceNotFoundException.class, () ->
                 customerProfileService.convertToCustomerProfileEntity(null));
     }
 
