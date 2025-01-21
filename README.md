@@ -127,12 +127,18 @@ This project uses PostgreSQL as a database. Connection properties are present in
   ```
 
 ## Tests
+### Unit tests 
 This project includes unit testing using JUnit to ensure that core functionality is working correctly.
 
 To run the tests, use the following command:
   ```bash
   mvn test
   ```
+
+### Manual tests
+Follow through the postman requests.
+Everytime a user is updated they are logged out of the system and have to login again.
+The user can only update and delete their own profile. This is so that in the future we have ADMINs who are capable of visiting other profiles, but so far, customer and restaurant have regulated access so that we don't expose sensitive data.
 
 ## Contribution
 Contributions are very welcome! If you would like to contribute to Foodwise, please follow these steps::    
