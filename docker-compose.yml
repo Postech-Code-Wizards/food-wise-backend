@@ -1,0 +1,42 @@
+volumes:
+  postgres_data:
+    driver: "local"
+
+networks:
+  postgres_compose_network:
+    driver: "bridge"
+
+services:
+  postgres:
+    image: postgres:alpine
+    container_name: postgres_foodwise_compose
+    restart: always
+    environment:
+      - POSTGRES_DB=foodwise
+      - POSTGRES_PASSWORD=admin
+      - TZ=America/Sao_Paulo
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres_compose_network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: backend_foodwise_compose
+    environment:
+      - SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/foodwise
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    networks:
+      - postgres_compose_network
+
+
+    
