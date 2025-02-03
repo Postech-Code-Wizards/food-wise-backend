@@ -12,7 +12,8 @@ public class DeleteMenuUseCase {
     private final MenuRepository menuRepository;
 
     public void execute(Long id) {
-        var menu = menuRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("MENU_DOES_NOT_EXIST", ""));
+        var menu = menuRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("MENU_DOES_NOT_EXIST", ""));
         menuRepository.delete(menu);
     }
 }

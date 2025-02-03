@@ -7,6 +7,7 @@ import br.com.foodwise.platform.infrastructure.rest.converter.menu.MenuUpdateReq
 import br.com.foodwise.platform.infrastructure.rest.converter.menu.RegisterMenuRequestToMenuConverter;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class MenuController implements MenuApi {
     private final MenuUpdateRequestToMenuConverter menuUpdateRequestToMenuConverter;
 
     @PostMapping
-    public ResponseEntity<MenuResponse> createMenu(@RequestBody RegisterMenuRequest menuRequestDTO) {
+    public ResponseEntity<MenuResponse> createMenu(@RequestBody @Valid RegisterMenuRequest menuRequestDTO) {
         var createdMenu = menuService.createMenu(convertToMenu(menuRequestDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(convertToMenuResponse(createdMenu));
     }
@@ -59,7 +60,7 @@ public class MenuController implements MenuApi {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MenuResponse> updateMenu(@PathVariable Long id, @RequestBody RegisterMenuRequest menuRequestDTO) {
+    public ResponseEntity<MenuResponse> updateMenu(@PathVariable Long id, @RequestBody @Valid RegisterMenuRequest menuRequestDTO) {
         var updatedMenu = processUpdateMenu(id, menuRequestDTO);
         return ResponseEntity.ok(convertToMenuResponse(updatedMenu));
     }

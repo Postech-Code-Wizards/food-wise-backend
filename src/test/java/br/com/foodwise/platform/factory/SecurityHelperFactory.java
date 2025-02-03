@@ -34,6 +34,8 @@ public class SecurityHelperFactory {
     }
 
     public static void authenticateUser(String email, String password, UserType userType) {
+        SecurityContextHolder.clearContext();
+
         var mockUser = buildMockUser(email, password, userType);
         var authentication = new UsernamePasswordAuthenticationToken(mockUser, null, mockUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);

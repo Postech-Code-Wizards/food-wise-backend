@@ -21,10 +21,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
-import static br.com.foodwise.platform.factory.RequestFactory.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static br.com.foodwise.platform.factory.RequestFactory.buildCustomerProfileEntity;
+import static br.com.foodwise.platform.factory.RequestFactory.buildCustomerProfileRequest;
+import static br.com.foodwise.platform.factory.RequestFactory.buildValidRegisterCustomerRequest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerProfileServiceTest {

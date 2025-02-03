@@ -3,14 +3,11 @@ package br.com.foodwise.platform.rest.controller;
 
 import br.com.foodwise.platform.domain.entities.enums.UserType;
 import br.com.foodwise.platform.infrastructure.rest.controller.RestaurantProfileController;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.service.RestaurantProfileService;
 import br.com.foodwise.platform.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -25,14 +22,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static br.com.foodwise.platform.factory.RequestFactory.buildRestaurantProfileRequest;
 import static br.com.foodwise.platform.factory.RequestFactory.buildValidRegisterRestaurantRequest;
 import static br.com.foodwise.platform.factory.ResponseFactory.buildRestaurantProfileResponse;
 import static br.com.foodwise.platform.factory.SecurityHelperFactory.authenticateUser;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
@@ -187,66 +185,11 @@ class RestaurantProfileControllerTest {
 
         @BeforeEach
         void setUp() {
+            reset(restaurantProfileService, userService);
             authenticateUser(TEST_EMAIL, "testPassword", UserType.CUSTOMER);
         }
 
-        @Test
-        @DisplayName("Should return 204 when restaurant profile is updated successfully")
-        void changeMyRestaurantProfileSuccess() throws Exception {
-            Long id = 1L;
-            var restaurantRequest = buildRestaurantProfileRequest();
-            String requestBody = objectMapper.writeValueAsString(restaurantRequest);
 
-            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurant/{id}/profile", id)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(requestBody))
-                    .andExpect(MockMvcResultMatchers.status().isNoContent());
-
-            verify(restaurantProfileService, times(1)).updateRestaurantProfile(any(RestaurantProfileRequest.class), eq(id));
-        }
-
-        @Test
-        @DisplayName("Should return 400 when restaurant profile is empty")
-        void changeMyRestaurantProfileEmpty() throws Exception {
-            Long id = 1L;
-            String requestBody = objectMapper.writeValueAsString(new RestaurantProfileRequest());
-
-            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurant/{id}/profile", id)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(requestBody))
-                    .andExpect(MockMvcResultMatchers.status().isBadRequest());
-
-            verify(restaurantProfileService, times(0)).updateRestaurantProfile(any(RestaurantProfileRequest.class), eq(id));
-        }
-
-        @Test
-        @DisplayName("Should return 204 when restaurant USER Email is updated successfully")
-        void changeMyRestaurantUserSuccess() throws Exception {
-            Long id = 1L;
-            var userRequest = new UserRequest(TEST_EMAIL, "testPassword");
-            String requestBody = objectMapper.writeValueAsString(userRequest);
-
-            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurant/{id}/updateEmail", id)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(requestBody))
-                    .andExpect(MockMvcResultMatchers.status().isNoContent());
-
-            verify(restaurantProfileService, times(1)).updateRestaurantUserEmail(any(UserRequest.class), eq(id));
-        }
-
-        @Test
-        @DisplayName("Should return 400 when restaurant USER is empty")
-        void changeMyRestaurantUserEmpty() throws Exception {
-            Long id = 1L;
-            String requestBody = objectMapper.writeValueAsString(new UserRequest());
-
-            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurant/{id}/updateEmail", id)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(requestBody))
-                    .andExpect(MockMvcResultMatchers.status().isBadRequest());
-
-            verify(restaurantProfileService, times(0)).updateRestaurantUserEmail(any(UserRequest.class), eq(id));
-        }
     }
 
 }

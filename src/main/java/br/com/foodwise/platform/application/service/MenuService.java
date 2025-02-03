@@ -35,7 +35,6 @@ public class MenuService {
         return retrieveAllMenusByRestaurantNameUseCase.execute(restaurantName);
     }
 
-
     public List<Menu> getAllMenus() {
         return retrieveAllMenusUseCase.execute();
     }

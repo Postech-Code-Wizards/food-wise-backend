@@ -12,6 +12,7 @@ import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PhoneR
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 
@@ -49,6 +50,14 @@ public class RequestFactory {
         request.setCustomer(buildCustomerProfileRequest());
         return request;
     }
+
+    public static RegisterMenuRequest buildRegisterMenuRequest() {
+        var menuRequest = new RegisterMenuRequest();
+        menuRequest.setName("Request Test");
+        menuRequest.setDescription("Test Description");
+        return menuRequest;
+    }
+
 
     public static RestaurantProfileRequest buildRestaurantProfileRequest() {
         var restaurant = new RestaurantProfileRequest();
