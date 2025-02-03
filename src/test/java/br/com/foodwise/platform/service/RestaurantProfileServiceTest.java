@@ -1,14 +1,14 @@
 package br.com.foodwise.platform.service;
 
-import br.com.foodwise.platform.model.entities.RestaurantProfile;
-import br.com.foodwise.platform.model.entities.User;
-import br.com.foodwise.platform.model.entities.enums.UserType;
-import br.com.foodwise.platform.model.repositories.RestaurantProfileRepository;
-import br.com.foodwise.platform.rest.controller.exception.ResourceNotFoundException;
-import br.com.foodwise.platform.rest.converter.restaurant.RestaurantProfileEntityToResponseConverter;
-import br.com.foodwise.platform.rest.converter.restaurant.RestaurantProfileRequestToEntityConverter;
-import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
-import br.com.foodwise.platform.rest.dtos.response.RestaurantProfileResponse;
+import br.com.foodwise.platform.domain.entities.RestaurantProfile;
+import br.com.foodwise.platform.domain.entities.User;
+import br.com.foodwise.platform.domain.entities.enums.UserType;
+import br.com.foodwise.platform.domain.repository.RestaurantProfileRepository;
+import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
+import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileEntityToResponseConverter;
+import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileRequestToEntityConverter;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

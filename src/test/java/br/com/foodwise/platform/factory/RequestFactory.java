@@ -1,15 +1,19 @@
 package br.com.foodwise.platform.factory;
 
-import br.com.foodwise.platform.model.entities.*;
-import br.com.foodwise.platform.model.entities.enums.PhoneType;
-import br.com.foodwise.platform.model.entities.enums.UserType;
-import br.com.foodwise.platform.rest.dtos.request.register.AddressRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.PhoneRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.customer.CustomerProfileRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.customer.RegisterCustomerRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
+import br.com.foodwise.platform.domain.entities.Address;
+import br.com.foodwise.platform.domain.entities.CustomerProfile;
+import br.com.foodwise.platform.domain.entities.Phone;
+import br.com.foodwise.platform.domain.entities.RestaurantProfile;
+import br.com.foodwise.platform.domain.entities.User;
+import br.com.foodwise.platform.domain.entities.enums.PhoneType;
+import br.com.foodwise.platform.domain.entities.enums.UserType;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.AddressRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PhoneRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;

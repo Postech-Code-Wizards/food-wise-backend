@@ -1,6 +1,7 @@
 package br.com.foodwise.platform.rest.converter.restaurant;
 
-import br.com.foodwise.platform.model.entities.RestaurantProfile;
+import br.com.foodwise.platform.domain.entities.RestaurantProfile;
+import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileEntityToResponseConverter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

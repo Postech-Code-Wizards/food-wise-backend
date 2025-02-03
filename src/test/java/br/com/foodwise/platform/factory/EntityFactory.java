@@ -1,10 +1,10 @@
 package br.com.foodwise.platform.factory;
 
-import br.com.foodwise.platform.model.entities.Address;
-import br.com.foodwise.platform.model.entities.CustomerProfile;
-import br.com.foodwise.platform.model.entities.Phone;
-import br.com.foodwise.platform.model.entities.RestaurantProfile;
-import br.com.foodwise.platform.model.entities.enums.PhoneType;
+import br.com.foodwise.platform.domain.entities.Address;
+import br.com.foodwise.platform.domain.entities.CustomerProfile;
+import br.com.foodwise.platform.domain.entities.Phone;
+import br.com.foodwise.platform.domain.entities.RestaurantProfile;
+import br.com.foodwise.platform.domain.entities.enums.PhoneType;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;

@@ -1,6 +1,7 @@
 package br.com.foodwise.platform.rest.converter.customer;
 
-import br.com.foodwise.platform.model.entities.CustomerProfile;
+import br.com.foodwise.platform.domain.entities.CustomerProfile;
+import br.com.foodwise.platform.infrastructure.rest.converter.customer.CustomerProfileEntityToResponseConverter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

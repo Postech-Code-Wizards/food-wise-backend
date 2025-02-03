@@ -1,12 +1,12 @@
 package br.com.foodwise.platform.service;
 
-import br.com.foodwise.platform.model.entities.User;
-import br.com.foodwise.platform.model.entities.enums.UserType;
-import br.com.foodwise.platform.model.repositories.UserRepository;
-import br.com.foodwise.platform.rest.controller.exception.BusinessException;
-import br.com.foodwise.platform.rest.controller.exception.ResourceNotFoundException;
-import br.com.foodwise.platform.rest.converter.common.UserRequestToEntityConverter;
-import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.domain.entities.User;
+import br.com.foodwise.platform.domain.entities.enums.UserType;
+import br.com.foodwise.platform.domain.repository.UserRepository;
+import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
+import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
+import br.com.foodwise.platform.infrastructure.rest.converter.common.UserRequestToEntityConverter;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,7 +26,6 @@ import static br.com.foodwise.platform.factory.SecurityHelperFactory.authenticat
 import static br.com.foodwise.platform.factory.SecurityHelperFactory.buildMockUser;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)

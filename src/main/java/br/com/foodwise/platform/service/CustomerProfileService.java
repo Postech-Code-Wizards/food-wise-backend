@@ -1,15 +1,15 @@
 package br.com.foodwise.platform.service;
 
-import br.com.foodwise.platform.model.entities.CustomerProfile;
-import br.com.foodwise.platform.model.entities.enums.UserType;
-import br.com.foodwise.platform.model.repositories.CustomerProfileRepository;
-import br.com.foodwise.platform.rest.controller.exception.ResourceNotFoundException;
-import br.com.foodwise.platform.rest.converter.customer.CustomerProfileEntityToResponseConverter;
-import br.com.foodwise.platform.rest.converter.customer.CustomerProfileRequestToEntityConverter;
-import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.customer.CustomerProfileRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.customer.RegisterCustomerRequest;
-import br.com.foodwise.platform.rest.dtos.response.CustomerProfileResponse;
+import br.com.foodwise.platform.domain.entities.CustomerProfile;
+import br.com.foodwise.platform.domain.entities.enums.UserType;
+import br.com.foodwise.platform.domain.repository.CustomerProfileRepository;
+import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
+import br.com.foodwise.platform.infrastructure.rest.converter.customer.CustomerProfileEntityToResponseConverter;
+import br.com.foodwise.platform.infrastructure.rest.converter.customer.CustomerProfileRequestToEntityConverter;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.response.CustomerProfileResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,7 +53,7 @@ public class CustomerProfileService {
     }
 
     @Transactional
-    public void updateCustomerUserEmail(UserRequest userRequest, Long id){
+    public void updateCustomerUserEmail(UserRequest userRequest, Long id) {
         userService.updateUserEmail(userRequest, id, UserType.CUSTOMER);
     }
 

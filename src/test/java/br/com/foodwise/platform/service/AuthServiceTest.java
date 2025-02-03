@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.service;
 
-import br.com.foodwise.platform.model.entities.User;
-import br.com.foodwise.platform.rest.controller.exception.BusinessException;
+import br.com.foodwise.platform.domain.entities.User;
+import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.Authentication;

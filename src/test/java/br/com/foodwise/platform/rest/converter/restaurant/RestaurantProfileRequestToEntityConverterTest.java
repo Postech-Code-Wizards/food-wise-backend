@@ -1,10 +1,11 @@
 package br.com.foodwise.platform.rest.converter.restaurant;
 
-import br.com.foodwise.platform.model.entities.Address;
-import br.com.foodwise.platform.model.entities.Phone;
-import br.com.foodwise.platform.rest.converter.common.AddressRequestToEntityConverter;
-import br.com.foodwise.platform.rest.converter.common.PhoneRequestToEntityConverter;
-import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
+import br.com.foodwise.platform.domain.entities.Address;
+import br.com.foodwise.platform.domain.entities.Phone;
+import br.com.foodwise.platform.infrastructure.rest.converter.common.AddressRequestToEntityConverter;
+import br.com.foodwise.platform.infrastructure.rest.converter.common.PhoneRequestToEntityConverter;
+import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileRequestToEntityConverter;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
