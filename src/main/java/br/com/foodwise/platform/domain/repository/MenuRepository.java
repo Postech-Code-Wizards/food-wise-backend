@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Long> {
-    List<Menu> findTop1ByRestaurantProfileBusinessName(String businessName);
+    List<Menu> findByRestaurantProfileBusinessName(String businessName);
 }

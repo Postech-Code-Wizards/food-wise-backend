@@ -15,6 +15,6 @@ public class RetrieveAllMenusByRestaurantNameUseCase {
     private final MenuRepository menuRepository;
 
     public List<Menu> execute(String businessName) {
-        return menuRepository.findTop1ByRestaurantProfileBusinessName(businessName);
+        return menuRepository.findByRestaurantProfileBusinessName(businessName);
     }
 }
