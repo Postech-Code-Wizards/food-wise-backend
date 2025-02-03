@@ -2,6 +2,7 @@ package br.com.foodwise.platform.application.service;
 
 import br.com.foodwise.platform.application.usecase.menu.CreateMenuUseCase;
 import br.com.foodwise.platform.application.usecase.menu.DeleteMenuUseCase;
+import br.com.foodwise.platform.application.usecase.menu.RetrieveAllMenusByRestaurantNameUseCase;
 import br.com.foodwise.platform.application.usecase.menu.RetrieveAllMenusUseCase;
 import br.com.foodwise.platform.application.usecase.menu.RetrieveMenuUseCase;
 import br.com.foodwise.platform.application.usecase.menu.UpdateMenuUseCase;
@@ -18,6 +19,7 @@ public class MenuService {
     private final CreateMenuUseCase createMenuUseCase;
     private final RetrieveMenuUseCase retrieveMenuUseCase;
     private final RetrieveAllMenusUseCase retrieveAllMenusUseCase;
+    private final RetrieveAllMenusByRestaurantNameUseCase retrieveAllMenusByRestaurantNameUseCase;
     private final UpdateMenuUseCase updateMenuUseCase;
     private final DeleteMenuUseCase deleteMenuUseCase;
 
@@ -28,6 +30,11 @@ public class MenuService {
     public Menu getMenuById(Long id) {
         return retrieveMenuUseCase.execute(id);
     }
+
+    public List<Menu> getAllMenusByRestaurantName(String restaurantName) {
+        return retrieveAllMenusByRestaurantNameUseCase.execute(restaurantName);
+    }
+
 
     public List<Menu> getAllMenus() {
         return retrieveAllMenusUseCase.execute();

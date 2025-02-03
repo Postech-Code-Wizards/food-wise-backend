@@ -11,10 +11,10 @@ import java.util.List;
 
 @RequiredArgsConstructor
 
-public class RetrieveAllMenusByBusinessNameUseCase {
+public class RetrieveAllMenusByRestaurantNameUseCase {
     private final MenuRepository menuRepository;
 
     public List<Menu> execute(String businessName) {
-        return menuRepository.findByRestaurantProfileBusinessName(businessName);
+        return menuRepository.findTop1ByRestaurantProfileBusinessName(businessName);
     }
 }

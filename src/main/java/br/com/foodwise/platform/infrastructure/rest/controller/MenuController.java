@@ -33,24 +33,34 @@ public class MenuController {
 
     @PostMapping
     public ResponseEntity<MenuResponse> createMenu(@RequestBody RegisterMenuRequest menuRequestDTO) {
-        Menu createdMenu = menuService.createMenu(convertToMenu(menuRequestDTO));
+        var createdMenu = menuService.createMenu(convertToMenu(menuRequestDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(convertToMenuResponse(createdMenu));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<MenuResponse> getMenuById(@PathVariable Long id) {
-        Menu menu = fetchMenuById(id);
+        var menu = fetchMenuById(id);
         return ResponseEntity.ok(convertToMenuResponse(menu));
+    }
+
+    @GetMapping("/restaurant/{name}")
+    public ResponseEntity<List<MenuResponse>> getMenusByRestaurantName(@PathVariable String name) {
+        return ResponseEntity.ok(menuService
+                .getAllMenusByRestaurantName(name).stream()
+                .map(this::convertToMenuResponse)
+                .toList());
     }
 
     @GetMapping
     public ResponseEntity<List<MenuResponse>> getAllMenus() {
-        return ResponseEntity.ok(fetchAllMenus());
+        return ResponseEntity.ok(menuService.getAllMenus().stream()
+                .map(this::convertToMenuResponse)
+                .toList());
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<MenuResponse> updateMenu(@PathVariable Long id, @RequestBody RegisterMenuRequest menuRequestDTO) {
-        Menu updatedMenu = processUpdateMenu(id, menuRequestDTO);
+        var updatedMenu = processUpdateMenu(id, menuRequestDTO);
         return ResponseEntity.ok(convertToMenuResponse(updatedMenu));
     }
 
@@ -62,12 +72,6 @@ public class MenuController {
 
     private Menu fetchMenuById(Long id) {
         return menuService.getMenuById(id);
-    }
-
-    private List<MenuResponse> fetchAllMenus() {
-        return menuService.getAllMenus().stream()
-                .map(this::convertToMenuResponse)
-                .toList();
     }
 
     private Menu processUpdateMenu(Long id, RegisterMenuRequest menuRequestDTO) {
