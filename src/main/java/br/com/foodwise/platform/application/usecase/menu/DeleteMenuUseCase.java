@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-
 @RequiredArgsConstructor
 public class DeleteMenuUseCase {
     private final MenuRepository menuRepository;

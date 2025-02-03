@@ -32,19 +32,19 @@ public class MenuController implements MenuApi {
     private final MenuToMenuResponseConverter menuToMenuResponseConverter;
     private final MenuUpdateRequestToMenuConverter menuUpdateRequestToMenuConverter;
 
-    @PostMapping
+    @Override
     public ResponseEntity<MenuResponse> createMenu(@RequestBody @Valid RegisterMenuRequest menuRequestDTO) {
         var createdMenu = menuService.createMenu(convertToMenu(menuRequestDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(convertToMenuResponse(createdMenu));
     }
 
-    @GetMapping("/{id}")
+    @Override
     public ResponseEntity<MenuResponse> getMenuById(@PathVariable Long id) {
         var menu = fetchMenuById(id);
         return ResponseEntity.ok(convertToMenuResponse(menu));
     }
 
-    @GetMapping("/restaurant/{name}")
+    @Override
     public ResponseEntity<List<MenuResponse>> getMenusByRestaurantName(@PathVariable String name) {
         return ResponseEntity.ok(menuService
                 .getAllMenusByRestaurantName(name).stream()
@@ -52,20 +52,20 @@ public class MenuController implements MenuApi {
                 .toList());
     }
 
-    @GetMapping
+    @Override
     public ResponseEntity<List<MenuResponse>> getAllMenus() {
         return ResponseEntity.ok(menuService.getAllMenus().stream()
                 .map(this::convertToMenuResponse)
                 .toList());
     }
 
-    @PutMapping("/{id}")
+    @Override
     public ResponseEntity<MenuResponse> updateMenu(@PathVariable Long id, @RequestBody @Valid RegisterMenuRequest menuRequestDTO) {
         var updatedMenu = processUpdateMenu(id, menuRequestDTO);
         return ResponseEntity.ok(convertToMenuResponse(updatedMenu));
     }
 
-    @DeleteMapping("/{id}")
+    @Override
     public ResponseEntity<Void> deleteMenu(@PathVariable Long id) {
         menuService.deleteMenu(id);
         return ResponseEntity.noContent().build();

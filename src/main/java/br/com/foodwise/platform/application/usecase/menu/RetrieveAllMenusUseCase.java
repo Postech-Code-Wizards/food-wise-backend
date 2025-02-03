@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-
 @RequiredArgsConstructor
-
 public class RetrieveAllMenusUseCase {
     private final MenuRepository menuRepository;
 
