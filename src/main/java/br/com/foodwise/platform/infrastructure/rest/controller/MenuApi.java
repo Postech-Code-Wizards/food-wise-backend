@@ -1,7 +1,6 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.update.UpdateMenuRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 public interface MenuApi {
 
@@ -67,8 +68,8 @@ public interface MenuApi {
                     )
             }
     )
-    @PostMapping("/menu")
-    ResponseEntity<Void> createMenu(@RequestBody @Valid RegisterMenuRequest request);
+    @PostMapping
+    ResponseEntity<MenuResponse> createMenu(@RequestBody @Valid RegisterMenuRequest request);
 
     @Operation(
             description = "Retrieve a Menu by its ID",
@@ -124,14 +125,108 @@ public interface MenuApi {
                     )
             }
     )
-    @GetMapping("/menu/{id}")
+    @GetMapping("/{id}")
     ResponseEntity<MenuResponse> getMenuById(@PathVariable("id") @NotNull Long id);
 
     @Operation(
-            description = "Update a Menu's data",
-            summary = "Update menu information",
+            description = "Retrieve all Menus for a Restaurant by name",
+            summary = "Get all menus by restaurant name",
             responses = {
-                    @ApiResponse(responseCode = "204", description = "No content"),
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Ok",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = MenuResponse.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Restaurant not found",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            """
+                                                    {
+                                                        "statusCode": 404,
+                                                        "errors": [
+                                                            {
+                                                                "code": "RESTAURANT_NOT_FOUND",
+                                                                "message": "Restaurant not found"
+                                                            }
+                                                        ]
+                                                    }
+                                                    """
+                                    )
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal server error",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            """
+                                                    {
+                                                        "statusCode": 500,
+                                                        "errors": [
+                                                            {
+                                                                "code": "INTERNAL_SERVER_ERROR",
+                                                                "message": "Internal server error"
+                                                            }
+                                                        ]
+                                                    }
+                                                    """
+                                    )
+                            )
+                    )
+            }
+    )
+    @GetMapping("/restaurant/{name}")
+    ResponseEntity<List<MenuResponse>> getMenusByRestaurantName(@PathVariable("name") String name);
+
+    @Operation(
+            description = "Retrieve all Menus",
+            summary = "Get all menus",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Ok",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = MenuResponse.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal server error",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            """
+                                                    {
+                                                        "statusCode": 500,
+                                                        "errors": [
+                                                            {
+                                                                "code": "INTERNAL_SERVER_ERROR",
+                                                                "message": "Internal server error"
+                                                            }
+                                                        ]
+                                                    }
+                                                    """
+                                    )
+                            )
+                    )
+            }
+    )
+    @GetMapping
+    ResponseEntity<List<MenuResponse>> getAllMenus();
+
+    @Operation(
+            description = "Update a Menu",
+            summary = "Update menu data",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Updated successfully"),
                     @ApiResponse(
                             responseCode = "404",
                             description = "Menu not found",
@@ -174,17 +269,14 @@ public interface MenuApi {
                     )
             }
     )
-    @PutMapping("/menu/{id}")
-    ResponseEntity<Void> updateMenu(
-            @PathVariable("id") Long id,
-            @Valid @RequestBody UpdateMenuRequest updateMenuRequest
-    );
+    @PutMapping("/{id}")
+    ResponseEntity<MenuResponse> updateMenu(@PathVariable("id") Long id, @RequestBody @Valid RegisterMenuRequest menuRequestDTO);
 
     @Operation(
             description = "Delete a Menu",
             summary = "Delete a menu by ID",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Ok"),
+                    @ApiResponse(responseCode = "204", description = "Deleted successfully"),
                     @ApiResponse(
                             responseCode = "404",
                             description = "Menu not found",
@@ -227,6 +319,6 @@ public interface MenuApi {
                     )
             }
     )
-    @DeleteMapping("/menu/{id}")
-    ResponseEntity<Void> deleteMenu(@PathVariable("id") @NotNull Long id);
+    @DeleteMapping("/{id}")
+    ResponseEntity<Void> deleteMenu(@PathVariable("id") Long id);
 }

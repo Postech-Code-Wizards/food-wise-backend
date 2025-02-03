@@ -24,7 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/menu")
 @RequiredArgsConstructor
-public class MenuController {
+public class MenuController implements MenuApi {
     private final MenuService menuService;
 
     private final RegisterMenuRequestToMenuConverter registerMenuRequestToMenuConverter;
