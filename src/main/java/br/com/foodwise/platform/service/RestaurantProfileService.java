@@ -1,15 +1,15 @@
 package br.com.foodwise.platform.service;
 
-import br.com.foodwise.platform.model.entities.RestaurantProfile;
-import br.com.foodwise.platform.model.entities.enums.UserType;
-import br.com.foodwise.platform.model.repositories.RestaurantProfileRepository;
-import br.com.foodwise.platform.rest.controller.exception.ResourceNotFoundException;
-import br.com.foodwise.platform.rest.converter.restaurant.RestaurantProfileEntityToResponseConverter;
-import br.com.foodwise.platform.rest.converter.restaurant.RestaurantProfileRequestToEntityConverter;
-import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
-import br.com.foodwise.platform.rest.dtos.response.RestaurantProfileResponse;
+import br.com.foodwise.platform.domain.entities.RestaurantProfile;
+import br.com.foodwise.platform.domain.entities.enums.UserType;
+import br.com.foodwise.platform.domain.repository.RestaurantProfileRepository;
+import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
+import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileEntityToResponseConverter;
+import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileRequestToEntityConverter;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -58,7 +58,7 @@ public class RestaurantProfileService {
     }
 
     @Transactional
-    public void updateRestarantUserEmail(UserRequest userRequest, Long id){
+    public void updateRestaurantUserEmail(UserRequest userRequest, Long id) {
         userService.updateUserEmail(userRequest, id, UserType.RESTAURANT_OWNER);
     }
 

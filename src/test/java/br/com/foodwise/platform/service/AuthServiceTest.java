@@ -1,14 +1,14 @@
 package br.com.foodwise.platform.service;
 
-import br.com.foodwise.platform.model.entities.User;
-import br.com.foodwise.platform.rest.controller.exception.BusinessException;
+import br.com.foodwise.platform.domain.entities.User;
+import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.Authentication;
 
 import java.time.ZonedDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

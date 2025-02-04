@@ -1,9 +1,10 @@
 package br.com.foodwise.platform.rest.controller;
 
-import br.com.foodwise.platform.model.entities.enums.UserType;
-import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.customer.CustomerProfileRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.customer.RegisterCustomerRequest;
+import br.com.foodwise.platform.domain.entities.enums.UserType;
+import br.com.foodwise.platform.infrastructure.rest.controller.CustomerProfileController;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import br.com.foodwise.platform.service.CustomerProfileService;
 import br.com.foodwise.platform.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,7 +29,9 @@ import static br.com.foodwise.platform.factory.SecurityHelperFactory.authenticat
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc

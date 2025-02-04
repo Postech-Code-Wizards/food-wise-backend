@@ -1,13 +1,13 @@
 package br.com.foodwise.platform.service;
 
-import br.com.foodwise.platform.model.entities.User;
-import br.com.foodwise.platform.model.entities.enums.UserType;
-import br.com.foodwise.platform.model.repositories.UserRepository;
-import br.com.foodwise.platform.rest.controller.exception.BusinessException;
-import br.com.foodwise.platform.rest.controller.exception.ResourceNotFoundException;
-import br.com.foodwise.platform.rest.converter.common.UserRequestToEntityConverter;
-import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.PasswordRequest;
+import br.com.foodwise.platform.domain.entities.User;
+import br.com.foodwise.platform.domain.entities.enums.UserType;
+import br.com.foodwise.platform.domain.repository.UserRepository;
+import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
+import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
+import br.com.foodwise.platform.infrastructure.rest.converter.common.UserRequestToEntityConverter;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -26,6 +26,11 @@ import java.time.ZonedDateTime;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserRequestToEntityConverter userRequestToEntityConverter;
+
+    private static void deleteUser(User userFound) {
+        userFound.setActive(false);
+        userFound.setDeletedAt(ZonedDateTime.now());
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -77,15 +82,10 @@ public class UserService implements UserDetailsService {
         return new BCryptPasswordEncoder().encode(password);
     }
 
-    public void delete (long id, UserType userType) {
+    public void delete(long id, UserType userType) {
         validateUserIsAuthenticated(id);
         User userFound = findActiveUser(id, userType);
         deleteUser(userFound);
-    }
-
-    private static void deleteUser(User userFound) {
-        userFound.setActive(false);
-        userFound.setDeletedAt(ZonedDateTime.now());
     }
 
     private User findActiveUser(long id, UserType userType) {
@@ -93,10 +93,10 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new BusinessException("USER_DOES_NOT_EXIST", HttpStatus.NOT_FOUND, "User not found or already deleted"));
     }
 
-    private void validateUserIsAuthenticated(long id){
+    private void validateUserIsAuthenticated(long id) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         var userAuthenticated = (User) authentication.getPrincipal();
-        if(id != userAuthenticated.getId()){
+        if (id != userAuthenticated.getId()) {
             throw new BusinessException("DELETION_OF_UNAUTHENTICATED", HttpStatus.CONFLICT, "");
         }
     }

@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.service;
 
 
-import br.com.foodwise.platform.model.entities.User;
+import br.com.foodwise.platform.domain.entities.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;

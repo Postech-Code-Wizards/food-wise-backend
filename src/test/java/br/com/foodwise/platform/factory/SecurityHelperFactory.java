@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.factory;
 
-import br.com.foodwise.platform.model.entities.User;
-import br.com.foodwise.platform.model.entities.enums.UserType;
+import br.com.foodwise.platform.domain.entities.User;
+import br.com.foodwise.platform.domain.entities.enums.UserType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -34,6 +34,8 @@ public class SecurityHelperFactory {
     }
 
     public static void authenticateUser(String email, String password, UserType userType) {
+        SecurityContextHolder.clearContext();
+
         var mockUser = buildMockUser(email, password, userType);
         var authentication = new UsernamePasswordAuthenticationToken(mockUser, null, mockUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);

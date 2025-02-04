@@ -1,14 +1,14 @@
 package br.com.foodwise.platform.service;
 
-import br.com.foodwise.platform.model.entities.CustomerProfile;
-import br.com.foodwise.platform.model.entities.User;
-import br.com.foodwise.platform.model.entities.enums.UserType;
-import br.com.foodwise.platform.model.repositories.CustomerProfileRepository;
-import br.com.foodwise.platform.rest.controller.exception.ResourceNotFoundException;
-import br.com.foodwise.platform.rest.converter.customer.CustomerProfileEntityToResponseConverter;
-import br.com.foodwise.platform.rest.converter.customer.CustomerProfileRequestToEntityConverter;
-import br.com.foodwise.platform.rest.dtos.request.register.customer.CustomerProfileRequest;
-import br.com.foodwise.platform.rest.dtos.response.CustomerProfileResponse;
+import br.com.foodwise.platform.domain.entities.CustomerProfile;
+import br.com.foodwise.platform.domain.entities.User;
+import br.com.foodwise.platform.domain.entities.enums.UserType;
+import br.com.foodwise.platform.domain.repository.CustomerProfileRepository;
+import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
+import br.com.foodwise.platform.infrastructure.rest.converter.customer.CustomerProfileEntityToResponseConverter;
+import br.com.foodwise.platform.infrastructure.rest.converter.customer.CustomerProfileRequestToEntityConverter;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.response.CustomerProfileResponse;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,10 +21,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
-import static br.com.foodwise.platform.factory.RequestFactory.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static br.com.foodwise.platform.factory.RequestFactory.buildCustomerProfileEntity;
+import static br.com.foodwise.platform.factory.RequestFactory.buildCustomerProfileRequest;
+import static br.com.foodwise.platform.factory.RequestFactory.buildValidRegisterCustomerRequest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerProfileServiceTest {
