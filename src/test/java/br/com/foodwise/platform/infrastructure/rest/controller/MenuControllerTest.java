@@ -3,7 +3,7 @@ package br.com.foodwise.platform.infrastructure.rest.controller;
 import br.com.foodwise.platform.application.service.MenuService;
 import br.com.foodwise.platform.domain.entities.Menu;
 import br.com.foodwise.platform.domain.entities.enums.UserType;
-import br.com.foodwise.platform.infrastructure.rest.converter.menu.MenuToMenuResponseConverter;
+import br.com.foodwise.platform.infrastructure.rest.converter.menu.MenuItemToMenuItemResponseConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.menu.MenuUpdateRequestToMenuConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.menu.RegisterMenuRequestToMenuConverter;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
@@ -50,7 +50,7 @@ class MenuControllerTest {
     private RegisterMenuRequestToMenuConverter registerMenuRequestToMenuConverter;
 
     @MockBean
-    private MenuToMenuResponseConverter menuToMenuResponseConverter;
+    private MenuItemToMenuItemResponseConverter menuToMenuResponseConverter;
 
     @MockBean
     private MenuUpdateRequestToMenuConverter menuUpdateRequestToMenuConverter;
