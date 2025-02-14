@@ -1,15 +1,12 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.application.service.MenuItemService;
-import br.com.foodwise.platform.domain.entities.Menu;
 import br.com.foodwise.platform.domain.entities.MenuItem;
 import br.com.foodwise.platform.infrastructure.rest.converter.menuItem.MenuItemToMenuItemResponseConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.menuItem.MenuItemUpdateRequestToMenuItemConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.menuItem.RegisterMenuItemRequestToMenuItemConverter;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuItemResponse;
-import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
