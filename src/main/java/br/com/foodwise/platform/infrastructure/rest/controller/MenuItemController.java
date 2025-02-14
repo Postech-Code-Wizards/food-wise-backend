@@ -1,6 +1,7 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.application.service.MenuItemService;
+import br.com.foodwise.platform.application.service.MenuService;
 import br.com.foodwise.platform.domain.entities.MenuItem;
 import br.com.foodwise.platform.infrastructure.rest.converter.menuItem.MenuItemToMenuItemResponseConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.menuItem.MenuItemUpdateRequestToMenuItemConverter;
@@ -26,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MenuItemController {
     private final MenuItemService menuItemService;
+    private final MenuService menuService;
 
     private final RegisterMenuItemRequestToMenuItemConverter registerMenuItemRequestToMenuItemConverter;
     private final MenuItemToMenuItemResponseConverter menuItemToMenuItemResponseConverter;
@@ -70,6 +72,7 @@ public class MenuItemController {
 
     private MenuItem processUpdateMenuItem(Long id, RegisterMenuItemRequest menuItemRequestDTO) {
         MenuItem existingMenuItem = fetchMenuItemById(id);
+        menuService.getMenuById(menuItemRequestDTO.getMenu().getId());
         menuItemUpdateRequestToMenuItemConverter.convert(menuItemRequestDTO, existingMenuItem);
         return menuItemService.updateMenuItem(existingMenuItem);
     }

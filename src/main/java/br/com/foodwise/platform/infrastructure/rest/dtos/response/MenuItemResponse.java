@@ -1,6 +1,5 @@
 package br.com.foodwise.platform.infrastructure.rest.dtos.response;
 
-import br.com.foodwise.platform.domain.entities.Menu;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +18,5 @@ public class MenuItemResponse {
     private String category;
     private boolean isAvailable;
     private String imageUrl;
-    private Menu menu;
+    private MenuResponse menu;
 }

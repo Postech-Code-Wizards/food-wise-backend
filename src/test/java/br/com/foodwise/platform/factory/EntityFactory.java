@@ -3,6 +3,7 @@ package br.com.foodwise.platform.factory;
 import br.com.foodwise.platform.domain.entities.Address;
 import br.com.foodwise.platform.domain.entities.CustomerProfile;
 import br.com.foodwise.platform.domain.entities.Menu;
+import br.com.foodwise.platform.domain.entities.MenuItem;
 import br.com.foodwise.platform.domain.entities.Phone;
 import br.com.foodwise.platform.domain.entities.RestaurantProfile;
 import br.com.foodwise.platform.domain.entities.enums.PhoneType;
@@ -85,5 +86,18 @@ public class EntityFactory {
         restaurantProfile.setAddress(buildAddress());
         restaurantProfile.setPhone(buildPhone());
         return menu;
+    }
+
+    public static MenuItem buildMenuItem() {
+        var menuItem = new MenuItem();
+        menuItem.setId(0L);
+        menuItem.setName("");
+        menuItem.setDescription("");
+        menuItem.setCreatedAt(ZonedDateTime.now());
+        menuItem.setUpdatedAt(ZonedDateTime.now());
+        menuItem.setAvailable(true);
+        menuItem.setPrice(new BigDecimal("0"));
+        menuItem.setMenu(buildMenu());
+        return menuItem;
     }
 }
