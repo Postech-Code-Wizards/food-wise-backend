@@ -109,25 +109,6 @@ class MenuItemControllerTest {
             verify(menuItemService, times(1)).getAllMenuItems();
         }
 
-        /*@Test
-        @DisplayName("Should update menu item successfully")
-        void shouldUpdateMenuItemSuccessfully() throws Exception {
-            var menuItemId = 1L;
-            var menuItemRequest = buildRegisterMenuItemRequest();
-            var updatedMenuItem = buildMenuItem();
-            var menuItemResponse = buildMenuItemResponse();
-
-            given(menuItemService.updateMenuItem(any(MenuItem.class))).willReturn(updatedMenuItem);
-            given(menuItemToMenuItemResponseConverter.convert(updatedMenuItem)).willReturn(menuItemResponse);
-
-            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/menu-item/{id}", menuItemId)
-                            .contentType(MediaType.APPLICATION_JSON).content(
-                                    objectMapper.writeValueAsString(menuItemRequest)))
-                    .andExpect(MockMvcResultMatchers.status().isOk());
-
-            verify(menuItemService, times(1)).updateMenuItem(any());
-        }*/
-
         @Test
         @DisplayName("Should retrieve menus item by item name successfully")
         void shouldRetrieveMenusItemsByItemNameSuccessfully() throws Exception {

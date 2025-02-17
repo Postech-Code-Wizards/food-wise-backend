@@ -31,6 +31,8 @@ public class RegisterMenuItemRequest {
     @Size(min = 1, max = 254)
     private String imageUrl;
 
+    private boolean isAvailable;
+
     @NotNull
     private Menu menu;
 }
