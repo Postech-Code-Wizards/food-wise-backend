@@ -1,24 +1,17 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.application.service.MenuItemService;
-import br.com.foodwise.platform.application.service.MenuService;
 import br.com.foodwise.platform.domain.entities.MenuItem;
 import br.com.foodwise.platform.infrastructure.rest.converter.menuItem.MenuItemToMenuItemResponseConverter;
-import br.com.foodwise.platform.infrastructure.rest.converter.menuItem.MenuItemUpdateRequestToMenuItemConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.menuItem.RegisterMenuItemRequestToMenuItemConverter;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemAvailable;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuItemResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,11 +20,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MenuItemController {
     private final MenuItemService menuItemService;
-    private final MenuService menuService;
 
     private final RegisterMenuItemRequestToMenuItemConverter registerMenuItemRequestToMenuItemConverter;
     private final MenuItemToMenuItemResponseConverter menuItemToMenuItemResponseConverter;
-    private final MenuItemUpdateRequestToMenuItemConverter menuItemUpdateRequestToMenuItemConverter;
 
     @PostMapping
     public ResponseEntity<MenuItemResponse> createMenuItem(@RequestBody @Valid RegisterMenuItemRequest menuItemRequestDTO) {
@@ -66,15 +57,22 @@ public class MenuItemController {
         return ResponseEntity.ok(convertToMenuItemResponse(updatedMenuItem));
     }
 
+    @PutMapping("/available/{id}")
+    public ResponseEntity<MenuItemResponse> updateAvailableMenuItem(@PathVariable Long id, @RequestBody @Valid RegisterMenuItemAvailable available) {
+        var updatedMenuItem = processUpdateAvailableMenuItem(id, available);
+        return ResponseEntity.ok(convertToMenuItemResponse(updatedMenuItem));
+    }
+
+    private MenuItem processUpdateAvailableMenuItem(Long id, RegisterMenuItemAvailable available) {
+        return menuItemService.updateAvailableMenuItem(id, available);
+    }
+
     private MenuItem fetchMenuItemById(Long id) {
         return menuItemService.getMenuItemById(id);
     }
 
     private MenuItem processUpdateMenuItem(Long id, RegisterMenuItemRequest menuItemRequestDTO) {
-        MenuItem existingMenuItem = fetchMenuItemById(id);
-        menuService.getMenuById(menuItemRequestDTO.getMenu().getId());
-        menuItemUpdateRequestToMenuItemConverter.convert(menuItemRequestDTO, existingMenuItem);
-        return menuItemService.updateMenuItem(existingMenuItem);
+        return menuItemService.updateMenuItem(id, menuItemRequestDTO);
     }
 
     private MenuItem convertToMenuItem(RegisterMenuItemRequest menuItemRequestDTO) {

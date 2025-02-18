@@ -10,8 +10,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MenuItemUpdateRequestToMenuItemConverter {
 
-    public void convert(RegisterMenuItemRequest source, MenuItem target) {
-        var modelMapper = new ModelMapper();
-        modelMapper.map(source, target);
+    public MenuItem convert(MenuItem response, RegisterMenuItemRequest source) {
+        var mapper = new ModelMapper();
+        mapper.map(source, response);
+
+        return response;
     }
 }
