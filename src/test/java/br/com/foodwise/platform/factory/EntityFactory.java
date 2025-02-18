@@ -7,6 +7,7 @@ import br.com.foodwise.platform.domain.entities.MenuItem;
 import br.com.foodwise.platform.domain.entities.Phone;
 import br.com.foodwise.platform.domain.entities.RestaurantProfile;
 import br.com.foodwise.platform.domain.entities.enums.PhoneType;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemRequest;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -99,5 +100,15 @@ public class EntityFactory {
         menuItem.setPrice(new BigDecimal("0"));
         menuItem.setMenu(buildMenu());
         return menuItem;
+    }
+
+    public static RegisterMenuItemRequest buildRegisterMenuItem() {
+        var registerMenuItem = new RegisterMenuItemRequest();
+        registerMenuItem.setName("");
+        registerMenuItem.setDescription("");
+        registerMenuItem.setAvailable(true);
+        registerMenuItem.setPrice(new BigDecimal("0"));
+        registerMenuItem.setMenu(buildMenu());
+        return registerMenuItem;
     }
 }

@@ -11,32 +11,35 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/menu-item")
 @RequiredArgsConstructor
-public class MenuItemController {
+public class MenuItemController implements MenuItemApi {
     private final MenuItemService menuItemService;
 
     private final RegisterMenuItemRequestToMenuItemConverter registerMenuItemRequestToMenuItemConverter;
     private final MenuItemToMenuItemResponseConverter menuItemToMenuItemResponseConverter;
 
-    @PostMapping
+    @Override
     public ResponseEntity<MenuItemResponse> createMenuItem(@RequestBody @Valid RegisterMenuItemRequest menuItemRequestDTO) {
         var createdMenuitem = menuItemService.createMenuItem(convertToMenuItem(menuItemRequestDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(convertToMenuItemResponse(createdMenuitem));
     }
 
-    @GetMapping("/{id}")
+    @Override
     public ResponseEntity<MenuItemResponse> getMenuItemById(@PathVariable Long id) {
         var menuItem = fetchMenuItemById(id);
         return ResponseEntity.ok(convertToMenuItemResponse(menuItem));
     }
 
-    @GetMapping("/item/{name}")
+    @Override
     public ResponseEntity<List<MenuItemResponse>> getMenusItemsByItemName(@PathVariable String name) {
         return ResponseEntity.ok(menuItemService
                 .getAllMenusItemByItemName(name).stream()
@@ -44,20 +47,20 @@ public class MenuItemController {
                 .toList());
     }
 
-    @GetMapping
+    @Override
     public ResponseEntity<List<MenuItemResponse>> getAllMenuItems() {
         return ResponseEntity.ok(menuItemService.getAllMenuItems().stream()
                 .map(this::convertToMenuItemResponse)
                 .toList());
     }
 
-    @PutMapping("/{id}")
+    @Override
     public ResponseEntity<MenuItemResponse> updateMenuItem(@PathVariable Long id, @RequestBody @Valid RegisterMenuItemRequest menuItemRequestDTO) {
         var updatedMenuItem = processUpdateMenuItem(id, menuItemRequestDTO);
         return ResponseEntity.ok(convertToMenuItemResponse(updatedMenuItem));
     }
 
-    @PutMapping("/available/{id}")
+    @Override
     public ResponseEntity<MenuItemResponse> updateAvailableMenuItem(@PathVariable Long id, @RequestBody @Valid RegisterMenuItemAvailable available) {
         var updatedMenuItem = processUpdateAvailableMenuItem(id, available);
         return ResponseEntity.ok(convertToMenuItemResponse(updatedMenuItem));
