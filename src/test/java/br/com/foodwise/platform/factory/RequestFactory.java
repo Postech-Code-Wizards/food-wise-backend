@@ -2,6 +2,7 @@ package br.com.foodwise.platform.factory;
 
 import br.com.foodwise.platform.domain.entities.Address;
 import br.com.foodwise.platform.domain.entities.CustomerProfile;
+import br.com.foodwise.platform.domain.entities.Menu;
 import br.com.foodwise.platform.domain.entities.Phone;
 import br.com.foodwise.platform.domain.entities.RestaurantProfile;
 import br.com.foodwise.platform.domain.entities.User;
@@ -13,6 +14,7 @@ import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRe
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 
@@ -58,6 +60,19 @@ public class RequestFactory {
         return menuRequest;
     }
 
+    public static RegisterMenuItemRequest buildRegisterMenuItemRequest() {
+        Menu menu = new Menu();
+        menu.setId(1L);
+
+        var menuItemRequest = new RegisterMenuItemRequest();
+        menuItemRequest.setName("Item Test");
+        menuItemRequest.setDescription("Test Description");
+        menuItemRequest.setPrice(BigDecimal.ONE);
+        menuItemRequest.setCategory("Category Test");
+        menuItemRequest.setImageUrl("Image_Test");
+        menuItemRequest.setMenu(menu);
+        return menuItemRequest;
+    }
 
     public static RestaurantProfileRequest buildRestaurantProfileRequest() {
         var restaurant = new RestaurantProfileRequest();

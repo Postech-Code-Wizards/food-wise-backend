@@ -3,9 +3,11 @@ package br.com.foodwise.platform.factory;
 import br.com.foodwise.platform.domain.entities.Address;
 import br.com.foodwise.platform.domain.entities.CustomerProfile;
 import br.com.foodwise.platform.domain.entities.Menu;
+import br.com.foodwise.platform.domain.entities.MenuItem;
 import br.com.foodwise.platform.domain.entities.Phone;
 import br.com.foodwise.platform.domain.entities.RestaurantProfile;
 import br.com.foodwise.platform.domain.entities.enums.PhoneType;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemRequest;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -85,5 +87,28 @@ public class EntityFactory {
         restaurantProfile.setAddress(buildAddress());
         restaurantProfile.setPhone(buildPhone());
         return menu;
+    }
+
+    public static MenuItem buildMenuItem() {
+        var menuItem = new MenuItem();
+        menuItem.setId(0L);
+        menuItem.setName("");
+        menuItem.setDescription("");
+        menuItem.setCreatedAt(ZonedDateTime.now());
+        menuItem.setUpdatedAt(ZonedDateTime.now());
+        menuItem.setAvailable(true);
+        menuItem.setPrice(new BigDecimal("0"));
+        menuItem.setMenu(buildMenu());
+        return menuItem;
+    }
+
+    public static RegisterMenuItemRequest buildRegisterMenuItem() {
+        var registerMenuItem = new RegisterMenuItemRequest();
+        registerMenuItem.setName("");
+        registerMenuItem.setDescription("");
+        registerMenuItem.setAvailable(true);
+        registerMenuItem.setPrice(new BigDecimal("0"));
+        registerMenuItem.setMenu(buildMenu());
+        return registerMenuItem;
     }
 }
