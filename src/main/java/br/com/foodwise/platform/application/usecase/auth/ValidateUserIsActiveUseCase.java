@@ -1,4 +1,4 @@
-package br.com.foodwise.platform.service;
+package br.com.foodwise.platform.application.usecase.auth;
 
 import br.com.foodwise.platform.domain.entities.User;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 @Service
-public class AuthService {
+public class ValidateUserIsActiveUseCase {
 
-    private AuthService() {
+    public ValidateUserIsActiveUseCase() {
     }
 
-    public static void validateUserIsActive(Authentication auth) {
+    public static void execute(Authentication auth) {
         var user = (User) auth.getPrincipal();
         if (Objects.nonNull(user.getDeletedAt())) {
             throw new BusinessException("USER_DOES_NOT_EXIST", HttpStatus.NOT_FOUND, "");

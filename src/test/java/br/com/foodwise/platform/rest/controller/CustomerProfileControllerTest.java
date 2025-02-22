@@ -1,12 +1,12 @@
 package br.com.foodwise.platform.rest.controller;
 
+import br.com.foodwise.platform.application.service.CustomerProfileService;
+import br.com.foodwise.platform.application.service.UserService;
 import br.com.foodwise.platform.domain.entities.enums.UserType;
 import br.com.foodwise.platform.infrastructure.rest.controller.CustomerProfileController;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;
-import br.com.foodwise.platform.service.CustomerProfileService;
-import br.com.foodwise.platform.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

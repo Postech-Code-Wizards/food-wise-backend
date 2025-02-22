@@ -1,10 +1,10 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
+import br.com.foodwise.platform.application.service.AuthService;
+import br.com.foodwise.platform.application.service.TokenService;
 import br.com.foodwise.platform.domain.entities.User;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.AuthRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.AuthResponse;
-import br.com.foodwise.platform.service.AuthService;
-import br.com.foodwise.platform.service.TokenService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

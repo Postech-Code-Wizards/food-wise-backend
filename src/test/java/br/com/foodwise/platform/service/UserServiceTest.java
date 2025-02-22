@@ -1,5 +1,6 @@
 package br.com.foodwise.platform.service;
 
+import br.com.foodwise.platform.application.service.UserService;
 import br.com.foodwise.platform.domain.entities.User;
 import br.com.foodwise.platform.domain.entities.enums.UserType;
 import br.com.foodwise.platform.domain.repository.UserRepository;

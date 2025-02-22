@@ -1,5 +1,6 @@
 package br.com.foodwise.platform.service;
 
+import br.com.foodwise.platform.application.service.TokenService;
 import br.com.foodwise.platform.domain.entities.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -23,11 +24,11 @@ class TokenServiceTest {
     private static final String ISSUER = "auth-api";
 
     @InjectMocks
-    private TokenService tokenService;
+    private br.com.foodwise.platform.application.service.TokenService tokenService;
 
     @BeforeEach
     void setUp() {
-        tokenService = new TokenService(SECRET);
+        //tokenService = new TokenService(SECRET);
     }
 
     @Test

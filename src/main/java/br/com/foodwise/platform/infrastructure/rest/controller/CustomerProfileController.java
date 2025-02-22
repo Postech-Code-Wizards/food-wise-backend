@@ -1,13 +1,13 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
+import br.com.foodwise.platform.application.service.CustomerProfileService;
+import br.com.foodwise.platform.application.service.UserService;
 import br.com.foodwise.platform.domain.entities.User;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.CustomerProfileResponse;
-import br.com.foodwise.platform.service.CustomerProfileService;
-import br.com.foodwise.platform.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
