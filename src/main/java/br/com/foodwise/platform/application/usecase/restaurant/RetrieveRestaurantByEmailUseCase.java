@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class RetrieveRestaurantByEmailUseCase {
 
     private final RestaurantProfileRepository restaurantProfileRepository;
-    private final ConvertToRestaurantProfileResponseUserCase convertToRestaurantProfileResponse;
+    private final ConvertToRestaurantProfileResponseUseCase convertToRestaurantProfileResponse;
 
     public RestaurantProfileResponse execute(String email) {
         var restaurantProfile = restaurantProfileRepository

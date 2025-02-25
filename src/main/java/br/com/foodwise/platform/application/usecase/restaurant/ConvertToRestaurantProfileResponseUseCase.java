@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ConvertToRestaurantProfileResponseUserCase {
+public class ConvertToRestaurantProfileResponseUseCase {
 
     private final RestaurantProfileEntityToResponseConverter restaurantProfileEntityToResponseConverter;
 

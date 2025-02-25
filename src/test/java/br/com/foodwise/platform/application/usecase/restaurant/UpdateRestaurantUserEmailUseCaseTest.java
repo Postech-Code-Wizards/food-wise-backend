@@ -1,4 +1,4 @@
-package br.com.foodwise.platform.application.usecase.customer;
+package br.com.foodwise.platform.application.usecase.restaurant;
 
 import br.com.foodwise.platform.application.usecase.user.ConvertUserRequestToUserUseCase;
 import br.com.foodwise.platform.application.usecase.user.UpdateUserEmailUseCase;
@@ -18,7 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-class UpdateCustomerUserEmailUseCaseTest {
+class UpdateRestaurantUserEmailUseCaseTest {
 
     @Mock
     private UserRepository userRepository;
@@ -30,7 +30,7 @@ class UpdateCustomerUserEmailUseCaseTest {
     private UpdateUserEmailUseCase updateUserEmailUseCase;
 
     @InjectMocks
-    private UpdateCustomerUserEmailUseCase updateCustomerUserEmailUseCase;
+    private UpdateRestaurantUserEmailUseCase updateRestaurantUserEmailUseCase;
 
     @BeforeEach
     void setUp() {
@@ -44,13 +44,13 @@ class UpdateCustomerUserEmailUseCaseTest {
         Long userId = Instancio.create(Long.class);
         User user = Instancio.create(User.class);
 
-        doNothing().when(updateUserEmailUseCase).execute(userRequest, userId, UserType.CUSTOMER);
-        when(userRepository.findByIdAndUserTypeAndDeletedAtIsNull(userId, UserType.CUSTOMER)).thenReturn(Optional.ofNullable(user));
+        doNothing().when(updateUserEmailUseCase).execute(userRequest, userId, UserType.RESTAURANT_OWNER);
+        when(userRepository.findByIdAndUserTypeAndDeletedAtIsNull(userId, UserType.RESTAURANT_OWNER)).thenReturn(Optional.ofNullable(user));
         when(convertUserRequestToUserUseCase.execute(userRequest)).thenReturn(user);
 
-        updateCustomerUserEmailUseCase.execute(userRequest, userId);
+        updateRestaurantUserEmailUseCase.execute(userRequest, userId);
 
-        verify(updateUserEmailUseCase, times(1)).execute(userRequest, userId, UserType.CUSTOMER);
+        verify(updateUserEmailUseCase, times(1)).execute(userRequest, userId, UserType.RESTAURANT_OWNER);
     }
 
     @Test
@@ -59,12 +59,12 @@ class UpdateCustomerUserEmailUseCaseTest {
         UserRequest userRequest = Instancio.create(UserRequest.class);
         Long userId = Instancio.create(Long.class);
 
-        when(userRepository.findByIdAndUserTypeAndDeletedAtIsNull(userId, UserType.CUSTOMER)).thenReturn(Optional.empty());
+        when(userRepository.findByIdAndUserTypeAndDeletedAtIsNull(userId, UserType.RESTAURANT_OWNER)).thenReturn(Optional.empty());
 
         doThrow(new RuntimeException("Erro ao atualizar e-mail")).when(updateUserEmailUseCase)
-                .execute(userRequest, userId, UserType.CUSTOMER);
+                .execute(userRequest, userId, UserType.RESTAURANT_OWNER);
 
-        assertThrows(RuntimeException.class, () -> updateCustomerUserEmailUseCase.execute(userRequest, userId));
+        assertThrows(RuntimeException.class, () -> updateRestaurantUserEmailUseCase.execute(userRequest, userId));
 
     }
 

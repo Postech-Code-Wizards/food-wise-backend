@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 public class RetrieveRestaurantByBusinessNameUseCase {
 
     private final RestaurantProfileRepository restaurantProfileRepository;
-    private final ConvertToRestaurantProfileEntityUseCase convertToRestaurantProfileEntityUseCase;
+    private final ConvertToRestaurantProfileResponseUseCase convertToRestaurantProfileResponseUseCase;
 
     public RestaurantProfileResponse execute(String businessName) {
         var restaurantProfile = restaurantProfileRepository
                 .findByBusinessName(businessName).orElseThrow(() -> new ResourceNotFoundException("Restaurante " + businessName));
-        return convertToRestaurantProfileEntityUseCase.execute(restaurantProfile);
+        return convertToRestaurantProfileResponseUseCase.execute(restaurantProfile);
     }
 }
