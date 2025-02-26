@@ -2,7 +2,6 @@ package br.com.foodwise.platform.application.usecase.user;
 
 import br.com.foodwise.platform.domain.entities.User;
 import br.com.foodwise.platform.domain.entities.enums.UserType;
-import br.com.foodwise.platform.domain.repository.UserRepository;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

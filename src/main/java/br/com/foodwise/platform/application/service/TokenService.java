@@ -7,8 +7,6 @@ import br.com.foodwise.platform.domain.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
-
 @Service
 @RequiredArgsConstructor
 public class TokenService {
@@ -25,7 +23,4 @@ public class TokenService {
         return validateTokenUseCase.execute(token);
     }
 
-    private Instant getExpirationDate() {
-        return expirationDateUseCase.execute();
-    }
 }

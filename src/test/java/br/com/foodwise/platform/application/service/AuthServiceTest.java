@@ -1,6 +1,5 @@
-package br.com.foodwise.platform.service;
+package br.com.foodwise.platform.application.service;
 
-import br.com.foodwise.platform.application.service.AuthService;
 import br.com.foodwise.platform.domain.entities.User;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
 import org.instancio.Instancio;

@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -25,14 +26,17 @@ class UpdatePasswordUseCaseTest {
     @Mock
     private Authentication authentication;
 
+    @Mock
+    private SecurityContext securityContext;
+
     @InjectMocks
     private UpdatePasswordUseCase updatePasswordUseCase;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
     }
 
     @Test
@@ -54,12 +58,15 @@ class UpdatePasswordUseCaseTest {
 
         PasswordRequest passwordRequest = Instancio.create(PasswordRequest.class);
         User user = Instancio.create(User.class);
-        user.setPassword(new BCryptPasswordEncoder().encode(passwordRequest.getPassword()));
+
 
         when(authentication.getPrincipal()).thenReturn(user);
+        user.setPassword(new BCryptPasswordEncoder().encode(passwordRequest.getPassword()));
+
         updatePasswordUseCase.execute(passwordRequest);
 
         verify(userRepository).save(user);
+
     }
 
 }
