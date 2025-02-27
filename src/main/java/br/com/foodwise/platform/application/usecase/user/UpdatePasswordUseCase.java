@@ -1,8 +1,8 @@
 package br.com.foodwise.platform.application.usecase.user;
 
-import br.com.foodwise.platform.domain.entities.User;
-import br.com.foodwise.platform.domain.entities.utils.CryptographyUtil;
-import br.com.foodwise.platform.domain.repository.UserRepository;
+import br.com.foodwise.platform.gateway.entities.UserEntity;
+import br.com.foodwise.platform.gateway.entities.utils.CryptographyUtil;
+import br.com.foodwise.platform.gateway.repository.UserRepository;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class UpdatePasswordUseCase {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var user = (User) authentication.getPrincipal();
+        var user = (UserEntity) authentication.getPrincipal();
 
         boolean isValid = encoder.matches(passwordRequest.getPassword(), user.getPassword());
         if (isValid) {

@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.application.usecase.menu;
 
-import br.com.foodwise.platform.domain.entities.Menu;
-import br.com.foodwise.platform.domain.repository.MenuRepository;
+import br.com.foodwise.platform.gateway.entities.MenuEntity;
+import br.com.foodwise.platform.gateway.repository.MenuRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,19 +30,19 @@ class RetrieveAllMenusByRestaurantNameUseCaseTest {
     private MenuRepository menuRepository;
 
     private String businessName;
-    private List<Menu> menus;
+    private List<MenuEntity> menuEntities;
 
     @BeforeEach
     void setUp() {
         businessName = "Test Restaurant";
-        menus = List.of(buildMenu(), buildMenu());
+        menuEntities = List.of(buildMenu(), buildMenu());
     }
 
     @Test
     void shouldRetrieveAllMenusByRestaurantNameSuccessfully() {
-        when(menuRepository.findByRestaurantProfileBusinessName(businessName)).thenReturn(menus);
+        when(menuRepository.findByRestaurantProfileBusinessName(businessName)).thenReturn(menuEntities);
 
-        List<Menu> result = retrieveAllMenusByRestaurantNameUseCase.execute(businessName);
+        List<MenuEntity> result = retrieveAllMenusByRestaurantNameUseCase.execute(businessName);
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -53,7 +53,7 @@ class RetrieveAllMenusByRestaurantNameUseCaseTest {
     void shouldReturnEmptyListWhenNoMenusFound() {
         when(menuRepository.findByRestaurantProfileBusinessName(businessName)).thenReturn(emptyList());
 
-        List<Menu> result = retrieveAllMenusByRestaurantNameUseCase.execute(businessName);
+        List<MenuEntity> result = retrieveAllMenusByRestaurantNameUseCase.execute(businessName);
 
         assertNotNull(result);
         assertTrue(result.isEmpty());

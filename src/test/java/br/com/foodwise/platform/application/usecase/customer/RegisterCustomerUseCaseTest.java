@@ -1,10 +1,10 @@
 package br.com.foodwise.platform.application.usecase.customer;
 
 import br.com.foodwise.platform.application.usecase.user.CreateUserUseCase;
-import br.com.foodwise.platform.domain.entities.CustomerProfile;
-import br.com.foodwise.platform.domain.entities.User;
-import br.com.foodwise.platform.domain.entities.enums.UserType;
-import br.com.foodwise.platform.domain.repository.CustomerProfileRepository;
+import br.com.foodwise.platform.gateway.entities.CustomerProfileEntity;
+import br.com.foodwise.platform.gateway.entities.UserEntity;
+import br.com.foodwise.platform.domain.enums.UserType;
+import br.com.foodwise.platform.gateway.repository.CustomerProfileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -39,11 +39,11 @@ class RegisterCustomerUseCaseTest {
     void shouldRegisterCustomerSuccessfully() {
         var registerCustomerRequest = buildValidRegisterCustomerRequest();
         var userRequest = registerCustomerRequest.getUser();
-        var user = new User();
+        var user = new UserEntity();
         when(createUserUseCase.execute(userRequest.getEmail(), userRequest.getPassword(), UserType.CUSTOMER))
                 .thenReturn(user);
 
-        var customerEntity = new CustomerProfile();
+        var customerEntity = new CustomerProfileEntity();
         when(convertToCustomerProfileEntityUseCase.execute(any()))
                 .thenReturn(customerEntity);
 

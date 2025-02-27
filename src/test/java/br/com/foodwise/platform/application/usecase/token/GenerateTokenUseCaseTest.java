@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.application.usecase.token;
 
-import br.com.foodwise.platform.domain.entities.User;
+import br.com.foodwise.platform.gateway.entities.UserEntity;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -40,12 +40,12 @@ class GenerateTokenUseCaseTest {
     @Test
     @DisplayName("Should generate valid token")
     void execute_shouldGenerateValidToken() {
-        User user = Instancio.create(User.class);
-        user.setEmail("test@example.com");
+        UserEntity userEntity = Instancio.create(UserEntity.class);
+        userEntity.setEmail("test@example.com");
         Instant expiration = LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
         when(expirationDateUseCase.execute()).thenReturn(expiration);
 
-        String token = useCase.execute(user);
+        String token = useCase.execute(userEntity);
 
         assertNotNull(token);
         assertDoesNotThrow(() -> JWT.require(Algorithm.HMAC256(secret)).build().verify(token));
@@ -57,10 +57,10 @@ class GenerateTokenUseCaseTest {
     @Test
     @DisplayName("Should throw IllegalArgumentException on generate token")
     void execute_shouldThrowIllegalArgumentException_whenJWTCreationExceptionOccurs() {
-        User user = new User();
-        user.setEmail("test@example.com");
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail("test@example.com");
         when(expirationDateUseCase.execute()).thenThrow(new JWTCreationException("Test Exception", new Exception()));
 
-        assertThrows(IllegalArgumentException.class, () -> useCase.execute(user));
+        assertThrows(IllegalArgumentException.class, () -> useCase.execute(userEntity));
     }
 }

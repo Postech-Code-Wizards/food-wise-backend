@@ -6,7 +6,7 @@ import br.com.foodwise.platform.application.usecase.menu.RetrieveAllMenusByResta
 import br.com.foodwise.platform.application.usecase.menu.RetrieveAllMenusUseCase;
 import br.com.foodwise.platform.application.usecase.menu.RetrieveMenuUseCase;
 import br.com.foodwise.platform.application.usecase.menu.UpdateMenuUseCase;
-import br.com.foodwise.platform.domain.entities.Menu;
+import br.com.foodwise.platform.gateway.entities.MenuEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,24 +23,24 @@ public class MenuService {
     private final UpdateMenuUseCase updateMenuUseCase;
     private final DeleteMenuUseCase deleteMenuUseCase;
 
-    public Menu createMenu(Menu menu) {
-        return createMenuUseCase.execute(menu);
+    public MenuEntity createMenu(MenuEntity menuEntity) {
+        return createMenuUseCase.execute(menuEntity);
     }
 
-    public Menu getMenuById(Long id) {
+    public MenuEntity getMenuById(Long id) {
         return retrieveMenuUseCase.execute(id);
     }
 
-    public List<Menu> getAllMenusByRestaurantName(String restaurantName) {
+    public List<MenuEntity> getAllMenusByRestaurantName(String restaurantName) {
         return retrieveAllMenusByRestaurantNameUseCase.execute(restaurantName);
     }
 
-    public List<Menu> getAllMenus() {
+    public List<MenuEntity> getAllMenus() {
         return retrieveAllMenusUseCase.execute();
     }
 
-    public Menu updateMenu(Menu menu) {
-        return updateMenuUseCase.execute(menu);
+    public MenuEntity updateMenu(MenuEntity menuEntity) {
+        return updateMenuUseCase.execute(menuEntity);
     }
 
     public void deleteMenu(Long id) {

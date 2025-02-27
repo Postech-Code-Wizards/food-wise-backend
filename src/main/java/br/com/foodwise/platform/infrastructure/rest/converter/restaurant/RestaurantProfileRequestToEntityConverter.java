@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.infrastructure.rest.converter.restaurant;
 
-import br.com.foodwise.platform.domain.entities.RestaurantProfile;
+import br.com.foodwise.platform.gateway.entities.RestaurantProfileEntity;
 import br.com.foodwise.platform.infrastructure.rest.converter.common.AddressRequestToEntityConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.common.PhoneRequestToEntityConverter;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
@@ -11,21 +11,21 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RestaurantProfileRequestToEntityConverter implements Converter<RestaurantProfileRequest, RestaurantProfile> {
+public class RestaurantProfileRequestToEntityConverter implements Converter<RestaurantProfileRequest, RestaurantProfileEntity> {
     private final AddressRequestToEntityConverter addressRequestToEntityConverter;
     private final PhoneRequestToEntityConverter phoneRequestToEntityConverter;
 
     @Override
-    public RestaurantProfile convert(RestaurantProfileRequest source) {
-        var restaurantProfile = new RestaurantProfile();
+    public RestaurantProfileEntity convert(RestaurantProfileRequest source) {
+        var restaurantProfile = new RestaurantProfileEntity();
 
         var mapper = new ModelMapper();
         mapper.map(source, restaurantProfile);
 
-        restaurantProfile.setAddress(addressRequestToEntityConverter
+        restaurantProfile.setAddressEntity(addressRequestToEntityConverter
                 .convert(source.getAddress()));
         restaurantProfile
-                .setPhone(phoneRequestToEntityConverter
+                .setPhoneEntity(phoneRequestToEntityConverter
                         .convert(source.getPhone()));
 
         return restaurantProfile;

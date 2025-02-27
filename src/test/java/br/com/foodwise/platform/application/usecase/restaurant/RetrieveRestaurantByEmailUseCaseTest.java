@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.application.usecase.restaurant;
 
-import br.com.foodwise.platform.domain.entities.RestaurantProfile;
-import br.com.foodwise.platform.domain.repository.RestaurantProfileRepository;
+import br.com.foodwise.platform.gateway.entities.RestaurantProfileEntity;
+import br.com.foodwise.platform.gateway.repository.RestaurantProfileRepository;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,10 +34,10 @@ class RetrieveRestaurantByEmailUseCaseTest {
         String email = "test@code-wizards.com";
         RestaurantProfileResponse restaurantProfileResponse = Instancio.create(RestaurantProfileResponse.class);
 
-        RestaurantProfile restaurantProfile = new RestaurantProfile();
+        RestaurantProfileEntity restaurantProfileEntity = new RestaurantProfileEntity();
         when(restaurantProfileRepository.findByUserEmail(email))
-                .thenReturn(java.util.Optional.of(restaurantProfile));
-        when(convertToRestaurantProfileResponse.execute(restaurantProfile))
+                .thenReturn(java.util.Optional.of(restaurantProfileEntity));
+        when(convertToRestaurantProfileResponse.execute(restaurantProfileEntity))
                 .thenReturn(restaurantProfileResponse);
 
         RestaurantProfileResponse response = retrieveRestaurantByEmailUseCase.execute(email);

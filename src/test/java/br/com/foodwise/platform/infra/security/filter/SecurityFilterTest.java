@@ -1,8 +1,8 @@
 package br.com.foodwise.platform.infra.security.filter;
 
 import br.com.foodwise.platform.application.service.TokenService;
-import br.com.foodwise.platform.domain.entities.User;
-import br.com.foodwise.platform.domain.repository.UserRepository;
+import br.com.foodwise.platform.gateway.entities.UserEntity;
+import br.com.foodwise.platform.gateway.repository.UserRepository;
 import br.com.foodwise.platform.infrastructure.security.filter.SecurityFilter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -56,7 +56,7 @@ class SecurityFilterTest {
     void shouldSetAuthenticationWhenTokenIsValid() throws IOException, ServletException {
         var token = "validToken";
         var userLogin = "user@code-wizards.com";
-        var user = mock(User.class);
+        var user = mock(UserEntity.class);
 
         request.addHeader("Authorization", "Bearer " + token);
 

@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.application.usecase.menu;
 
-import br.com.foodwise.platform.domain.repository.MenuRepository;
+import br.com.foodwise.platform.gateway.repository.MenuRepository;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

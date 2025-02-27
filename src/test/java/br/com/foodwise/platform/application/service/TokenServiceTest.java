@@ -3,7 +3,7 @@ package br.com.foodwise.platform.application.service;
 import br.com.foodwise.platform.application.usecase.token.ExpirationDateUseCase;
 import br.com.foodwise.platform.application.usecase.token.GenerateTokenUseCase;
 import br.com.foodwise.platform.application.usecase.token.ValidateTokenUseCase;
-import br.com.foodwise.platform.domain.entities.User;
+import br.com.foodwise.platform.gateway.entities.UserEntity;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,23 +30,23 @@ class TokenServiceTest {
     @InjectMocks
     private TokenService tokenService;
 
-    private User user;
+    private UserEntity userEntity;
     private String token;
 
     @BeforeEach
     void setUp() {
-        user = Instancio.create(User.class);
+        userEntity = Instancio.create(UserEntity.class);
         token = "testToken";
     }
 
     @Test
     void generateToken_ShouldCallGenerateTokenUseCase() {
-        when(generateTokenUseCase.execute(user)).thenReturn(token);
+        when(generateTokenUseCase.execute(userEntity)).thenReturn(token);
 
-        String generatedToken = tokenService.generateToken(user);
+        String generatedToken = tokenService.generateToken(userEntity);
 
         assertEquals(token, generatedToken);
-        verify(generateTokenUseCase, times(1)).execute(user);
+        verify(generateTokenUseCase, times(1)).execute(userEntity);
     }
 
     @Test

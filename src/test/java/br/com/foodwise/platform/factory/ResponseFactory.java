@@ -12,8 +12,8 @@ public class ResponseFactory {
         var response = new CustomerProfileResponse();
         response.setFirstName("Test");
         response.setLastName("Value");
-        response.setAddress(buildAddress());
-        response.setPhone(buildPhone());
+        response.setAddressEntity(buildAddress());
+        response.setPhoneEntity(buildPhone());
         return response;
     }
 
@@ -25,8 +25,8 @@ public class ResponseFactory {
         response.setDeliveryRadius((short) 1);
         response.setCuisineType("Random");
         response.setOpen(false);
-        response.setAddress(buildAddress());
-        response.setPhone(buildPhone());
+        response.setAddressEntity(buildAddress());
+        response.setPhoneEntity(buildPhone());
         return response;
     }
 

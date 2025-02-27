@@ -1,12 +1,9 @@
 package br.com.foodwise.platform.factory;
 
-import br.com.foodwise.platform.domain.entities.Address;
-import br.com.foodwise.platform.domain.entities.CustomerProfile;
-import br.com.foodwise.platform.domain.entities.Phone;
-import br.com.foodwise.platform.domain.entities.RestaurantProfile;
-import br.com.foodwise.platform.domain.entities.User;
-import br.com.foodwise.platform.domain.entities.enums.PhoneType;
-import br.com.foodwise.platform.domain.entities.enums.UserType;
+import br.com.foodwise.platform.gateway.entities.*;
+import br.com.foodwise.platform.gateway.entities.UserEntity;
+import br.com.foodwise.platform.domain.enums.PhoneType;
+import br.com.foodwise.platform.domain.enums.UserType;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.AddressRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PhoneRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
@@ -79,9 +76,9 @@ public class RequestFactory {
         return request;
     }
 
-    public static User buildUserEntity() {
+    public static UserEntity buildUserEntity() {
         var userRequest = buildUserRequest();
-        var user = new User();
+        var user = new UserEntity();
         user.setId(1L);
         user.setUpdatedAt(null);
         user.setActive(true);
@@ -92,9 +89,9 @@ public class RequestFactory {
         return user;
     }
 
-    public static Address buildAddressEntity() {
+    public static AddressEntity buildAddressEntity() {
         var addressRequest = buildAddressRequest();
-        var address = new Address();
+        var address = new AddressEntity();
         address.setId(1L);
         address.setUpdatedAt(null);
         address.setCity(addressRequest.getCity());
@@ -108,9 +105,9 @@ public class RequestFactory {
         return address;
     }
 
-    public static Phone buildPhoneEntity() {
+    public static PhoneEntity buildPhoneEntity() {
         var phoneRequest = buildPhoneRequest();
-        var phone = new Phone();
+        var phone = new PhoneEntity();
         phone.setId(1L);
         phone.setUpdatedAt(null);
         phone.setCreatedAt(ZonedDateTime.now());
@@ -120,25 +117,25 @@ public class RequestFactory {
         return phone;
     }
 
-    public static CustomerProfile buildCustomerProfileEntity() {
+    public static CustomerProfileEntity buildCustomerProfileEntity() {
         var customerProfileRequest = buildCustomerProfileRequest();
-        var customerProfile = new CustomerProfile();
-        customerProfile.setUser(buildUserEntity());
+        var customerProfile = new CustomerProfileEntity();
+        customerProfile.setUserEntity(buildUserEntity());
         customerProfile.setUpdatedAt(null);
         customerProfile.setCreatedAt(ZonedDateTime.now());
         customerProfile.setFirstName(customerProfileRequest.getFirstName());
         customerProfile.setLastName(customerProfileRequest.getLastName());
-        customerProfile.setAddress(buildAddressEntity());
-        customerProfile.setPhone(buildPhoneEntity());
+        customerProfile.setAddressEntity(buildAddressEntity());
+        customerProfile.setPhoneEntity(buildPhoneEntity());
         return customerProfile;
     }
 
-    public static RestaurantProfile buildRestaurantProfileEntity() {
+    public static RestaurantProfileEntity buildRestaurantProfileEntity() {
         var restaurantProfileRequest = buildRestaurantProfileRequest();
-        var restaurantProfile = new RestaurantProfile();
-        restaurantProfile.setUser(buildUserEntity());
-        restaurantProfile.setPhone(buildPhoneEntity());
-        restaurantProfile.setAddress(buildAddressEntity());
+        var restaurantProfile = new RestaurantProfileEntity();
+        restaurantProfile.setUserEntity(buildUserEntity());
+        restaurantProfile.setPhoneEntity(buildPhoneEntity());
+        restaurantProfile.setAddressEntity(buildAddressEntity());
         restaurantProfile.setUpdatedAt(null);
         restaurantProfile.setCreatedAt(ZonedDateTime.now());
         restaurantProfile.setBusinessName(restaurantProfileRequest.getBusinessName());

@@ -2,7 +2,7 @@
 **Foodwise** is a project developed with **Java JDK 21** and **Spring Boot**. The objective of this application is to provide a platform to help users request/offer meals in a practical and quick way. This project demonstrates the creation of a modern and scalable application with Java, using the latest technologies.
 
 ## About the project 
-![Foodwise Project Description](https://github.com/user-attachments/assets/ed76d10b-392b-4594-a456-ecc9572e70f0)
+![Foodwise Project Description](https://github.com/userEntity-attachments/assets/ed76d10b-392b-4594-a456-ecc9572e70f0)
 
 ## Prerequisites
 
@@ -137,8 +137,8 @@ To run the tests, use the following command:
 
 ### Manual tests
 Follow through the postman requests.
-Everytime a user is updated they are logged out of the system and have to login again.
-The user can only update and delete their own profile. This is so that in the future we have ADMINs who are capable of visiting other profiles, but so far, customer and restaurant have regulated access so that we don't expose sensitive data.
+Everytime a userEntity is updated they are logged out of the system and have to login again.
+The userEntity can only update and delete their own profile. This is so that in the future we have ADMINs who are capable of visiting other profiles, but so far, customer and restaurant have regulated access so that we don't expose sensitive data.
 
 ## Contribution
 Contributions are very welcome! If you would like to contribute to Foodwise, please follow these steps::    

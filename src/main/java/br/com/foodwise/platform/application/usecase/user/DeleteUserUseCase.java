@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.application.usecase.user;
 
-import br.com.foodwise.platform.domain.entities.User;
-import br.com.foodwise.platform.domain.entities.enums.UserType;
+import br.com.foodwise.platform.gateway.entities.UserEntity;
+import br.com.foodwise.platform.domain.enums.UserType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +16,13 @@ public class DeleteUserUseCase {
 
     public void execute(long id, UserType userType) {
         validateUserIsAuthenticated.execute(id);
-        User userFound = findActiveUser.execute(id, userType);
-        deleteUser(userFound);
+        UserEntity userEntityFound = findActiveUser.execute(id, userType);
+        deleteUser(userEntityFound);
     }
 
-    private static void deleteUser(User userFound) {
-        userFound.setActive(false);
-        userFound.setDeletedAt(ZonedDateTime.now());
+    private static void deleteUser(UserEntity userEntityFound) {
+        userEntityFound.setActive(false);
+        userEntityFound.setDeletedAt(ZonedDateTime.now());
     }
 
 }

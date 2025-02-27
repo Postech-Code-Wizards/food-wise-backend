@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.application.usecase.customer;
 
-import br.com.foodwise.platform.domain.repository.CustomerProfileRepository;
+import br.com.foodwise.platform.gateway.repository.CustomerProfileRepository;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
 import jakarta.transaction.Transactional;
@@ -24,9 +24,9 @@ public class UpdateCustomerProfileUseCase {
 
         existingCustomer.setFirstName(customerProfile.getFirstName());
         existingCustomer.setLastName(customerProfile.getLastName());
-        existingCustomer.setAddress(customerProfile.getAddress());
+        existingCustomer.setAddressEntity(customerProfile.getAddressEntity());
         existingCustomer.setUpdatedAt(ZonedDateTime.now());
-        existingCustomer.setPhone(customerProfile.getPhone());
+        existingCustomer.setPhoneEntity(customerProfile.getPhoneEntity());
 
         customerProfileRepository.save(existingCustomer);
     }

@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.application.usecase.user;
 
-import br.com.foodwise.platform.domain.entities.enums.UserType;
-import br.com.foodwise.platform.domain.repository.UserRepository;
+import br.com.foodwise.platform.domain.enums.UserType;
+import br.com.foodwise.platform.gateway.repository.UserRepository;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import jakarta.transaction.Transactional;

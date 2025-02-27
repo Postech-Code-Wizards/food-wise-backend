@@ -1,8 +1,8 @@
 package br.com.foodwise.platform.application.service;
 
 import br.com.foodwise.platform.application.usecase.user.*;
-import br.com.foodwise.platform.domain.entities.User;
-import br.com.foodwise.platform.domain.entities.enums.UserType;
+import br.com.foodwise.platform.gateway.entities.UserEntity;
+import br.com.foodwise.platform.domain.enums.UserType;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class UserService {
     private final UpdatePasswordUseCase updatePasswordUseCase;
     private final LoadUserByUsernameUseCase loadUserByUsernameUseCase;
 
-    public User createUser(String email, String password, UserType role) {
+    public UserEntity createUser(String email, String password, UserType role) {
         return createUserUseCase.execute(email, password, role);
     }
 

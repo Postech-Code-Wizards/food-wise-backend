@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.application.usecase.customer;
 
-import br.com.foodwise.platform.domain.entities.CustomerProfile;
+import br.com.foodwise.platform.gateway.entities.CustomerProfileEntity;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
 import br.com.foodwise.platform.infrastructure.rest.converter.customer.CustomerProfileRequestToEntityConverter;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
@@ -14,7 +14,7 @@ public class ConvertToCustomerProfileEntityUseCase {
 
     private final CustomerProfileRequestToEntityConverter customerProfileRequestToEntityConverter;
 
-    public CustomerProfile execute(CustomerProfileRequest customerProfileRequest) {
+    public CustomerProfileEntity execute(CustomerProfileRequest customerProfileRequest) {
         var customer = customerProfileRequestToEntityConverter
                 .convert(customerProfileRequest);
         if (ObjectUtils.isEmpty(customer)) {

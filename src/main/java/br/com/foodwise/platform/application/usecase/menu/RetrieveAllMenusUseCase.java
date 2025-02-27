@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.application.usecase.menu;
 
-import br.com.foodwise.platform.domain.entities.Menu;
-import br.com.foodwise.platform.domain.repository.MenuRepository;
+import br.com.foodwise.platform.gateway.entities.MenuEntity;
+import br.com.foodwise.platform.gateway.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.List;
 public class RetrieveAllMenusUseCase {
     private final MenuRepository menuRepository;
 
-    public List<Menu> execute() {
+    public List<MenuEntity> execute() {
         return menuRepository.findAll();
     }
 }

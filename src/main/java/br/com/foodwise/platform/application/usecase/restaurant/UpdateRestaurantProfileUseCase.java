@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.application.usecase.restaurant;
 
-import br.com.foodwise.platform.domain.repository.RestaurantProfileRepository;
+import br.com.foodwise.platform.gateway.repository.RestaurantProfileRepository;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import jakarta.transaction.Transactional;
@@ -28,8 +28,8 @@ public class UpdateRestaurantProfileUseCase {
         existingRestaurantProfile.setDeliveryRadius(restaurantProfile.getDeliveryRadius());
         existingRestaurantProfile.setCuisineType(restaurantProfile.getCuisineType());
         existingRestaurantProfile.setUpdatedAt(ZonedDateTime.now());
-        existingRestaurantProfile.setAddress(restaurantProfile.getAddress());
-        existingRestaurantProfile.setPhone(restaurantProfile.getPhone());
+        existingRestaurantProfile.setAddressEntity(restaurantProfile.getAddressEntity());
+        existingRestaurantProfile.setPhoneEntity(restaurantProfile.getPhoneEntity());
 
         restaurantProfileRepository.save(existingRestaurantProfile);
     }

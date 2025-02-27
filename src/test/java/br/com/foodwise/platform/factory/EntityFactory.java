@@ -1,11 +1,8 @@
 package br.com.foodwise.platform.factory;
 
-import br.com.foodwise.platform.domain.entities.Address;
-import br.com.foodwise.platform.domain.entities.CustomerProfile;
-import br.com.foodwise.platform.domain.entities.Menu;
-import br.com.foodwise.platform.domain.entities.Phone;
-import br.com.foodwise.platform.domain.entities.RestaurantProfile;
-import br.com.foodwise.platform.domain.entities.enums.PhoneType;
+import br.com.foodwise.platform.gateway.entities.*;
+import br.com.foodwise.platform.gateway.entities.MenuEntity;
+import br.com.foodwise.platform.domain.enums.PhoneType;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -13,20 +10,20 @@ import java.time.ZonedDateTime;
 import static br.com.foodwise.platform.factory.SecurityHelperFactory.buildMockUser;
 
 public class EntityFactory {
-    public static CustomerProfile buildCustomerProfile() {
-        var customerProfile = new CustomerProfile();
+    public static CustomerProfileEntity buildCustomerProfile() {
+        var customerProfile = new CustomerProfileEntity();
         customerProfile.setFirstName("");
         customerProfile.setLastName("");
-        customerProfile.setAddress(buildAddress());
+        customerProfile.setAddressEntity(buildAddress());
         customerProfile.setCreatedAt(ZonedDateTime.now());
         customerProfile.setUpdatedAt(ZonedDateTime.now());
-        customerProfile.setUser(SecurityHelperFactory.buildMockUser());
-        customerProfile.setPhone(buildPhone());
+        customerProfile.setUserEntity(SecurityHelperFactory.buildMockUser());
+        customerProfile.setPhoneEntity(buildPhone());
         return customerProfile;
     }
 
-    public static RestaurantProfile buildRestaurantProfile() {
-        var restaurantProfile = new RestaurantProfile();
+    public static RestaurantProfileEntity buildRestaurantProfile() {
+        var restaurantProfile = new RestaurantProfileEntity();
         restaurantProfile.setBusinessName("");
         restaurantProfile.setDescription("");
         restaurantProfile.setBusinessHours("");
@@ -35,14 +32,14 @@ public class EntityFactory {
         restaurantProfile.setOpen(false);
         restaurantProfile.setCreatedAt(ZonedDateTime.now());
         restaurantProfile.setUpdatedAt(ZonedDateTime.now());
-        restaurantProfile.setUser(SecurityHelperFactory.buildMockUser());
-        restaurantProfile.setAddress(buildAddress());
-        restaurantProfile.setPhone(buildPhone());
+        restaurantProfile.setUserEntity(SecurityHelperFactory.buildMockUser());
+        restaurantProfile.setAddressEntity(buildAddress());
+        restaurantProfile.setPhoneEntity(buildPhone());
         return restaurantProfile;
     }
 
-    public static Address buildAddress() {
-        var address = new Address();
+    public static AddressEntity buildAddress() {
+        var address = new AddressEntity();
         address.setId(0L);
         address.setStreet("");
         address.setCity("");
@@ -57,8 +54,8 @@ public class EntityFactory {
         return address;
     }
 
-    public static Phone buildPhone() {
-        var phone = new Phone();
+    public static PhoneEntity buildPhone() {
+        var phone = new PhoneEntity();
         phone.setId(0L);
         phone.setAreaCode("");
         phone.setPhoneNumber("");
@@ -68,22 +65,22 @@ public class EntityFactory {
         return phone;
     }
 
-    public static Menu buildMenu() {
-        var menu = new Menu();
+    public static MenuEntity buildMenu() {
+        var menu = new MenuEntity();
         menu.setId(0L);
-        RestaurantProfile restaurantProfile = new RestaurantProfile();
-        restaurantProfile.setUserId(0L);
-        restaurantProfile.setBusinessName("");
-        restaurantProfile.setDescription("");
-        restaurantProfile.setBusinessHours("");
-        restaurantProfile.setDeliveryRadius((short) 0);
-        restaurantProfile.setCuisineType("");
-        restaurantProfile.setOpen(false);
-        restaurantProfile.setCreatedAt(ZonedDateTime.now());
-        restaurantProfile.setUpdatedAt(ZonedDateTime.now());
-        restaurantProfile.setUser(buildMockUser());
-        restaurantProfile.setAddress(buildAddress());
-        restaurantProfile.setPhone(buildPhone());
+        RestaurantProfileEntity restaurantProfileEntity = new RestaurantProfileEntity();
+        restaurantProfileEntity.setUserId(0L);
+        restaurantProfileEntity.setBusinessName("");
+        restaurantProfileEntity.setDescription("");
+        restaurantProfileEntity.setBusinessHours("");
+        restaurantProfileEntity.setDeliveryRadius((short) 0);
+        restaurantProfileEntity.setCuisineType("");
+        restaurantProfileEntity.setOpen(false);
+        restaurantProfileEntity.setCreatedAt(ZonedDateTime.now());
+        restaurantProfileEntity.setUpdatedAt(ZonedDateTime.now());
+        restaurantProfileEntity.setUserEntity(buildMockUser());
+        restaurantProfileEntity.setAddressEntity(buildAddress());
+        restaurantProfileEntity.setPhoneEntity(buildPhone());
         return menu;
     }
 }

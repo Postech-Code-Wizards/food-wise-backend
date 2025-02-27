@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.application.usecase.menu;
 
-import br.com.foodwise.platform.domain.entities.Menu;
-import br.com.foodwise.platform.domain.repository.MenuRepository;
+import br.com.foodwise.platform.gateway.entities.MenuEntity;
+import br.com.foodwise.platform.gateway.repository.MenuRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,28 +28,28 @@ class RetrieveAllMenusUseCaseTest {
     @Mock
     private MenuRepository menuRepository;
 
-    private Menu menu1;
-    private Menu menu2;
+    private MenuEntity menuEntity1;
+    private MenuEntity menuEntity2;
 
     @BeforeEach
     void setUp() {
-        menu1 = buildMenu();
+        menuEntity1 = buildMenu();
 
-        menu2 = buildMenu();
+        menuEntity2 = buildMenu();
     }
 
     @Test
     void shouldRetrieveAllMenusSuccessfully() {
-        List<Menu> menus = List.of(menu1, menu2);
+        List<MenuEntity> menuEntities = List.of(menuEntity1, menuEntity2);
 
-        when(menuRepository.findAll()).thenReturn(menus);
+        when(menuRepository.findAll()).thenReturn(menuEntities);
 
-        List<Menu> retrievedMenus = retrieveAllMenusUseCase.execute();
+        List<MenuEntity> retrievedMenuEntities = retrieveAllMenusUseCase.execute();
 
-        assertNotNull(retrievedMenus);
-        assertEquals(2, retrievedMenus.size());
-        assertEquals(menu1.getId(), retrievedMenus.get(0).getId());
-        assertEquals(menu2.getId(), retrievedMenus.get(1).getId());
+        assertNotNull(retrievedMenuEntities);
+        assertEquals(2, retrievedMenuEntities.size());
+        assertEquals(menuEntity1.getId(), retrievedMenuEntities.get(0).getId());
+        assertEquals(menuEntity2.getId(), retrievedMenuEntities.get(1).getId());
         verify(menuRepository, times(1)).findAll();
     }
 
@@ -57,10 +57,10 @@ class RetrieveAllMenusUseCaseTest {
     void shouldReturnEmptyListWhenNoMenusExist() {
         when(menuRepository.findAll()).thenReturn(List.of());
 
-        List<Menu> retrievedMenus = retrieveAllMenusUseCase.execute();
+        List<MenuEntity> retrievedMenuEntities = retrieveAllMenusUseCase.execute();
 
-        assertNotNull(retrievedMenus);
-        assertTrue(retrievedMenus.isEmpty());
+        assertNotNull(retrievedMenuEntities);
+        assertTrue(retrievedMenuEntities.isEmpty());
         verify(menuRepository, times(1)).findAll();
     }
 }

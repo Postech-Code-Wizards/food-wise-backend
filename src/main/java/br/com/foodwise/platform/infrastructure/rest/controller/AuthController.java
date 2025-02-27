@@ -2,7 +2,7 @@ package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.application.service.AuthService;
 import br.com.foodwise.platform.application.service.TokenService;
-import br.com.foodwise.platform.domain.entities.User;
+import br.com.foodwise.platform.gateway.entities.UserEntity;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.AuthRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.AuthResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,7 +31,7 @@ public class AuthController implements AuthApi {
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
         AuthService.validateUserIsActive(auth);
-        var token = tokenService.generateToken((User) auth.getPrincipal());
+        var token = tokenService.generateToken((UserEntity) auth.getPrincipal());
 
         return ResponseEntity.ok(new AuthResponse(token));
     }

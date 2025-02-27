@@ -2,7 +2,7 @@ package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.application.service.CustomerProfileService;
 import br.com.foodwise.platform.application.service.UserService;
-import br.com.foodwise.platform.domain.entities.User;
+import br.com.foodwise.platform.gateway.entities.UserEntity;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
@@ -47,7 +47,7 @@ public class CustomerProfileController implements CustomerProfileApi {
     @Override
     public ResponseEntity<CustomerProfileResponse> retrieveMyProfile() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var user = (User) authentication.getPrincipal();
+        var user = (UserEntity) authentication.getPrincipal();
         var response = customerProfileService.retrieveCustomerByEmail(user.getEmail());
 
         return ResponseEntity.status(HttpStatus.OK).body(response);

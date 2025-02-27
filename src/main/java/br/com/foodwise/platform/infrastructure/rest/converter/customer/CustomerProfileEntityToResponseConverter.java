@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.infrastructure.rest.converter.customer;
 
-import br.com.foodwise.platform.domain.entities.CustomerProfile;
+import br.com.foodwise.platform.gateway.entities.CustomerProfileEntity;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.CustomerProfileResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class CustomerProfileEntityToResponseConverter
-        implements Converter<CustomerProfile, CustomerProfileResponse> {
+        implements Converter<CustomerProfileEntity, CustomerProfileResponse> {
 
     @Override
-    public CustomerProfileResponse convert(CustomerProfile source) {
+    public CustomerProfileResponse convert(CustomerProfileEntity source) {
         var response = new CustomerProfileResponse();
 
         var mapper = new ModelMapper();

@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.application.usecase.restaurant;
 
-import br.com.foodwise.platform.domain.entities.RestaurantProfile;
-import br.com.foodwise.platform.domain.repository.RestaurantProfileRepository;
+import br.com.foodwise.platform.gateway.entities.RestaurantProfileEntity;
+import br.com.foodwise.platform.gateway.repository.RestaurantProfileRepository;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +33,7 @@ class RetrieveRestaurantByBusinessNameUseCaseTest {
     @Test
     void shouldRetrieveRestaurantByBusinessNameSuccessfully() {
         var businessName = "My Restaurant";
-        var restaurantProfile = new RestaurantProfile();
+        var restaurantProfile = new RestaurantProfileEntity();
 
         when(restaurantProfileRepository.findByBusinessName(businessName))
                 .thenReturn(java.util.Optional.of(restaurantProfile));

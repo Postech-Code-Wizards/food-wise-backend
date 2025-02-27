@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.infrastructure.rest.dtos.request.register;
 
-import br.com.foodwise.platform.domain.entities.enums.PhoneType;
+import br.com.foodwise.platform.domain.enums.PhoneType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

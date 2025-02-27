@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.rest.controller;
 
 import br.com.foodwise.platform.application.service.TokenService;
-import br.com.foodwise.platform.domain.entities.User;
+import br.com.foodwise.platform.gateway.entities.UserEntity;
 import br.com.foodwise.platform.infrastructure.rest.controller.AuthController;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.AuthRequest;
@@ -50,7 +50,7 @@ class AuthControllerTest {
 
         var authRequest = new AuthRequest(email, password);
         var authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
-        var user = mock(User.class);
+        var user = mock(UserEntity.class);
         var authentication = mock(Authentication.class);
 
         when(authenticationManager.authenticate(authenticationToken)).thenReturn(authentication);
@@ -91,7 +91,7 @@ class AuthControllerTest {
 
         var authRequest = new AuthRequest(email, password);
         var authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
-        var user = Instancio.create(User.class);
+        var user = Instancio.create(UserEntity.class);
         user.setDeletedAt(ZonedDateTime.now());
         var authentication = mock(Authentication.class);
 

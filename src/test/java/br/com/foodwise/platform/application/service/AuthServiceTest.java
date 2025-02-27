@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.application.service;
 
-import br.com.foodwise.platform.domain.entities.User;
+import br.com.foodwise.platform.gateway.entities.UserEntity;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ class AuthServiceTest {
 
     @Test
     void shouldThrowException_whenUserIsDeleted() {
-        var user = Instancio.create(User.class);
+        var user = Instancio.create(UserEntity.class);
         user.setDeletedAt(ZonedDateTime.now());
         var authentication = mock(Authentication.class);
 

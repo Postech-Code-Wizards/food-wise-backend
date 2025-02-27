@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.application.usecase.customer;
 
-import br.com.foodwise.platform.domain.repository.CustomerProfileRepository;
+import br.com.foodwise.platform.gateway.repository.CustomerProfileRepository;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.CustomerProfileResponse;
 import lombok.RequiredArgsConstructor;

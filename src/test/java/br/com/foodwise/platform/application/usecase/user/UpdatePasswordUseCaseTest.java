@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.application.usecase.user;
 
-import br.com.foodwise.platform.domain.entities.User;
-import br.com.foodwise.platform.domain.repository.UserRepository;
+import br.com.foodwise.platform.gateway.entities.UserEntity;
+import br.com.foodwise.platform.gateway.repository.UserRepository;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import org.instancio.Instancio;
@@ -43,11 +43,11 @@ class UpdatePasswordUseCaseTest {
     void testExecuteShouldThrowBusinessExceptionWhenPasswordIsIncorrect() {
 
         PasswordRequest passwordRequest = Instancio.create(PasswordRequest.class);
-        User user = Instancio.create(User.class);
+        UserEntity userEntity = Instancio.create(UserEntity.class);
 
-        when(authentication.getPrincipal()).thenReturn(user);
+        when(authentication.getPrincipal()).thenReturn(userEntity);
         BCryptPasswordEncoder encoder = mock(BCryptPasswordEncoder.class);
-        when(encoder.matches(passwordRequest.getPassword(), user.getPassword())).thenReturn(false);
+        when(encoder.matches(passwordRequest.getPassword(), userEntity.getPassword())).thenReturn(false);
 
         assertThrows(BusinessException.class, () -> updatePasswordUseCase.execute(passwordRequest));
 
@@ -57,15 +57,15 @@ class UpdatePasswordUseCaseTest {
     void testExecuteShouldUpdatePasswordAndUpdateDateWhenPasswordIsCorrect() {
 
         PasswordRequest passwordRequest = Instancio.create(PasswordRequest.class);
-        User user = Instancio.create(User.class);
+        UserEntity userEntity = Instancio.create(UserEntity.class);
 
 
-        when(authentication.getPrincipal()).thenReturn(user);
-        user.setPassword(new BCryptPasswordEncoder().encode(passwordRequest.getPassword()));
+        when(authentication.getPrincipal()).thenReturn(userEntity);
+        userEntity.setPassword(new BCryptPasswordEncoder().encode(passwordRequest.getPassword()));
 
         updatePasswordUseCase.execute(passwordRequest);
 
-        verify(userRepository).save(user);
+        verify(userRepository).save(userEntity);
 
     }
 

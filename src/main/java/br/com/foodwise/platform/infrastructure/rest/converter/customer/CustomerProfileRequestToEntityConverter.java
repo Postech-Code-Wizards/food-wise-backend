@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.infrastructure.rest.converter.customer;
 
-import br.com.foodwise.platform.domain.entities.CustomerProfile;
+import br.com.foodwise.platform.gateway.entities.CustomerProfileEntity;
 import br.com.foodwise.platform.infrastructure.rest.converter.common.AddressRequestToEntityConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.common.PhoneRequestToEntityConverter;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
@@ -12,22 +12,22 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class CustomerProfileRequestToEntityConverter
-        implements Converter<CustomerProfileRequest, CustomerProfile> {
+        implements Converter<CustomerProfileRequest, CustomerProfileEntity> {
 
     private final AddressRequestToEntityConverter addressRequestToEntityConverter;
     private final PhoneRequestToEntityConverter phoneRequestToEntityConverter;
 
     @Override
-    public CustomerProfile convert(CustomerProfileRequest source) {
-        var customerProfile = new CustomerProfile();
+    public CustomerProfileEntity convert(CustomerProfileRequest source) {
+        var customerProfile = new CustomerProfileEntity();
 
         var mapper = new ModelMapper();
         mapper.map(source, customerProfile);
 
-        customerProfile.setAddress(addressRequestToEntityConverter
+        customerProfile.setAddressEntity(addressRequestToEntityConverter
                 .convert(source.getAddress()));
         customerProfile
-                .setPhone(phoneRequestToEntityConverter
+                .setPhoneEntity(phoneRequestToEntityConverter
                         .convert(source.getPhone()));
 
         return customerProfile;

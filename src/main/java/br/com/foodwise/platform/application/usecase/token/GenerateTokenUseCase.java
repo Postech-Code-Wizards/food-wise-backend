@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.application.usecase.token;
 
-import br.com.foodwise.platform.domain.entities.User;
+import br.com.foodwise.platform.gateway.entities.UserEntity;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -17,12 +17,12 @@ public class GenerateTokenUseCase {
 
     private final ExpirationDateUseCase expirationDateUseCase;
 
-    public String execute(User user) {
+    public String execute(UserEntity userEntity) {
         try {
             var algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("auth-api")
-                    .withSubject(user.getEmail())
+                    .withSubject(userEntity.getEmail())
                     .withExpiresAt(expirationDateUseCase.execute())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {

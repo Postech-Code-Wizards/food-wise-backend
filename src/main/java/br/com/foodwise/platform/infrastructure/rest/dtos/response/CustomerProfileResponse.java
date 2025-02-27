@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.infrastructure.rest.dtos.response;
 
-import br.com.foodwise.platform.domain.entities.Address;
-import br.com.foodwise.platform.domain.entities.Phone;
+import br.com.foodwise.platform.gateway.entities.AddressEntity;
+import br.com.foodwise.platform.gateway.entities.PhoneEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ public class CustomerProfileResponse {
 
     private String firstName;
     private String lastName;
-    private Address address;
-    private Phone phone;
+    private AddressEntity addressEntity;
+    private PhoneEntity phoneEntity;
 
 }

@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.application.usecase.customer;
 
-import br.com.foodwise.platform.domain.entities.CustomerProfile;
-import br.com.foodwise.platform.domain.repository.CustomerProfileRepository;
+import br.com.foodwise.platform.gateway.entities.CustomerProfileEntity;
+import br.com.foodwise.platform.gateway.repository.CustomerProfileRepository;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.CustomerProfileResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +43,7 @@ class RetrieveCustomerByEmailUseCaseTest {
     @Test
     void shouldRetrieveCustomerByEmailSuccessfully() {
         var email = "test@code-wizards.com";
-        var customerProfile = new CustomerProfile();
+        var customerProfile = new CustomerProfileEntity();
         when(customerProfileRepository.findByUserEmail(email))
                 .thenReturn(java.util.Optional.of(customerProfile));
         when(convertToCustomerProfileResponseUseCase.execute(customerProfile))

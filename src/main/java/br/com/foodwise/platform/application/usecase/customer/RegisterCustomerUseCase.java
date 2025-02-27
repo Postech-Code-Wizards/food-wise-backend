@@ -1,8 +1,8 @@
 package br.com.foodwise.platform.application.usecase.customer;
 
 import br.com.foodwise.platform.application.usecase.user.CreateUserUseCase;
-import br.com.foodwise.platform.domain.entities.enums.UserType;
-import br.com.foodwise.platform.domain.repository.CustomerProfileRepository;
+import br.com.foodwise.platform.domain.enums.UserType;
+import br.com.foodwise.platform.gateway.repository.CustomerProfileRepository;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class RegisterCustomerUseCase {
 
         var customerRequest = request.getCustomer();
         var newCustomer = convertToCustomerProfileEntity.execute(customerRequest);
-        newCustomer.setUser(user);
+        newCustomer.setUserEntity(user);
         customerProfileRepository.save(newCustomer);
     }
 

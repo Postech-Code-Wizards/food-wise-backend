@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.application.usecase.user;
 
-import br.com.foodwise.platform.domain.repository.UserRepository;
+import br.com.foodwise.platform.gateway.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

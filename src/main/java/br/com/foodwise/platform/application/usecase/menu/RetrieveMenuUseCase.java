@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.application.usecase.menu;
 
-import br.com.foodwise.platform.domain.entities.Menu;
-import br.com.foodwise.platform.domain.repository.MenuRepository;
+import br.com.foodwise.platform.gateway.entities.MenuEntity;
+import br.com.foodwise.platform.gateway.repository.MenuRepository;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ public class RetrieveMenuUseCase {
 
     private final MenuRepository menuRepository;
 
-    public Menu execute(Long id) {
+    public MenuEntity execute(Long id) {
         return menuRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("MENU_DOES_NOT_EXIST", ""));
     }
 }

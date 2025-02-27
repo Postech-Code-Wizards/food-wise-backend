@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.application.service.MenuService;
-import br.com.foodwise.platform.domain.entities.Menu;
+import br.com.foodwise.platform.gateway.entities.MenuEntity;
 import br.com.foodwise.platform.infrastructure.rest.converter.menu.MenuToMenuResponseConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.menu.MenuUpdateRequestToMenuConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.menu.RegisterMenuRequestToMenuConverter;
@@ -11,11 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -71,21 +67,21 @@ public class MenuController implements MenuApi {
         return ResponseEntity.noContent().build();
     }
 
-    private Menu fetchMenuById(Long id) {
+    private MenuEntity fetchMenuById(Long id) {
         return menuService.getMenuById(id);
     }
 
-    private Menu processUpdateMenu(Long id, RegisterMenuRequest menuRequestDTO) {
-        Menu existingMenu = fetchMenuById(id);
-        menuUpdateRequestToMenuConverter.convert(menuRequestDTO, existingMenu);
-        return menuService.updateMenu(existingMenu);
+    private MenuEntity processUpdateMenu(Long id, RegisterMenuRequest menuRequestDTO) {
+        MenuEntity existingMenuEntity = fetchMenuById(id);
+        menuUpdateRequestToMenuConverter.convert(menuRequestDTO, existingMenuEntity);
+        return menuService.updateMenu(existingMenuEntity);
     }
 
-    private Menu convertToMenu(RegisterMenuRequest menuRequestDTO) {
+    private MenuEntity convertToMenu(RegisterMenuRequest menuRequestDTO) {
         return registerMenuRequestToMenuConverter.convert(menuRequestDTO);
     }
 
-    private MenuResponse convertToMenuResponse(Menu menu) {
-        return menuToMenuResponseConverter.convert(menu);
+    private MenuResponse convertToMenuResponse(MenuEntity menuEntity) {
+        return menuToMenuResponseConverter.convert(menuEntity);
     }
 }
