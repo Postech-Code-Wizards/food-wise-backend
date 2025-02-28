@@ -150,6 +150,7 @@ class RestaurantProfileControllerTest {
                 case "businessHours" -> request.getRestaurant().setBusinessHours(fieldValue);
                 case "cuisineType" -> request.getRestaurant().setCuisineType(fieldValue);
                 case "address" -> request.getRestaurant().setAddress(null);
+                case "owner" -> request.setOwner(null);
                 default -> throw new IllegalArgumentException("Unknown field: " + fieldName);
             }
         }

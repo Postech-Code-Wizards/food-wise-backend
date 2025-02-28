@@ -15,8 +15,10 @@ import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.custom
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
+import jakarta.validation.Valid;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -43,6 +45,7 @@ public class RequestFactory {
         var request = new RegisterRestaurantRequest();
         request.setUser(buildUserRequest());
         request.setRestaurant(buildRestaurantProfileRequest());
+        request.setOwner(buildRestaurantOwnerRequest());
         return request;
     }
 
@@ -83,6 +86,15 @@ public class RequestFactory {
         restaurant.setAddress(buildAddressRequest());
         restaurant.setPhone(buildPhoneRequest());
         return restaurant;
+    }
+
+    public static RegisterRestaurantOwnerRequest buildRestaurantOwnerRequest() {
+        var restaurantOwner = new RegisterRestaurantOwnerRequest();
+        restaurantOwner.setFirstName("Thiago");
+        restaurantOwner.setLastName("Lucas");
+        restaurantOwner.setBusinessRegistrationNumber("83559607000");
+        restaurantOwner.setBusinessEmail("thiago@email.com");
+        return restaurantOwner;
     }
 
     public static CustomerProfileRequest buildCustomerProfileRequest() {

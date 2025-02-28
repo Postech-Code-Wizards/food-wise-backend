@@ -3,6 +3,7 @@ package br.com.foodwise.platform.infrastructure.rest.controller;
 import br.com.foodwise.platform.domain.entities.User;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
@@ -71,6 +72,14 @@ public class RestaurantProfileController implements RestaurantProfileApi {
     ) {
         logger.info("PUT -> /api/VX/restaurant/id");
         restaurantProfileService.updateRestaurantProfile(restaurantProfileRequest, id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Override
+    public ResponseEntity<RegisterRestaurantOwnerRequest> changeOwnerProfile(Long userId, RegisterRestaurantOwnerRequest registerRestaurantOwnerRequest) {
+        logger.info("PUT -> /api/VX/owner/id");
+        restaurantProfileService.updateRestaurantOwner(registerRestaurantOwnerRequest, userId);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

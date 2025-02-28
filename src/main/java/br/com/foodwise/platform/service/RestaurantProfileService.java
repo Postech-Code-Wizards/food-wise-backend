@@ -1,12 +1,16 @@
 package br.com.foodwise.platform.service;
 
+import br.com.foodwise.platform.domain.entities.RestaurantOwner;
 import br.com.foodwise.platform.domain.entities.RestaurantProfile;
 import br.com.foodwise.platform.domain.entities.enums.UserType;
+import br.com.foodwise.platform.domain.repository.RestaurantOwnerRepository;
 import br.com.foodwise.platform.domain.repository.RestaurantProfileRepository;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
+import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RegisterRestaurantOwnerRequestToEntityConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileEntityToResponseConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileRequestToEntityConverter;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
@@ -22,9 +26,11 @@ import java.time.ZonedDateTime;
 public class RestaurantProfileService {
 
     private final RestaurantProfileRepository restaurantProfileRepository;
+    private final RestaurantOwnerRepository restaurantOwnerRepository;
 
     private final RestaurantProfileRequestToEntityConverter restaurantProfileRequestToEntityConverter;
     private final RestaurantProfileEntityToResponseConverter restaurantProfileEntityToResponseConverter;
+    private final RegisterRestaurantOwnerRequestToEntityConverter registerRestaurantOwnerRequestToEntityConverter;
     private final UserService userService;
 
     @Transactional
@@ -36,6 +42,11 @@ public class RestaurantProfileService {
         var newRestaurant = this.convertToRestaurantProfileEntity(restaurantRequest);
         newRestaurant.setUser(user);
         restaurantProfileRepository.save(newRestaurant);
+
+        var restaurantOwnerRequest = request.getOwner();
+        var newRestaurantOwner = this.convertToRestaurantOwnerEntity(restaurantOwnerRequest);
+        newRestaurantOwner.setUser(user);
+        restaurantOwnerRepository.save(newRestaurantOwner);
     }
 
     @Transactional
@@ -62,6 +73,21 @@ public class RestaurantProfileService {
         userService.updateUserEmail(userRequest, id, UserType.RESTAURANT_OWNER);
     }
 
+    @Transactional
+    public void updateRestaurantOwner(RegisterRestaurantOwnerRequest registerRestaurantOwnerRequest, Long userId) {
+        var existingRestaurantOwner = restaurantOwnerRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Administrador"));
+
+        var restaurantOwner = convertToRestaurantOwnerEntity(registerRestaurantOwnerRequest);
+
+        existingRestaurantOwner.setFirstName(restaurantOwner.getFirstName());
+        existingRestaurantOwner.setLastName(restaurantOwner.getLastName());
+        existingRestaurantOwner.setBusinessRegistrationNumber(restaurantOwner.getBusinessRegistrationNumber());
+        existingRestaurantOwner.setBusinessEmail(restaurantOwner.getBusinessEmail());
+
+        restaurantOwnerRepository.save(existingRestaurantOwner);
+    }
+
     public RestaurantProfileResponse retrieveRestaurantByBusinessName(String businessName) {
         var restaurantProfile = restaurantProfileRepository
                 .findByBusinessName(businessName).orElseThrow(() -> new ResourceNotFoundException("Restaurante " + businessName));
@@ -71,7 +97,11 @@ public class RestaurantProfileService {
     public RestaurantProfileResponse retrieveRestaurantByEmail(String email) {
         var restaurantProfile = restaurantProfileRepository
                 .findByUserEmail(email).orElseThrow(() -> new ResourceNotFoundException("Email " + email));
-        return convertToRestaurantProfileResponse(restaurantProfile);
+        var restaurantOwner = restaurantOwnerRepository.findById(restaurantProfile.getUser().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant Owner " + restaurantProfile.getUser().getId()));
+        var restaurantProfileResponse = convertToRestaurantProfileResponse(restaurantProfile);
+        restaurantProfileResponse.setRestaurantOwner(restaurantOwner);
+        return restaurantProfileResponse;
     }
 
 
@@ -87,6 +117,15 @@ public class RestaurantProfileService {
     private RestaurantProfileResponse convertToRestaurantProfileResponse(RestaurantProfile restaurantProfile) {
         return restaurantProfileEntityToResponseConverter
                 .convert(restaurantProfile);
+    }
+
+    private RestaurantOwner convertToRestaurantOwnerEntity(RegisterRestaurantOwnerRequest restaurantOwnerRequest) {
+        var restaurantOwner = registerRestaurantOwnerRequestToEntityConverter
+                .convert(restaurantOwnerRequest);
+        if (ObjectUtils.isEmpty(restaurantOwner)) {
+            throw new ResourceNotFoundException("Owner");
+        }
+        return restaurantOwner;
     }
 
     @Transactional
