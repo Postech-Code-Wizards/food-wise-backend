@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.application.usecase.user;
 
-import br.com.foodwise.platform.gateway.repository.UserRepository;
+import br.com.foodwise.platform.gateway.UserGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoadUserByUsernameUseCase implements UserDetailsService  {
 
-    private final UserRepository userRepository;
+    private final UserGateway userGateway;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email);
+        return userGateway.findByEmail(email);
     }
 }

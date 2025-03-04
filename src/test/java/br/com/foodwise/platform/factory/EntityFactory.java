@@ -1,7 +1,6 @@
 package br.com.foodwise.platform.factory;
 
-import br.com.foodwise.platform.gateway.entities.*;
-import br.com.foodwise.platform.gateway.entities.MenuEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.*;
 import br.com.foodwise.platform.domain.enums.PhoneType;
 
 import java.math.BigDecimal;

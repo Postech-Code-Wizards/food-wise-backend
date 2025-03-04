@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.application.usecase.token;
 
-import br.com.foodwise.platform.gateway.entities.UserEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;

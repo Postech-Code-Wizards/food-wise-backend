@@ -2,7 +2,12 @@ package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.application.service.RestaurantProfileService;
 import br.com.foodwise.platform.application.service.UserService;
-import br.com.foodwise.platform.gateway.entities.UserEntity;
+import br.com.foodwise.platform.domain.RestaurantProfile;
+import br.com.foodwise.platform.domain.User;
+import br.com.foodwise.platform.infrastructure.rest.converter.common.PasswordRequestToDomainConverter;
+import br.com.foodwise.platform.infrastructure.rest.converter.common.UserRequestToDomainConverter;
+import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileDomainToResponseConverter;
+import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileRequestToDomainConverter;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
@@ -16,12 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,19 +31,24 @@ public class RestaurantProfileController implements RestaurantProfileApi {
     private static final Logger logger = LoggerFactory.getLogger(RestaurantProfileController.class);
     private final RestaurantProfileService restaurantProfileService;
     private final UserService userService;
+    private final RestaurantProfileRequestToDomainConverter restaurantProfileRequestToDomainConverter;
+    private final RestaurantProfileDomainToResponseConverter restaurantProfileDomainToResponseConverter;
+    private final UserRequestToDomainConverter userRequestToDomainConverter;
+    private final PasswordRequestToDomainConverter passwordRequestToDomainConverter;
 
     @Override
     public ResponseEntity<Void> registerRestaurant(@RequestBody @Valid RegisterRestaurantRequest request) {
-        restaurantProfileService.registerRestaurant(request);
+
+        User user = userRequestToDomainConverter.convert(request.getUser());
+        RestaurantProfile restaurantProfile = restaurantProfileRequestToDomainConverter.convert(request.getRestaurant(), user);
+        restaurantProfileService.registerRestaurant(restaurantProfile);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
     public ResponseEntity<RestaurantProfileResponse> retrieveMyProfile() {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var user = (UserEntity) authentication.getPrincipal();
-        var response = restaurantProfileService.retrieveRestaurantByEmail(user.getEmail());
-
+        var restaurantProfile = restaurantProfileService.retrieveRestaurantByEmail();
+        var response = restaurantProfileDomainToResponseConverter.convert(restaurantProfile);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -52,7 +57,8 @@ public class RestaurantProfileController implements RestaurantProfileApi {
                                                                                       @NotNull
                                                                                       @NotBlank
                                                                                       String businessName) {
-        var response = restaurantProfileService.retrieveRestaurantByBusinessName(businessName);
+        var restaurantProfile = restaurantProfileService.retrieveRestaurantByBusinessName(businessName);
+        var response = restaurantProfileDomainToResponseConverter.convert(restaurantProfile);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -69,9 +75,8 @@ public class RestaurantProfileController implements RestaurantProfileApi {
             @PathVariable("id") Long id,
             @Valid @RequestBody RestaurantProfileRequest restaurantProfileRequest
     ) {
-        logger.info("PUT -> /api/VX/restaurant/id");
-        restaurantProfileService.updateRestaurantProfile(restaurantProfileRequest, id);
-
+        RestaurantProfile restaurantProfile = restaurantProfileRequestToDomainConverter.convert(restaurantProfileRequest);
+        restaurantProfileService.updateRestaurantProfile(restaurantProfile, id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -80,22 +85,22 @@ public class RestaurantProfileController implements RestaurantProfileApi {
             @PathVariable("id") Long id,
             @Valid @RequestBody UserRequest userRequest
     ) {
-        logger.info("PUT -> /api/VX/user/id");
-        restaurantProfileService.updateRestaurantUserEmail(userRequest, id);
-
+        var user = userRequestToDomainConverter.convert(userRequest);
+        restaurantProfileService.updateRestaurantUserEmail(user, id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Override
     public ResponseEntity<RestaurantProfileResponse> retrieveRestaurantByEmail(@RequestParam @NotNull String email) {
-        var response = restaurantProfileService.retrieveRestaurantByEmail(email);
+        var restaurantProfile = restaurantProfileService.retrieveRestaurantByEmail();
+        var response = restaurantProfileDomainToResponseConverter.convert(restaurantProfile);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @Override
     public ResponseEntity<Void> changePassword(@Valid @RequestBody PasswordRequest passwordRequest) {
-        logger.info("PUT -> /api/VX/user");
-        this.userService.updatePassword(passwordRequest);
+        User user = passwordRequestToDomainConverter.convert(passwordRequest);
+        this.userService.updatePassword(user, passwordRequest.getNewPassword());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

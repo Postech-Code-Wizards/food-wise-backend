@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.application.usecase.user;
 
 import br.com.foodwise.platform.domain.enums.UserType;
-import br.com.foodwise.platform.gateway.repository.UserRepository;
+import br.com.foodwise.platform.gateway.database.jpa.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

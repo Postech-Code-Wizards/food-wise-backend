@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 @Getter
 @AllArgsConstructor
 public class RestaurantProfile {
-    private Long userId;
+    private Long id;
     private String businessName;
     private String description;
     private String businessHours;
@@ -20,5 +20,4 @@ public class RestaurantProfile {
     private User user;
     private Address address;
     private Phone phone;
-
 }

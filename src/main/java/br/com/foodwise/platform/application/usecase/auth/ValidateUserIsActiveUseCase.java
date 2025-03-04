@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.application.usecase.auth;
 
-import br.com.foodwise.platform.gateway.entities.UserEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -11,7 +11,7 @@ import java.util.Objects;
 @Service
 public class ValidateUserIsActiveUseCase {
 
-    public ValidateUserIsActiveUseCase() {
+    private ValidateUserIsActiveUseCase() {
     }
 
     public static void execute(Authentication auth) {

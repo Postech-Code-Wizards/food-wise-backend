@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.application.service.MenuService;
-import br.com.foodwise.platform.gateway.entities.MenuEntity;
+import br.com.foodwise.platform.domain.Menu;
 import br.com.foodwise.platform.infrastructure.rest.converter.menu.MenuToMenuResponseConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.menu.MenuUpdateRequestToMenuConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.menu.RegisterMenuRequestToMenuConverter;
@@ -67,21 +67,21 @@ public class MenuController implements MenuApi {
         return ResponseEntity.noContent().build();
     }
 
-    private MenuEntity fetchMenuById(Long id) {
+    private Menu fetchMenuById(Long id) {
         return menuService.getMenuById(id);
     }
 
-    private MenuEntity processUpdateMenu(Long id, RegisterMenuRequest menuRequestDTO) {
-        MenuEntity existingMenuEntity = fetchMenuById(id);
+    private Menu processUpdateMenu(Long id, RegisterMenuRequest menuRequestDTO) {
+        Menu existingMenuEntity = fetchMenuById(id);
         menuUpdateRequestToMenuConverter.convert(menuRequestDTO, existingMenuEntity);
         return menuService.updateMenu(existingMenuEntity);
     }
 
-    private MenuEntity convertToMenu(RegisterMenuRequest menuRequestDTO) {
+    private Menu convertToMenu(RegisterMenuRequest menuRequestDTO) {
         return registerMenuRequestToMenuConverter.convert(menuRequestDTO);
     }
 
-    private MenuResponse convertToMenuResponse(MenuEntity menuEntity) {
-        return menuToMenuResponseConverter.convert(menuEntity);
+    private MenuResponse convertToMenuResponse(Menu menu) {
+        return menuToMenuResponseConverter.convert(menu);
     }
 }

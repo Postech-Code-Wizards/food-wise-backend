@@ -1,22 +1,24 @@
 package br.com.foodwise.platform.application.usecase.restaurant;
 
-import br.com.foodwise.platform.gateway.repository.RestaurantProfileRepository;
-import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
-import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
+import br.com.foodwise.platform.domain.RestaurantProfile;
+import br.com.foodwise.platform.gateway.RestaurantProfileGateway;
+import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class RetrieveRestaurantByEmailUseCase {
 
-    private final RestaurantProfileRepository restaurantProfileRepository;
-    private final ConvertToRestaurantProfileResponseUseCase convertToRestaurantProfileResponse;
+    private final RestaurantProfileGateway restaurantProfileGateway;
 
-    public RestaurantProfileResponse execute(String email) {
-        var restaurantProfile = restaurantProfileRepository
-                .findByUserEmail(email).orElseThrow(() -> new ResourceNotFoundException("Email " + email));
-        return convertToRestaurantProfileResponse.execute(restaurantProfile);
+    public RestaurantProfile execute() {
+
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var user = (UserEntity) authentication.getPrincipal();
+
+        return restaurantProfileGateway
+                .findByUserEntityEmail(user.getEmail());
     }
-
 }

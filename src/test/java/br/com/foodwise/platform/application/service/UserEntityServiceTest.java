@@ -1,10 +1,11 @@
 package br.com.foodwise.platform.application.service;
 
-import br.com.foodwise.platform.application.usecase.user.*;
-import br.com.foodwise.platform.gateway.entities.UserEntity;
+import br.com.foodwise.platform.application.usecase.user.DeleteUserUseCase;
+import br.com.foodwise.platform.application.usecase.user.LoadUserByUsernameUseCase;
+import br.com.foodwise.platform.application.usecase.user.UpdatePasswordUseCase;
+import br.com.foodwise.platform.application.usecase.user.UpdateUserEmailUseCase;
+import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.domain.enums.UserType;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,9 +22,6 @@ import static org.mockito.Mockito.*;
 class UserEntityServiceTest {
 
     @Mock
-    private CreateUserUseCase createUserUseCase;
-
-    @Mock
     private DeleteUserUseCase deleteUserUseCase;
 
     @Mock
@@ -38,32 +36,18 @@ class UserEntityServiceTest {
     @InjectMocks
     private UserService userService;
 
-    private UserEntity userEntity;
-    private UserRequest userRequest;
-    private PasswordRequest passwordRequest;
+    private User user;
 
     @BeforeEach
     void setUp() {
-        userEntity = Instancio.create(UserEntity.class);
-        userRequest = Instancio.create(UserRequest.class);
-        passwordRequest = Instancio.create(PasswordRequest.class);
-    }
-
-    @Test
-    void createUser_ShouldCallCreateUserUseCase() {
-        when(createUserUseCase.execute("test@example.com", "password", UserType.CUSTOMER)).thenReturn(userEntity);
-
-        UserEntity createdUserEntity = userService.createUser("test@example.com", "password", UserType.CUSTOMER);
-
-        assertEquals(userEntity, createdUserEntity);
-        verify(createUserUseCase, times(1)).execute("test@example.com", "password", UserType.CUSTOMER);
+        user = Instancio.create(User.class);
     }
 
     @Test
     void updateUserEmail_ShouldCallUpdateUserEmailUseCase() {
-        userService.updateUserEmail(userRequest, 1L, UserType.CUSTOMER);
+        userService.updateUserEmail(user, 1L, UserType.CUSTOMER);
 
-        verify(updateUserEmailUseCase, times(1)).execute(userRequest, 1L, UserType.CUSTOMER);
+        verify(updateUserEmailUseCase, times(1)).execute(user, 1L, UserType.CUSTOMER);
     }
 
     @Test
@@ -75,9 +59,10 @@ class UserEntityServiceTest {
 
     @Test
     void updatePassword_ShouldCallUpdatePasswordUseCase() {
-        userService.updatePassword(passwordRequest);
+        String newPassword = Instancio.create(String.class);
+        userService.updatePassword(user, newPassword);
 
-        verify(updatePasswordUseCase, times(1)).execute(passwordRequest);
+        verify(updatePasswordUseCase, times(1)).execute(user, newPassword);
     }
 
     @Test

@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.infrastructure.rest.dtos.response;
 
-import br.com.foodwise.platform.gateway.entities.AddressEntity;
-import br.com.foodwise.platform.gateway.entities.PhoneEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.AddressEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.PhoneEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

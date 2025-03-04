@@ -1,7 +1,6 @@
 package br.com.foodwise.platform.factory;
 
-import br.com.foodwise.platform.gateway.entities.*;
-import br.com.foodwise.platform.gateway.entities.UserEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.*;
 import br.com.foodwise.platform.domain.enums.PhoneType;
 import br.com.foodwise.platform.domain.enums.UserType;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.AddressRequest;

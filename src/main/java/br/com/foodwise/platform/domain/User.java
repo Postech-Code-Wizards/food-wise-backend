@@ -1,6 +1,7 @@
 package br.com.foodwise.platform.domain;
 
 import br.com.foodwise.platform.domain.enums.UserType;
+import br.com.foodwise.platform.gateway.database.jpa.entities.utils.CryptographyUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -18,4 +19,17 @@ public class User {
     private ZonedDateTime updatedAt;
     private ZonedDateTime deletedAt;
 
+    public void delete(){
+        this.isActive = false;
+        this.updatedAt = ZonedDateTime.now();
+        this.deletedAt = ZonedDateTime.now();
+    }
+
+    public void registerUser(UserType userType){
+        this.userType = userType;
+        this.password = CryptographyUtil.getEncryptedPassword(this.password);
+        this.isActive = true;
+        this.createdAt = ZonedDateTime.now();
+        this.updatedAt = ZonedDateTime.now();
+    }
 }

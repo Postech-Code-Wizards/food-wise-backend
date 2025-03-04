@@ -1,9 +1,9 @@
 package br.com.foodwise.platform.application.usecase.user;
 
+import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.domain.enums.UserType;
-import br.com.foodwise.platform.gateway.repository.UserRepository;
+import br.com.foodwise.platform.gateway.UserGateway;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -15,24 +15,30 @@ import java.time.ZonedDateTime;
 @RequiredArgsConstructor
 public class UpdateUserEmailUseCase {
 
-    private final UserRepository userRepository;
-    private final ConvertUserRequestToUserUseCase convertUserRequestToUserUseCase;
+    private final UserGateway userGateway;
 
     @Transactional
-    public void execute(UserRequest userRequest, Long id, UserType userType) {
-        var existingUser = userRepository.findByIdAndUserTypeAndDeletedAtIsNull(id, userType)
+    public void execute(User user, Long id, UserType userType) {
+        var existingUser = userGateway.findByIdAndUserTypeAndDeletedAtIsNull(id, userType)
                 .orElseThrow(() -> new ResourceNotFoundException("USER_DOES_NOT_EXIST", ""));
 
-        var user = convertUserRequestToUserUseCase.execute(userRequest);
-
-        if (ObjectUtils.isNotEmpty(user.getEmail()) && !userRequest.getPassword().equals(existingUser.getPassword())) {
-            existingUser.setEmail(user.getEmail());
+        if (ObjectUtils.isNotEmpty(user.getEmail()) && !user.getPassword().equals(existingUser.getPassword())) {
+            User userSave = populate(existingUser, user);
+            userGateway.save(userSave);
         }
+    }
 
-        existingUser.setUpdatedAt(ZonedDateTime.now());
-        existingUser.setActive(true);
-
-        userRepository.save(existingUser);
+    private static User populate(User existingUser, User user) {
+        return new User(
+                existingUser.getId(),
+                user.getEmail(),
+                existingUser.getPassword(),
+                existingUser.getUserType(),
+                existingUser.isActive(),
+                existingUser.getCreatedAt(),
+                ZonedDateTime.now(),
+                existingUser.getDeletedAt()
+        );
     }
 
 }

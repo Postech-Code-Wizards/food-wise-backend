@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.rest.converter.common;
 
-import br.com.foodwise.platform.infrastructure.rest.converter.common.AddressRequestToEntityConverter;
+import br.com.foodwise.platform.infrastructure.rest.converter.common.AddressRequestToDomainConverter;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.AddressRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @ExtendWith(MockitoExtension.class)
 class AddressEntityRequestToEntityConverterTest {
 
-    private AddressRequestToEntityConverter converter;
+    private AddressRequestToDomainConverter converter;
 
     @BeforeEach
     void setUp() {
-        converter = new AddressRequestToEntityConverter();
+        converter = new AddressRequestToDomainConverter();
     }
 
     @Test

@@ -2,7 +2,7 @@ package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.application.service.AuthService;
 import br.com.foodwise.platform.application.service.TokenService;
-import br.com.foodwise.platform.gateway.entities.UserEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.AuthRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.AuthResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;

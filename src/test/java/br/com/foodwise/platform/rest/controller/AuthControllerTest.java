@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.rest.controller;
 
 import br.com.foodwise.platform.application.service.TokenService;
-import br.com.foodwise.platform.gateway.entities.UserEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
 import br.com.foodwise.platform.infrastructure.rest.controller.AuthController;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.AuthRequest;

@@ -1,31 +1,27 @@
 package br.com.foodwise.platform.application.usecase.customer;
 
-import br.com.foodwise.platform.application.usecase.user.CreateUserUseCase;
-import br.com.foodwise.platform.gateway.entities.CustomerProfileEntity;
-import br.com.foodwise.platform.gateway.entities.UserEntity;
-import br.com.foodwise.platform.domain.enums.UserType;
-import br.com.foodwise.platform.gateway.repository.CustomerProfileRepository;
+import br.com.foodwise.platform.domain.CustomerProfile;
+import br.com.foodwise.platform.gateway.CustomerProfileGateway;
+import br.com.foodwise.platform.gateway.UserGateway;
+import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static br.com.foodwise.platform.factory.RequestFactory.buildValidRegisterCustomerRequest;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class RegisterCustomerUseCaseTest {
 
     @Mock
-    private CustomerProfileRepository customerProfileRepository;
+    private CustomerProfileGateway customerProfileGateway;
 
     @Mock
-    private ConvertToCustomerProfileEntityUseCase convertToCustomerProfileEntityUseCase;
-
-    @Mock
-    private CreateUserUseCase createUserUseCase;
+    private UserGateway userGateway;
 
     @InjectMocks
     private RegisterCustomerUseCase registerCustomerUseCase;
@@ -37,19 +33,24 @@ class RegisterCustomerUseCaseTest {
 
     @Test
     void shouldRegisterCustomerSuccessfully() {
-        var registerCustomerRequest = buildValidRegisterCustomerRequest();
-        var userRequest = registerCustomerRequest.getUser();
-        var user = new UserEntity();
-        when(createUserUseCase.execute(userRequest.getEmail(), userRequest.getPassword(), UserType.CUSTOMER))
-                .thenReturn(user);
 
-        var customerEntity = new CustomerProfileEntity();
-        when(convertToCustomerProfileEntityUseCase.execute(any()))
-                .thenReturn(customerEntity);
+        var customer = Instancio.create(CustomerProfile.class);
 
-        registerCustomerUseCase.execute(registerCustomerRequest);
+        registerCustomerUseCase.execute(customer);
 
-        verify(customerProfileRepository).save(customerEntity);
+        verify(customerProfileGateway).save(customer);
+    }
+
+    @Test
+    void shouldRegisterCustomerException() {
+
+        var customer = Instancio.create(CustomerProfile.class);
+
+        when(userGateway.existsByEmail(customer.getUser().getEmail()))
+                .thenReturn(true);
+
+        assertThrows(BusinessException.class, () ->
+                registerCustomerUseCase.execute(customer));
     }
 
 }

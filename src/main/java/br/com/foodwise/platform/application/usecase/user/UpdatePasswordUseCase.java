@@ -1,10 +1,11 @@
 package br.com.foodwise.platform.application.usecase.user;
 
-import br.com.foodwise.platform.gateway.entities.UserEntity;
-import br.com.foodwise.platform.gateway.entities.utils.CryptographyUtil;
-import br.com.foodwise.platform.gateway.repository.UserRepository;
+import br.com.foodwise.platform.domain.User;
+import br.com.foodwise.platform.gateway.UserGateway;
+import br.com.foodwise.platform.gateway.database.jpa.converter.UserEntityToDomainConverter;
+import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.utils.CryptographyUtil;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,24 +18,36 @@ import java.time.ZonedDateTime;
 @RequiredArgsConstructor
 public class UpdatePasswordUseCase {
 
-    private final UserRepository userRepository;
+    private final UserGateway userGateway;
+    private final UserEntityToDomainConverter userEntityToDomainConverter;
 
-    public void execute(PasswordRequest passwordRequest) {
+    public void execute(User user, String newPassword) {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var user = (UserEntity) authentication.getPrincipal();
+        var userEntityAuthentication = (UserEntity) authentication.getPrincipal();
+        var userAuthentication = userEntityToDomainConverter.convert(userEntityAuthentication);
 
-        boolean isValid = encoder.matches(passwordRequest.getPassword(), user.getPassword());
+        boolean isValid = encoder.matches(user.getPassword(), userEntityAuthentication.getPassword());
         if (isValid) {
-            user.setPassword(CryptographyUtil.getEncryptedPassword(passwordRequest.getNewPassword()));
+            var userSave = populate(userAuthentication, newPassword);
+            userGateway.save(userSave);
         } else {
             throw new BusinessException("INCORRECT_PASSWORD", HttpStatus.BAD_REQUEST, "");
         }
+    }
 
-        user.setUpdatedAt(ZonedDateTime.now());
-        userRepository.save(user);
+    private static User populate(User userAuthentication, String newPassword) {
+        return new User(
+                userAuthentication.getId(),
+                userAuthentication.getEmail(),
+                CryptographyUtil.getEncryptedPassword(newPassword),
+                userAuthentication.getUserType(),
+                userAuthentication.isActive(),
+                userAuthentication.getCreatedAt(),
+                ZonedDateTime.now(),
+                userAuthentication.getDeletedAt()
+        );
     }
 
 }

@@ -1,8 +1,7 @@
 package br.com.foodwise.platform.application.usecase.customer;
 
-import br.com.foodwise.platform.gateway.repository.CustomerProfileRepository;
-import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
+import br.com.foodwise.platform.domain.CustomerProfile;
+import br.com.foodwise.platform.gateway.CustomerProfileGateway;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,22 +12,27 @@ import java.time.ZonedDateTime;
 @RequiredArgsConstructor
 public class UpdateCustomerProfileUseCase {
 
-    private final CustomerProfileRepository customerProfileRepository;
-    private final ConvertToCustomerProfileEntityUseCase convertToCustomerProfileEntity;
+    private final CustomerProfileGateway customerProfileGateway;
 
     @Transactional
-    public void execute(CustomerProfileRequest customerProfileRequest, Long id) {
-        var existingCustomer = customerProfileRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("CUSTOMER_DOES_NOT_EXIST", ""));
+    public void execute(CustomerProfile customerProfile, Long id) {
+        var existingCustomerProfile = customerProfileGateway.findById(id);
 
-        var customerProfile = convertToCustomerProfileEntity.execute(customerProfileRequest);
+        var customerProfileUpdate = populate(customerProfile, existingCustomerProfile);
+        customerProfileGateway.save(customerProfileUpdate);
+    }
 
-        existingCustomer.setFirstName(customerProfile.getFirstName());
-        existingCustomer.setLastName(customerProfile.getLastName());
-        existingCustomer.setAddressEntity(customerProfile.getAddressEntity());
-        existingCustomer.setUpdatedAt(ZonedDateTime.now());
-        existingCustomer.setPhoneEntity(customerProfile.getPhoneEntity());
-
-        customerProfileRepository.save(existingCustomer);
+    private static CustomerProfile populate(CustomerProfile customerProfile, CustomerProfile existingCustomerProfile) {
+        return new CustomerProfile(
+                existingCustomerProfile.getId(),
+                customerProfile.getFirstName(),
+                customerProfile.getLastName(),
+                customerProfile.getAddress(),
+                existingCustomerProfile.getCreatedAt(),
+                ZonedDateTime.now(),
+                existingCustomerProfile.getUser(),
+                customerProfile.getPhone()
+        );
     }
 
 }
