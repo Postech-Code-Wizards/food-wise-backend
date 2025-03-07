@@ -6,6 +6,7 @@ import br.com.foodwise.platform.gateway.UserGateway;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -32,6 +33,7 @@ class RegisterCustomerUseCaseTest {
     }
 
     @Test
+    @DisplayName("Must register customer successfully")
     void shouldRegisterCustomerSuccessfully() {
 
         var customer = Instancio.create(CustomerProfile.class);
@@ -42,6 +44,7 @@ class RegisterCustomerUseCaseTest {
     }
 
     @Test
+    @DisplayName("Must throw exception when registering customer")
     void shouldRegisterCustomerException() {
 
         var customer = Instancio.create(CustomerProfile.class);

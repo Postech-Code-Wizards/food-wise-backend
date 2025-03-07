@@ -72,9 +72,9 @@ public class MenuController implements MenuApi {
     }
 
     private Menu processUpdateMenu(Long id, RegisterMenuRequest menuRequestDTO) {
-        Menu existingMenuEntity = fetchMenuById(id);
-        menuUpdateRequestToMenuConverter.convert(menuRequestDTO, existingMenuEntity);
-        return menuService.updateMenu(existingMenuEntity);
+        Menu existingMenu = fetchMenuById(id);
+        Menu menu = menuUpdateRequestToMenuConverter.convert(menuRequestDTO, existingMenu);
+        return menuService.updateMenu(menu);
     }
 
     private Menu convertToMenu(RegisterMenuRequest menuRequestDTO) {

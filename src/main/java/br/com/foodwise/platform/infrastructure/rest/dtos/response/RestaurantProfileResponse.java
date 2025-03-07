@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.infrastructure.rest.dtos.response;
 
-import br.com.foodwise.platform.gateway.database.jpa.entities.AddressEntity;
-import br.com.foodwise.platform.gateway.database.jpa.entities.PhoneEntity;
+import br.com.foodwise.platform.domain.Address;
+import br.com.foodwise.platform.domain.Phone;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ public class RestaurantProfileResponse {
     private Short deliveryRadius;
     private String cuisineType;
     private boolean isOpen;
-    private AddressEntity addressEntity;
-    private PhoneEntity phoneEntity;
+    private Address address;
+    private Phone phone;
 
 }

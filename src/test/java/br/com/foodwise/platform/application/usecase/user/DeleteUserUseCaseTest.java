@@ -13,15 +13,20 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
-class FindActiveUserEntityUseCaseTest {
+class DeleteUserUseCaseTest {
+
+    @Mock
+    private ValidateUserIsAuthenticatedUseCase validateUserIsAuthenticatedUseCase;
 
     @Mock
     private UserGateway userGateway;
 
     @InjectMocks
-    private FindActiveUserUseCase findActiveUserUseCase;
+    private DeleteUserUseCase deleteUserUseCase;
 
     @BeforeEach
     void setUp() {
@@ -29,17 +34,19 @@ class FindActiveUserEntityUseCaseTest {
     }
 
     @Test
-    @DisplayName("Given an active user email, should return the correct user")
-    void shouldFindActiveUserSuccessfully() {
+    @DisplayName("Given an existing customer user, you must delete it successfully")
+    void deleteUserCustomerFound() {
+        var id = 0L;
+        var user = Instancio.create(User.class);
 
-        long id = Instancio.create(Long.class);
-        User user = Instancio.create(User.class);
 
         when(userGateway.findByIdAndUserTypeAndDeletedAtIsNull(id, UserType.CUSTOMER)).thenReturn(Optional.of(user));
 
-        findActiveUserUseCase.execute(id, UserType.CUSTOMER);
+        deleteUserUseCase.execute(id, UserType.CUSTOMER);
 
         verify(userGateway, times(1)).findByIdAndUserTypeAndDeletedAtIsNull(id, UserType.CUSTOMER);
+        assertEquals(Boolean.FALSE, user.isActive());
+        assertNotNull(user.getDeletedAt());
     }
 
 }

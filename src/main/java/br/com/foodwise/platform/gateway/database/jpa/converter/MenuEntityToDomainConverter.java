@@ -18,8 +18,7 @@ public class MenuEntityToDomainConverter {
                 source.getName(),
                 source.getDescription(),
                 source.getCreatedAt(),
-                source.getUpdatedAt(),
-                null
+                source.getUpdatedAt()
         );
     }
 }

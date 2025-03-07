@@ -9,44 +9,37 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
-
 import static br.com.foodwise.platform.factory.DomainFactory.buildMenu;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class RetrieveAllMenusUseCaseTest {
+class RetrieveMenuUseCaseTest {
 
     @InjectMocks
-    private RetrieveAllMenusUseCase retrieveAllMenusUseCase;
+    private RetrieveMenuUseCase retrieveMenuUseCase;
 
     @Mock
     private MenuGateway menuGateway;
 
-    private Menu menu1;
-    private Menu menu2;
+    private Menu menu;
 
     @BeforeEach
     void setUp() {
-        menu1 = buildMenu();
-        menu2 = buildMenu();
+        menu = buildMenu();
     }
 
     @Test
-    void shouldRetrieveAllMenusSuccessfully() {
-        List<Menu> menuEntities = List.of(menu1, menu2);
+    void shouldRetrieveMenuSuccessfully() {
+        when(menuGateway.findById(1L)).thenReturn(menu);
 
-        when(menuGateway.findAll()).thenReturn(menuEntities);
+        Menu retrievedMenu = retrieveMenuUseCase.execute(1L);
 
-        List<Menu> retrievedMenuEntities = retrieveAllMenusUseCase.execute();
-
-        assertNotNull(retrievedMenuEntities);
-        assertEquals(2, retrievedMenuEntities.size());
-        assertEquals(menu1.getId(), retrievedMenuEntities.get(0).getId());
-        assertEquals(menu2.getId(), retrievedMenuEntities.get(1).getId());
-        verify(menuGateway, times(1)).findAll();
+        assertNotNull(retrievedMenu);
+        assertEquals(menu.getId(), retrievedMenu.getId());
+        assertEquals(menu.getName(), retrievedMenu.getName());
+        verify(menuGateway, times(1)).findById(1L);
     }
 
 }

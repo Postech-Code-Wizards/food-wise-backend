@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -15,5 +14,4 @@ public class Menu {
     private String description;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
-    private List<MenuItem> menuItems;
 }

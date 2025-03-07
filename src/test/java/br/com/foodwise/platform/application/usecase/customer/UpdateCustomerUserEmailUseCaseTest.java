@@ -5,6 +5,7 @@ import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.domain.enums.UserType;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -27,6 +28,7 @@ class UpdateCustomerUserEmailUseCaseTest {
     }
 
     @Test
+    @DisplayName("Given an existing user, must update email successfully")
     void updateUserEmailIsSuccess(){
 
         User user = Instancio.create(User.class);
