@@ -20,4 +20,8 @@ public class RegisterRestaurantRequest {
     @NotNull(message = "Restaurant profile information is required")
     private RestaurantProfileRequest restaurant;
 
+    @Valid
+    @NotNull(message = "Restaurant owner information is required")
+    private RegisterRestaurantOwnerRequest owner;
+
 }

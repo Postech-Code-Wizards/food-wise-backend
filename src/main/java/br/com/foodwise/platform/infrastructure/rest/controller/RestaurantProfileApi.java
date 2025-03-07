@@ -2,6 +2,7 @@ package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
@@ -276,6 +277,37 @@ public interface RestaurantProfileApi {
     ResponseEntity<RestaurantProfileRequest> changeMyProfile(
             @PathVariable("id") Long id,
             @Valid @RequestBody RestaurantProfileRequest restaurantProfileRequest
+    );
+
+    @Operation(summary = "Updates Restaurant owner profile data", description = "Update restaurant owner profile data, such as " +
+            "firstName, lastName, businessRegistrationNumber, businessEmail")
+    @ApiResponse(
+            responseCode = "204", description = "NO CONTENT, no data to return"
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "Not Found when owner id is wrong",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(
+                            """
+                                    {
+                                        "statusCode": 404,
+                                        "errors": [
+                                            {
+                                                "code": "NOT_FOUND",
+                                                "message": "Adminsitrador não existe"
+                                            }
+                                        ]
+                                    }
+                                    """
+                    )
+            )
+    )
+    @PutMapping("/profile-owner/{userId}")
+    ResponseEntity<RegisterRestaurantOwnerRequest> changeOwnerProfile(
+            @PathVariable("userId") Long userId,
+            @Valid @RequestBody RegisterRestaurantOwnerRequest registerRestaurantOwnerRequest
     );
 
     @Operation(summary = "Updates Restaurant USER E-mail", description = "Update restaurant USER email")

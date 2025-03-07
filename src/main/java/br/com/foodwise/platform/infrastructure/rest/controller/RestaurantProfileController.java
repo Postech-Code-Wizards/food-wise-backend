@@ -6,10 +6,12 @@ import br.com.foodwise.platform.domain.RestaurantProfile;
 import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.infrastructure.rest.converter.common.PasswordRequestToDomainConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.common.UserRequestToDomainConverter;
+import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantOwnerRequestToDomainConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileDomainToResponseConverter;
 import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileRequestToDomainConverter;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
@@ -33,6 +35,7 @@ public class RestaurantProfileController implements RestaurantProfileApi {
     private final UserService userService;
     private final RestaurantProfileRequestToDomainConverter restaurantProfileRequestToDomainConverter;
     private final RestaurantProfileDomainToResponseConverter restaurantProfileDomainToResponseConverter;
+    private final RestaurantOwnerRequestToDomainConverter restaurantOwnerRequestToDomainConverter;
     private final UserRequestToDomainConverter userRequestToDomainConverter;
     private final PasswordRequestToDomainConverter passwordRequestToDomainConverter;
 
@@ -42,13 +45,18 @@ public class RestaurantProfileController implements RestaurantProfileApi {
         User user = userRequestToDomainConverter.convert(request.getUser());
         RestaurantProfile restaurantProfile = restaurantProfileRequestToDomainConverter.convert(request.getRestaurant(), user);
         restaurantProfileService.registerRestaurant(restaurantProfile);
+
+        var restaurantOwner = restaurantOwnerRequestToDomainConverter.convert(request.getOwner(), user);
+        restaurantProfileService.registerRestaurantOwner(restaurantOwner);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
     public ResponseEntity<RestaurantProfileResponse> retrieveMyProfile() {
         var restaurantProfile = restaurantProfileService.retrieveRestaurantByEmail();
+        var restaurantOwner = restaurantProfileService.retrieveRestaurantOwnerById(restaurantProfile.getUser().getId());
         var response = restaurantProfileDomainToResponseConverter.convert(restaurantProfile);
+        response.setRestaurantOwner(restaurantOwner);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -77,6 +85,14 @@ public class RestaurantProfileController implements RestaurantProfileApi {
     ) {
         RestaurantProfile restaurantProfile = restaurantProfileRequestToDomainConverter.convert(restaurantProfileRequest);
         restaurantProfileService.updateRestaurantProfile(restaurantProfile, id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Override
+    public ResponseEntity<RegisterRestaurantOwnerRequest> changeOwnerProfile(Long userId, RegisterRestaurantOwnerRequest registerRestaurantOwnerRequest) {
+        var restaurantOwner = restaurantOwnerRequestToDomainConverter.convert(registerRestaurantOwnerRequest);
+        restaurantProfileService.updateRestaurantOwner(restaurantOwner, userId);
+
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
