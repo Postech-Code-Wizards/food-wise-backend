@@ -41,19 +41,13 @@ public class RestaurantProfileController implements RestaurantProfileApi {
 
     @Override
     public ResponseEntity<Void> registerRestaurant(@RequestBody @Valid RegisterRestaurantRequest request) {
-
-        User user = userRequestToDomainConverter.convert(request.getUser());
-        RestaurantProfile restaurantProfile = restaurantProfileRequestToDomainConverter.convert(request.getRestaurant(), user);
-        restaurantProfileService.registerRestaurant(restaurantProfile);
-
-        var restaurantOwner = restaurantOwnerRequestToDomainConverter.convert(request.getOwner(), user);
-        restaurantProfileService.registerRestaurantOwner(restaurantOwner);
+        restaurantProfileService.registerRestaurant(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
-    public ResponseEntity<RestaurantProfileResponse> retrieveMyProfile() {
-        var restaurantProfile = restaurantProfileService.retrieveRestaurantByEmail();
+    public ResponseEntity<RestaurantProfileResponse> retrieveMyProfile(String email) {
+        var restaurantProfile = restaurantProfileService.retrieveRestaurantByEmail(email);
         var restaurantOwner = restaurantProfileService.retrieveRestaurantOwnerById(restaurantProfile.getUser().getId());
         var response = restaurantProfileDomainToResponseConverter.convert(restaurantProfile);
         response.setRestaurantOwner(restaurantOwner);
@@ -108,7 +102,7 @@ public class RestaurantProfileController implements RestaurantProfileApi {
 
     @Override
     public ResponseEntity<RestaurantProfileResponse> retrieveRestaurantByEmail(@RequestParam @NotNull String email) {
-        var restaurantProfile = restaurantProfileService.retrieveRestaurantByEmail();
+        var restaurantProfile = restaurantProfileService.retrieveRestaurantByEmail(email);
         var response = restaurantProfileDomainToResponseConverter.convert(restaurantProfile);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

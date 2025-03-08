@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 @Getter
 @AllArgsConstructor
 public class RestaurantOwner {
-    private Long userId;
+    private Long id;
     private String firstName;
     private String lastName;
     private String businessRegistrationNumber;

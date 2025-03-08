@@ -12,6 +12,11 @@ import br.com.foodwise.platform.application.usecase.restaurant.UpdateRestaurantU
 import br.com.foodwise.platform.domain.RestaurantOwner;
 import br.com.foodwise.platform.domain.RestaurantProfile;
 import br.com.foodwise.platform.domain.User;
+import br.com.foodwise.platform.infrastructure.rest.converter.common.UserRequestToDomainConverter;
+import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantOwnerRequestToDomainConverter;
+import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileDomainToResponseConverter;
+import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileRequestToDomainConverter;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +34,20 @@ public class RestaurantProfileService {
     private final RetrieveRestaurantOwnerUseCase retrieveRestaurantOwnerUseCase;
     private final UpdateRestaurantProfileUseCase updateRestaurantProfileUseCase;
 
-    public void registerRestaurant(RestaurantProfile restaurantProfile) {
-        registerRestaurantUseCase.execute(restaurantProfile);
+    private final RestaurantProfileRequestToDomainConverter restaurantProfileRequestToDomainConverter;
+    private final RestaurantOwnerRequestToDomainConverter restaurantOwnerRequestToDomainConverter;
+    private final UserRequestToDomainConverter userRequestToDomainConverter;
+
+
+    public void registerRestaurant(RegisterRestaurantRequest restaurantRequest) {
+        User user = userRequestToDomainConverter.convert(restaurantRequest.getUser());
+        RestaurantProfile restaurantProfile = restaurantProfileRequestToDomainConverter.convert(restaurantRequest.getRestaurant(), user);
+
+        var restaurant = registerRestaurantUseCase.execute(restaurantProfile);
+
+        var restaurantUser = retrieveRestaurantByEmail(restaurant.getUser().getEmail());
+        var restaurantOwner = restaurantOwnerRequestToDomainConverter.convert(restaurantRequest.getOwner(), restaurantUser);
+        registerRestaurantOwnerUseCase.execute(restaurantOwner);
     }
 
     public void updateRestaurantUserEmail(User user, Long id) {
@@ -41,8 +58,8 @@ public class RestaurantProfileService {
         return null;
     }
 
-    public RestaurantProfile retrieveRestaurantByEmail() {
-        return retrieveRestaurantByEmailUseCase.execute();
+    public RestaurantProfile retrieveRestaurantByEmail(String email) {
+        return retrieveRestaurantByEmailUseCase.execute(email);
     }
 
     public void updateRestaurantProfile(RestaurantProfile restaurantProfile, Long id) {

@@ -50,7 +50,7 @@ public class RestaurantOwnerEntity {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private UserEntity userEntity;
 
 }

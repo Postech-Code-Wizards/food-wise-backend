@@ -16,24 +16,14 @@ public class RestaurantOwnerDomainToEntityConverter {
 
     public RestaurantOwnerEntity convert(RestaurantOwner source) {
 
-        log.info("Restaurant Domain");
-        log.info("Restaurant Owner: {} {}", source.getFirstName(), source.getLastName());
-        log.info("user {}", source.getUser().getEmail());
-        log.info("user {}", source.getUser().getId());
         var restaurantOwnerEntity = new RestaurantOwnerEntity();
 
         var mapper = new ModelMapper();
         mapper.map(source, restaurantOwnerEntity);
 
-
-
         restaurantOwnerEntity.setUserEntity(
                 userDomainToEntityConverter.convert(source.getUser())
         );
-
-        log.info("Restaurant Entity");
-        log.info("Restaurant Owner: {} {}", restaurantOwnerEntity.getFirstName(), restaurantOwnerEntity.getLastName());
-        log.info("user {}", restaurantOwnerEntity.getUserEntity().getEmail());
 
         return restaurantOwnerEntity;
     }

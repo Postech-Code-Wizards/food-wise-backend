@@ -47,14 +47,15 @@ public class RestaurantProfileJpaGateway implements RestaurantProfileGateway {
     }
 
     @Override
-    public void save(RestaurantProfile restaurantProfile) {
+    public RestaurantProfile save(RestaurantProfile restaurantProfile) {
 
         if(Objects.isNull(restaurantProfile)) {
             log.info("Restaurant profile is null");
         }
 
         RestaurantProfileEntity restaurantProfileEntity = restaurantProfileDomainToEntityConverter.convert(restaurantProfile);
-        restaurantProfileRepository.save(restaurantProfileEntity);
+        var restaurantSaved = restaurantProfileRepository.save(restaurantProfileEntity);
+        return restaurantProfileEntityToDomainConverter.convert(restaurantSaved);
     }
 
 }

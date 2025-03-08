@@ -30,12 +30,12 @@ public class RestaurantOwnerJpaGateway implements RestaurantOwnerGateway {
 
     @Override
     public void save(RestaurantOwner restaurantOwner) {
-        log.info("Saving Restaurant Owner");
-        log.info("Restaurant Owner: " + restaurantOwner.getFirstName() + " " + restaurantOwner.getLastName());
-        log.info("user " + restaurantOwner.getUser().getEmail());
         RestaurantOwnerEntity restaurantOwnerEntity = restaurantOwnerDomainToEntityConverter.convert(restaurantOwner);
-        log.info("Restaurant Owner: " + restaurantOwnerEntity.getFirstName() + " " + restaurantOwnerEntity.getLastName());
-        log.info("user " + restaurantOwnerEntity.getUserEntity().getEmail());
+
+        if (restaurantOwnerEntity == null) {
+            throw new ResourceNotFoundException("Restaurant Owner JPA Gateway");
+        }
+
         restaurantOwnerRepository.save(restaurantOwnerEntity);
     }
 }

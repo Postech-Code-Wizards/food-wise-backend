@@ -25,7 +25,7 @@ public class UpdateRestaurantOwnerUseCase {
 
     private static RestaurantOwner populate(RestaurantOwner existingOwner, RestaurantOwner restaurantOwner) {
         return new RestaurantOwner(
-                existingOwner.getUserId(),
+                existingOwner.getId(),
                 restaurantOwner.getFirstName(),
                 restaurantOwner.getLastName(),
                 restaurantOwner.getBusinessRegistrationNumber(),
