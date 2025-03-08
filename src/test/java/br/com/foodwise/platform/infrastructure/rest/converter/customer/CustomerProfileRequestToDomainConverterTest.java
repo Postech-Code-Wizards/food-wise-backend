@@ -1,11 +1,12 @@
 package br.com.foodwise.platform.infrastructure.rest.converter.customer;
 
+import br.com.foodwise.platform.application.facade.converter.customer.CustomerProfileRequestToDomainConverter;
 import br.com.foodwise.platform.domain.Address;
 import br.com.foodwise.platform.domain.CustomerProfile;
 import br.com.foodwise.platform.domain.Phone;
 import br.com.foodwise.platform.domain.User;
-import br.com.foodwise.platform.infrastructure.rest.converter.common.AddressRequestToDomainConverter;
-import br.com.foodwise.platform.infrastructure.rest.converter.common.PhoneRequestToDomainConverter;
+import br.com.foodwise.platform.application.facade.converter.common.AddressRequestToDomainConverter;
+import br.com.foodwise.platform.application.facade.converter.common.PhoneRequestToDomainConverter;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;

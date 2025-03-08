@@ -1,5 +1,6 @@
 package br.com.foodwise.platform.infrastructure.rest.converter.restaurant;
 
+import br.com.foodwise.platform.application.facade.converter.restaurant.RestaurantProfileDomainToResponseConverter;
 import br.com.foodwise.platform.domain.RestaurantProfile;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
 import org.instancio.Instancio;

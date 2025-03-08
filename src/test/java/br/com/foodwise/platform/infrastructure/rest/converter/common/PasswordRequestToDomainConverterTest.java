@@ -1,5 +1,6 @@
 package br.com.foodwise.platform.infrastructure.rest.converter.common;
 
+import br.com.foodwise.platform.application.facade.converter.common.PasswordRequestToDomainConverter;
 import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import org.instancio.Instancio;

@@ -1,11 +1,11 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
 
-import br.com.foodwise.platform.application.service.RestaurantProfileService;
-import br.com.foodwise.platform.application.service.UserService;
-import br.com.foodwise.platform.domain.RestaurantProfile;
+import br.com.foodwise.platform.application.facade.RestaurantProfileFacade;
+import br.com.foodwise.platform.application.facade.UserFacade;
 import br.com.foodwise.platform.domain.enums.UserType;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,10 +36,10 @@ class RestaurantProfileControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private RestaurantProfileService restaurantProfileService;
+    private RestaurantProfileFacade restaurantProfileFacade;
 
     @MockBean
-    private UserService userService;
+    private UserFacade userFacade;
 
     @InjectMocks
     private RestaurantProfileController restaurantProfileController;
@@ -58,36 +58,36 @@ class RestaurantProfileControllerTest {
 
         @Test
         void shouldRetrieveMyProfileSuccessfully() throws Exception {
-            var response = Instancio.create(RestaurantProfile.class);
+            var response = Instancio.create(RestaurantProfileResponse.class);
 
-            when(restaurantProfileService.retrieveRestaurantByEmail()).thenReturn(response);
+            when(restaurantProfileFacade.retrieveRestaurantByEmail()).thenReturn(response);
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/restaurant/my-profile"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.businessName").value(response.getBusinessName()));
 
-            verify(restaurantProfileService).retrieveRestaurantByEmail();
+            verify(restaurantProfileFacade).retrieveRestaurantByEmail();
         }
 
         @Test
         void shouldRetrieveRestaurantByBusinessNameSuccessfully() throws Exception {
-            var response = Instancio.create(RestaurantProfile.class);
+            var response = Instancio.create(RestaurantProfileResponse.class);
             var businessName = response.getBusinessName();
 
-            when(restaurantProfileService.retrieveRestaurantByBusinessName(businessName)).thenReturn(response);
+            when(restaurantProfileFacade.retrieveRestaurantByBusinessName(businessName)).thenReturn(response);
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/restaurant")
                             .param("businessName", businessName))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.businessName").value(businessName));
 
-            verify(restaurantProfileService).retrieveRestaurantByBusinessName(businessName);
+            verify(restaurantProfileFacade).retrieveRestaurantByBusinessName(businessName);
         }
 
         @Test
         void deleteRestaurant() throws Exception {
             mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/restaurant/1"))
-                    .andExpect(MockMvcResultMatchers.status().isOk());
+                    .andExpect(MockMvcResultMatchers.status().isNoContent());
         }
 
         @Test
@@ -98,16 +98,16 @@ class RestaurantProfileControllerTest {
 
         @Test
         void shouldRetrieveRestaurantByEmailSuccessfully() throws Exception {
-            var response = Instancio.create(RestaurantProfile.class);
+            var response = Instancio.create(RestaurantProfileResponse.class);
 
-            given(restaurantProfileService.retrieveRestaurantByEmail()).willReturn(response);
+            given(restaurantProfileFacade.retrieveRestaurantByEmail()).willReturn(response);
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/restaurant/retrieve-login")
                             .param("email", TEST_EMAIL))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.businessName").value(response.getBusinessName()));
 
-            verify(restaurantProfileService).retrieveRestaurantByEmail();
+            verify(restaurantProfileFacade).retrieveRestaurantByEmail();
         }
 
     }
@@ -160,7 +160,7 @@ class RestaurantProfileControllerTest {
                             .content(requestBody))
                     .andExpect(MockMvcResultMatchers.status().isCreated());
 
-            verify(restaurantProfileService, times(1)).registerRestaurant(any(RestaurantProfile.class));
+            verify(restaurantProfileFacade, times(1)).registerRestaurant(any(RegisterRestaurantRequest.class));
         }
     }
 
@@ -181,7 +181,7 @@ class RestaurantProfileControllerTest {
 
         @BeforeEach
         void setUp() {
-            reset(restaurantProfileService, userService);
+            reset(restaurantProfileFacade, userFacade);
             authenticateUser(TEST_EMAIL, "testPassword", UserType.CUSTOMER);
         }
 

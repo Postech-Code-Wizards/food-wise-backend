@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.infrastructure.security.filter;
 
-import br.com.foodwise.platform.application.service.TokenService;
+import br.com.foodwise.platform.application.facade.TokenFacade;
 import br.com.foodwise.platform.gateway.UserGateway;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,7 +17,7 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class SecurityFilter extends OncePerRequestFilter {
-    private final TokenService tokenService;
+    private final TokenFacade tokenFacade;
     private final UserGateway userGateway;
 
     @Override
@@ -26,7 +26,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                                  FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
         if (token != null) {
-            var login = tokenService.validateToken(token);
+            var login = tokenFacade.validateToken(token);
             var user = userGateway.findByEmail(login);
 
             if (user != null) {

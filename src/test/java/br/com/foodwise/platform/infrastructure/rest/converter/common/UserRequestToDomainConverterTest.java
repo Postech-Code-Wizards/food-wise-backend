@@ -1,5 +1,6 @@
 package br.com.foodwise.platform.infrastructure.rest.converter.common;
 
+import br.com.foodwise.platform.application.facade.converter.common.UserRequestToDomainConverter;
 import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.domain.enums.UserType;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;

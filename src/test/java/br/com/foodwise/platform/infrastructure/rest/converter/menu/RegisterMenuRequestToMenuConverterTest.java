@@ -1,5 +1,6 @@
 package br.com.foodwise.platform.infrastructure.rest.converter.menu;
 
+import br.com.foodwise.platform.application.facade.converter.menu.RegisterMenuRequestToMenuConverter;
 import br.com.foodwise.platform.domain.Menu;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
 import org.instancio.Instancio;

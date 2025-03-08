@@ -1,5 +1,6 @@
 package br.com.foodwise.platform.infrastructure.rest.converter.common;
 
+import br.com.foodwise.platform.application.facade.converter.common.PhoneRequestToDomainConverter;
 import br.com.foodwise.platform.domain.Phone;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PhoneRequest;
 import org.instancio.Instancio;
