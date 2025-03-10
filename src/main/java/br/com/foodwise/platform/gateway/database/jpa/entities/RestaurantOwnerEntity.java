@@ -26,7 +26,7 @@ public class RestaurantOwnerEntity {
 
     @Id
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private Long id;
 
     @Column(name = "first_name", nullable = false, length = 100)
     private String firstName;

@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.infrastructure.rest.converter.restaurant;
 
 import br.com.foodwise.platform.domain.RestaurantOwner;
-import br.com.foodwise.platform.domain.RestaurantProfile;
+import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 @RequiredArgsConstructor
 public class RestaurantOwnerRequestToDomainConverter {
 
-    public RestaurantOwner convert(RegisterRestaurantOwnerRequest source, RestaurantProfile restaurantProfile) {
+    public RestaurantOwner convert(RegisterRestaurantOwnerRequest source, User user) {
         return new RestaurantOwner(
                 null,
                 source.getFirstName(),
@@ -21,7 +21,7 @@ public class RestaurantOwnerRequestToDomainConverter {
                 source.getBusinessEmail(),
                 ZonedDateTime.now(),
                 ZonedDateTime.now(),
-                restaurantProfile.getUser()
+                user
         );
     }
 

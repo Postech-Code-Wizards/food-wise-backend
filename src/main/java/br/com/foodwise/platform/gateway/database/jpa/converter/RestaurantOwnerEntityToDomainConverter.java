@@ -13,7 +13,7 @@ public class RestaurantOwnerEntityToDomainConverter {
 
     public RestaurantOwner convert(RestaurantOwnerEntity source) {
         return new RestaurantOwner(
-                source.getUserId(),
+                source.getId(),
                 source.getFirstName(),
                 source.getLastName(),
                 source.getBusinessRegistrationNumber(),

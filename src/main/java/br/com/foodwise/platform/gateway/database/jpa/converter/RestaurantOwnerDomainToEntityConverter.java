@@ -16,15 +16,15 @@ public class RestaurantOwnerDomainToEntityConverter {
 
     public RestaurantOwnerEntity convert(RestaurantOwner source) {
 
-        var restaurantOwnerEntity = new RestaurantOwnerEntity();
+        /*var restaurantOwnerEntity = new RestaurantOwnerEntity();*/
 
         var mapper = new ModelMapper();
-        mapper.map(source, restaurantOwnerEntity);
-
+        return mapper.map(source, RestaurantOwnerEntity.class);
+/*
         restaurantOwnerEntity.setUserEntity(
                 userDomainToEntityConverter.convert(source.getUser())
         );
 
-        return restaurantOwnerEntity;
+        return restaurantOwnerEntity;*/
     }
 }
