@@ -14,9 +14,7 @@ public class CreateMenuItemUseCase {
     private final MenuGateway menuGateway;
 
     public MenuItem execute(MenuItem menuItem) {
-//        var menu = menuGateway.findById(menuItem.getMenu().getId());
-//        menuItem.setMenu(menu);
-//        return menuItemGateway.save(menuItem);
-        return null;
+        var menu = menuGateway.findById(menuItem.getMenu().getId());
+        return menuItemGateway.save(menuItem);
     }
 }
