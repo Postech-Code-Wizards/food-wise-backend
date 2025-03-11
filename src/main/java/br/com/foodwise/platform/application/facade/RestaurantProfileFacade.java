@@ -1,25 +1,31 @@
 package br.com.foodwise.platform.application.facade;
 
+import br.com.foodwise.platform.application.facade.converter.common.UserRequestToDomainConverter;
 import br.com.foodwise.platform.application.facade.converter.restaurant.RestaurantOwnerRequestToDomainConverter;
-import br.com.foodwise.platform.application.usecase.restaurant.*;
+import br.com.foodwise.platform.application.facade.converter.restaurant.RestaurantProfileDomainToResponseConverter;
+import br.com.foodwise.platform.application.facade.converter.restaurant.RestaurantProfileRequestToDomainConverter;
+import br.com.foodwise.platform.application.usecase.restaurant.DeleteRestaurantProfileUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.RegisterRestaurantOwnerUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.RegisterRestaurantUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.RetrieveRestaurantByBusinessNameUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.RetrieveRestaurantByEmailUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.RetrieveRestaurantOwnerUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.UpdateRestaurantOwnerUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.UpdateRestaurantProfileUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.UpdateRestaurantUserEmailUseCase;
 import br.com.foodwise.platform.domain.RestaurantOwner;
 import br.com.foodwise.platform.domain.RestaurantProfile;
 import br.com.foodwise.platform.domain.User;
-import br.com.foodwise.platform.application.facade.converter.common.UserRequestToDomainConverter;
-import br.com.foodwise.platform.application.facade.converter.restaurant.RestaurantProfileDomainToResponseConverter;
-import br.com.foodwise.platform.application.facade.converter.restaurant.RestaurantProfileRequestToDomainConverter;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class RestaurantProfileFacade {
 
     private final DeleteRestaurantProfileUseCase deleteRestaurantProfileUseCase;
