@@ -1,17 +1,9 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
-import br.com.foodwise.platform.application.service.RestaurantProfileService;
-import br.com.foodwise.platform.application.service.UserService;
-import br.com.foodwise.platform.domain.RestaurantProfile;
-import br.com.foodwise.platform.domain.User;
-import br.com.foodwise.platform.infrastructure.rest.converter.common.PasswordRequestToDomainConverter;
-import br.com.foodwise.platform.infrastructure.rest.converter.common.UserRequestToDomainConverter;
-import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantOwnerRequestToDomainConverter;
-import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileDomainToResponseConverter;
-import br.com.foodwise.platform.infrastructure.rest.converter.restaurant.RestaurantProfileRequestToDomainConverter;
+import br.com.foodwise.platform.application.facade.RestaurantProfileFacade;
+import br.com.foodwise.platform.application.facade.UserFacade;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
@@ -31,27 +23,19 @@ import org.springframework.web.bind.annotation.*;
 public class RestaurantProfileController implements RestaurantProfileApi {
 
     private static final Logger logger = LoggerFactory.getLogger(RestaurantProfileController.class);
-    private final RestaurantProfileService restaurantProfileService;
-    private final UserService userService;
-    private final RestaurantProfileRequestToDomainConverter restaurantProfileRequestToDomainConverter;
-    private final RestaurantProfileDomainToResponseConverter restaurantProfileDomainToResponseConverter;
-    private final RestaurantOwnerRequestToDomainConverter restaurantOwnerRequestToDomainConverter;
-    private final UserRequestToDomainConverter userRequestToDomainConverter;
-    private final PasswordRequestToDomainConverter passwordRequestToDomainConverter;
+    private final RestaurantProfileFacade restaurantProfileFacade;
+    private final UserFacade userFacade;
 
     @Override
     public ResponseEntity<Void> registerRestaurant(@RequestBody @Valid RegisterRestaurantRequest request) {
-        restaurantProfileService.registerRestaurant(request);
+        restaurantProfileFacade.registerRestaurant(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
-    public ResponseEntity<RestaurantProfileResponse> retrieveMyProfile(String email) {
-        var restaurantProfile = restaurantProfileService.retrieveRestaurantByEmail(email);
-        var restaurantOwner = restaurantProfileService.retrieveRestaurantOwnerById(restaurantProfile.getUser().getId());
-        var response = restaurantProfileDomainToResponseConverter.convert(restaurantProfile);
-        response.setRestaurantOwner(restaurantOwner);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+    public ResponseEntity<RestaurantProfileResponse> retrieveMyProfile() {
+        var restaurantProfile = restaurantProfileFacade.retrieveRestaurantByEmail();
+        return ResponseEntity.status(HttpStatus.OK).body(restaurantProfile);
     }
 
     @Override
@@ -59,17 +43,16 @@ public class RestaurantProfileController implements RestaurantProfileApi {
                                                                                       @NotNull
                                                                                       @NotBlank
                                                                                       String businessName) {
-        var restaurantProfile = restaurantProfileService.retrieveRestaurantByBusinessName(businessName);
-        var response = restaurantProfileDomainToResponseConverter.convert(restaurantProfile);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        var restaurantProfileResponse = restaurantProfileFacade.retrieveRestaurantByBusinessName(businessName);
+        return ResponseEntity.status(HttpStatus.OK).body(restaurantProfileResponse);
     }
 
     @Override
     public ResponseEntity<Void> delete(@PathVariable("id")
                                        @NotNull
                                        long id) {
-        restaurantProfileService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        restaurantProfileFacade.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Override
@@ -77,16 +60,7 @@ public class RestaurantProfileController implements RestaurantProfileApi {
             @PathVariable("id") Long id,
             @Valid @RequestBody RestaurantProfileRequest restaurantProfileRequest
     ) {
-        RestaurantProfile restaurantProfile = restaurantProfileRequestToDomainConverter.convert(restaurantProfileRequest);
-        restaurantProfileService.updateRestaurantProfile(restaurantProfile, id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
-    @Override
-    public ResponseEntity<RegisterRestaurantOwnerRequest> changeOwnerProfile(Long userId, RegisterRestaurantOwnerRequest registerRestaurantOwnerRequest) {
-        var restaurantOwner = restaurantOwnerRequestToDomainConverter.convert(registerRestaurantOwnerRequest);
-        restaurantProfileService.updateRestaurantOwner(restaurantOwner, userId);
-
+        restaurantProfileFacade.updateRestaurantProfile(restaurantProfileRequest, id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -95,22 +69,19 @@ public class RestaurantProfileController implements RestaurantProfileApi {
             @PathVariable("id") Long id,
             @Valid @RequestBody UserRequest userRequest
     ) {
-        var user = userRequestToDomainConverter.convert(userRequest);
-        restaurantProfileService.updateRestaurantUserEmail(user, id);
+        restaurantProfileFacade.updateRestaurantUserEmail(userRequest, id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Override
     public ResponseEntity<RestaurantProfileResponse> retrieveRestaurantByEmail(@RequestParam @NotNull String email) {
-        var restaurantProfile = restaurantProfileService.retrieveRestaurantByEmail(email);
-        var response = restaurantProfileDomainToResponseConverter.convert(restaurantProfile);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        var restaurantProfileResponse = restaurantProfileFacade.retrieveRestaurantByEmail();
+        return ResponseEntity.status(HttpStatus.OK).body(restaurantProfileResponse);
     }
 
     @Override
     public ResponseEntity<Void> changePassword(@Valid @RequestBody PasswordRequest passwordRequest) {
-        User user = passwordRequestToDomainConverter.convert(passwordRequest);
-        this.userService.updatePassword(user, passwordRequest.getNewPassword());
+        userFacade.updatePassword(passwordRequest);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

@@ -1,13 +1,7 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
-import br.com.foodwise.platform.application.service.CustomerProfileService;
-import br.com.foodwise.platform.application.service.UserService;
-import br.com.foodwise.platform.domain.CustomerProfile;
-import br.com.foodwise.platform.domain.User;
-import br.com.foodwise.platform.infrastructure.rest.converter.common.PasswordRequestToDomainConverter;
-import br.com.foodwise.platform.infrastructure.rest.converter.common.UserRequestToDomainConverter;
-import br.com.foodwise.platform.infrastructure.rest.converter.customer.CustomerProfileDomainToResponseConverter;
-import br.com.foodwise.platform.infrastructure.rest.converter.customer.CustomerProfileRequestToDomainConverter;
+import br.com.foodwise.platform.application.facade.CustomerProfileFacade;
+import br.com.foodwise.platform.application.facade.UserFacade;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
@@ -30,49 +24,40 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerProfileController implements CustomerProfileApi {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerProfileController.class);
-    private final CustomerProfileService customerProfileService;
-    private final UserService userService;
-    private final CustomerProfileRequestToDomainConverter customerProfileRequestToDomainConverter;
-    private final CustomerProfileDomainToResponseConverter customerProfileDomainToResponseConverter;
-    private final UserRequestToDomainConverter userRequestToDomainConverter;
-    private final PasswordRequestToDomainConverter passwordRequestToDomainConverter;
+    private final CustomerProfileFacade customerProfileFacade;
+    private final UserFacade userFacade;
 
     @Override
     public ResponseEntity<Void> registerCustomer(@RequestBody @Valid RegisterCustomerRequest request) {
-        User user = userRequestToDomainConverter.convert(request.getUser());
-        CustomerProfile customerProfile = customerProfileRequestToDomainConverter.convert(request.getCustomer(), user);
-        customerProfileService.registerCustomer(customerProfile);
+        customerProfileFacade.registerCustomer(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
     public ResponseEntity<CustomerProfileResponse> retrieveCustomerByEmail(@RequestParam @NotNull String email) {
-        var customerProfile = customerProfileService.retrieveCustomerByEmail();
-        var response = customerProfileDomainToResponseConverter.convert(customerProfile);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        var customerProfileResponse = customerProfileFacade.retrieveCustomerByEmail();
+        return ResponseEntity.status(HttpStatus.OK).body(customerProfileResponse);
     }
 
     @Override
     public ResponseEntity<CustomerProfileResponse> retrieveMyProfile() {
-        var customerProfile = customerProfileService.retrieveCustomerByEmail();
-        var response = customerProfileDomainToResponseConverter.convert(customerProfile);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        var customerProfileResponse = customerProfileFacade.retrieveCustomerByEmail();
+        return ResponseEntity.status(HttpStatus.OK).body(customerProfileResponse);
     }
 
     @Override
     public ResponseEntity<Void> delete(@PathVariable("id")
                                        @NotNull
                                        long id) {
-        customerProfileService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        customerProfileFacade.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Override
     public ResponseEntity<Void> changeMyProfile(
             @PathVariable("id") Long id,
             @Valid @RequestBody CustomerProfileRequest customerProfileRequest) {
-        CustomerProfile customerProfile = customerProfileRequestToDomainConverter.convert(customerProfileRequest);
-        this.customerProfileService.updateCustomerProfile(customerProfile, id);
+        this.customerProfileFacade.updateCustomerProfile(customerProfileRequest, id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -80,15 +65,13 @@ public class CustomerProfileController implements CustomerProfileApi {
     public ResponseEntity<Void> changeMyEmail(
             @PathVariable("id") Long id,
             @Valid @RequestBody UserRequest userRequest) {
-        var user = userRequestToDomainConverter.convert(userRequest);
-        this.customerProfileService.updateCustomerUserEmail(user, id);
+        this.customerProfileFacade.updateCustomerUserEmail(userRequest, id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Override
     public ResponseEntity<Void> changePassword(@Valid @RequestBody PasswordRequest passwordRequest) {
-        User user = passwordRequestToDomainConverter.convert(passwordRequest);
-        this.userService.updatePassword(user, passwordRequest.getNewPassword());
+        this.userFacade.updatePassword(passwordRequest);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
-import br.com.foodwise.platform.application.service.TokenService;
+import br.com.foodwise.platform.application.facade.TokenFacade;
 import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.AuthRequest;
@@ -36,7 +36,7 @@ class AuthControllerTest {
     private AuthenticationManager authenticationManager;
 
     @Mock
-    private TokenService tokenService;
+    private TokenFacade tokenFacade;
 
     @InjectMocks
     private AuthController authController;
@@ -54,7 +54,7 @@ class AuthControllerTest {
 
         when(authenticationManager.authenticate(authenticationToken)).thenReturn(authentication);
         when(authentication.getPrincipal()).thenReturn(user);
-        when(tokenService.generateToken(user)).thenReturn(token);
+        when(tokenFacade.generateToken(user)).thenReturn(token);
 
         ResponseEntity<AuthResponse> response = authController.login(authRequest);
 
@@ -64,7 +64,7 @@ class AuthControllerTest {
         assertEquals(token, response.getBody().token());
 
         verify(authenticationManager).authenticate(authenticationToken);
-        verify(tokenService).generateToken(user);
+        verify(tokenFacade).generateToken(user);
     }
 
     @Test
@@ -80,7 +80,7 @@ class AuthControllerTest {
         assertThrows(BadCredentialsException.class, () -> authController.login(authRequest));
 
         verify(authenticationManager).authenticate(authenticationToken);
-        verifyNoInteractions(tokenService);
+        verifyNoInteractions(tokenFacade);
     }
 
     @Test

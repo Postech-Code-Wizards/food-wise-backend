@@ -1,10 +1,6 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
-import br.com.foodwise.platform.application.service.MenuService;
-import br.com.foodwise.platform.domain.Menu;
-import br.com.foodwise.platform.infrastructure.rest.converter.menu.MenuToMenuResponseConverter;
-import br.com.foodwise.platform.infrastructure.rest.converter.menu.MenuUpdateRequestToMenuConverter;
-import br.com.foodwise.platform.infrastructure.rest.converter.menu.RegisterMenuRequestToMenuConverter;
+import br.com.foodwise.platform.application.facade.MenuFacade;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuResponse;
 import jakarta.validation.Valid;
@@ -22,66 +18,42 @@ import java.util.List;
 @RequestMapping("api/v1/menu")
 @RequiredArgsConstructor
 public class MenuController implements MenuApi {
-    private final MenuService menuService;
 
-    private final RegisterMenuRequestToMenuConverter registerMenuRequestToMenuConverter;
-    private final MenuToMenuResponseConverter menuToMenuResponseConverter;
-    private final MenuUpdateRequestToMenuConverter menuUpdateRequestToMenuConverter;
+    private final MenuFacade menuFacade;
 
     @Override
     public ResponseEntity<MenuResponse> createMenu(@RequestBody @Valid RegisterMenuRequest menuRequestDTO) {
-        var createdMenu = menuService.createMenu(convertToMenu(menuRequestDTO));
-        return ResponseEntity.status(HttpStatus.CREATED).body(convertToMenuResponse(createdMenu));
+        var createdMenu = menuFacade.createMenu(menuRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdMenu);
     }
 
     @Override
     public ResponseEntity<MenuResponse> getMenuById(@PathVariable Long id) {
-        var menu = fetchMenuById(id);
-        return ResponseEntity.ok(convertToMenuResponse(menu));
+        var menuResponse = menuFacade.getMenuById(id);
+        return ResponseEntity.ok(menuResponse);
     }
 
     @Override
     public ResponseEntity<List<MenuResponse>> getMenusByRestaurantName(@PathVariable String name) {
-        return ResponseEntity.ok(menuService
-                .getAllMenusByRestaurantName(name).stream()
-                .map(this::convertToMenuResponse)
-                .toList());
+        return ResponseEntity.ok(menuFacade
+                .getAllMenusByRestaurantName(name));
     }
 
     @Override
     public ResponseEntity<List<MenuResponse>> getAllMenus() {
-        return ResponseEntity.ok(menuService.getAllMenus().stream()
-                .map(this::convertToMenuResponse)
-                .toList());
+        return ResponseEntity.ok(menuFacade.getAllMenus());
     }
 
     @Override
     public ResponseEntity<MenuResponse> updateMenu(@PathVariable Long id, @RequestBody @Valid RegisterMenuRequest menuRequestDTO) {
-        var updatedMenu = processUpdateMenu(id, menuRequestDTO);
-        return ResponseEntity.ok(convertToMenuResponse(updatedMenu));
+        var updatedMenu = menuFacade.updateMenu(id, menuRequestDTO);
+        return ResponseEntity.ok(updatedMenu);
     }
 
     @Override
     public ResponseEntity<Void> deleteMenu(@PathVariable Long id) {
-        menuService.deleteMenu(id);
+        menuFacade.deleteMenu(id);
         return ResponseEntity.noContent().build();
     }
 
-    private Menu fetchMenuById(Long id) {
-        return menuService.getMenuById(id);
-    }
-
-    private Menu processUpdateMenu(Long id, RegisterMenuRequest menuRequestDTO) {
-        Menu existingMenu = fetchMenuById(id);
-        Menu menu = menuUpdateRequestToMenuConverter.convert(menuRequestDTO, existingMenu);
-        return menuService.updateMenu(menu);
-    }
-
-    private Menu convertToMenu(RegisterMenuRequest menuRequestDTO) {
-        return registerMenuRequestToMenuConverter.convert(menuRequestDTO);
-    }
-
-    private MenuResponse convertToMenuResponse(Menu menu) {
-        return menuToMenuResponseConverter.convert(menu);
-    }
 }

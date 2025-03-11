@@ -1,12 +1,13 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
-import br.com.foodwise.platform.application.service.CustomerProfileService;
-import br.com.foodwise.platform.application.service.UserService;
-import br.com.foodwise.platform.domain.CustomerProfile;
-import br.com.foodwise.platform.domain.User;
+import br.com.foodwise.platform.application.facade.CustomerProfileFacade;
+import br.com.foodwise.platform.application.facade.UserFacade;
 import br.com.foodwise.platform.domain.enums.UserType;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.response.CustomerProfileResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,10 +39,10 @@ class CustomerProfileControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private CustomerProfileService customerProfileService;
+    private CustomerProfileFacade customerProfileFacade;
 
     @MockBean
-    private UserService userService;
+    private UserFacade userFacade;
 
     @InjectMocks
     private CustomerProfileController customerProfileController;
@@ -60,36 +61,36 @@ class CustomerProfileControllerTest {
 
         @Test
         void shouldRetrieveCustomerByEmailSuccessfully() throws Exception {
-            var response = Instancio.create(CustomerProfile.class);
+            var response = Instancio.create(CustomerProfileResponse.class);
 
-            given(customerProfileService.retrieveCustomerByEmail()).willReturn(response);
+            given(customerProfileFacade.retrieveCustomerByEmail()).willReturn(response);
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customer/retrieve-login")
                             .param("email", TEST_EMAIL))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value(response.getFirstName()));
 
-            verify(customerProfileService).retrieveCustomerByEmail();
+            verify(customerProfileFacade).retrieveCustomerByEmail();
         }
 
         @Test
         void shouldRetrieveMyProfileSuccessfully() throws Exception {
-            var response = Instancio.create(CustomerProfile.class);
-            when(customerProfileService.retrieveCustomerByEmail()).thenReturn(response);
+            var response = Instancio.create(CustomerProfileResponse.class);
+            when(customerProfileFacade.retrieveCustomerByEmail()).thenReturn(response);
 
-            given(customerProfileService.retrieveCustomerByEmail()).willReturn(response);
+            given(customerProfileFacade.retrieveCustomerByEmail()).willReturn(response);
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customer/my-profile"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value(response.getFirstName()));
 
-            verify(customerProfileService).retrieveCustomerByEmail();
+            verify(customerProfileFacade).retrieveCustomerByEmail();
         }
 
         @Test
         void deleteCustomer() throws Exception {
             mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/customer/1"))
-                    .andExpect(MockMvcResultMatchers.status().isOk());
+                    .andExpect(MockMvcResultMatchers.status().isNoContent());
         }
 
         @Test
@@ -113,8 +114,8 @@ class CustomerProfileControllerTest {
                             .content(requestBody))
                     .andExpect(MockMvcResultMatchers.status().isCreated());
 
-            verify(customerProfileService, times(1))
-                    .registerCustomer(any(CustomerProfile.class));
+            verify(customerProfileFacade, times(1))
+                    .registerCustomer(any(RegisterCustomerRequest.class));
         }
 
         @Test
@@ -131,7 +132,7 @@ class CustomerProfileControllerTest {
                     .andExpect(MockMvcResultMatchers.status().isBadRequest())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message").value("Phone number must have 10 or 11 digits, with an optional international code prefixed by '+'."));
 
-            verify(customerProfileService, times(0)).registerCustomer(any(CustomerProfile.class));
+            verify(customerProfileFacade, times(0)).registerCustomer(any(RegisterCustomerRequest.class));
         }
 
     }
@@ -169,7 +170,7 @@ class CustomerProfileControllerTest {
                             .content(requestBody))
                     .andExpect(MockMvcResultMatchers.status().isNoContent());
 
-            verify(customerProfileService, times(1)).updateCustomerProfile(any(CustomerProfile.class), eq(id));
+            verify(customerProfileFacade, times(1)).updateCustomerProfile(any(CustomerProfileRequest.class), eq(id));
         }
 
         @Test
@@ -184,7 +185,7 @@ class CustomerProfileControllerTest {
                             .content(requestBody))
                     .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-            verify(customerProfileService, times(0)).updateCustomerProfile(any(CustomerProfile.class), eq(id));
+            verify(customerProfileFacade, times(0)).updateCustomerProfile(any(CustomerProfileRequest.class), eq(id));
         }
 
 
@@ -200,7 +201,7 @@ class CustomerProfileControllerTest {
                             .content(request))
                     .andExpect(MockMvcResultMatchers.status().isNoContent());
 
-            verify(customerProfileService, times(1)).updateCustomerUserEmail(any(User.class), eq(id));
+            verify(customerProfileFacade, times(1)).updateCustomerUserEmail(any(UserRequest.class), eq(id));
         }
 
         @Test
@@ -215,8 +216,24 @@ class CustomerProfileControllerTest {
                             .content(request))
                     .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-            verify(customerProfileService, times(0)).updateCustomerUserEmail(any(User.class), eq(id));
+            verify(customerProfileFacade, times(0)).updateCustomerUserEmail(any(UserRequest.class), eq(id));
         }
+
+        @Test
+        @DisplayName("Should return 204 when user password is updated successfully")
+        void updatePasswordCustomerUserCredentialsSuccess() throws Exception {
+
+            var passwordRequest = new PasswordRequest("12345678", "87654321");
+            var request = objectMapper.writeValueAsString(passwordRequest);
+
+            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/customer/updatePassword")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(request))
+                    .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+            verify(userFacade, times(1)).updatePassword(any(PasswordRequest.class));
+        }
+
     }
 
 }
