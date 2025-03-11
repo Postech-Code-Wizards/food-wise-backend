@@ -1,5 +1,6 @@
 package br.com.foodwise.platform.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -15,6 +16,7 @@ public class RestaurantOwner {
     private String businessEmail;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
+    @JsonIgnore
     private User user;
 
 }

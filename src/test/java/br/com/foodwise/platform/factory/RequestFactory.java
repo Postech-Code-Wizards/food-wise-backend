@@ -1,14 +1,19 @@
 package br.com.foodwise.platform.factory;
 
-import br.com.foodwise.platform.gateway.database.jpa.entities.*;
 import br.com.foodwise.platform.domain.enums.PhoneType;
 import br.com.foodwise.platform.domain.enums.UserType;
+import br.com.foodwise.platform.gateway.database.jpa.entities.AddressEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.CustomerProfileEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.PhoneEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.RestaurantProfileEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.AddressRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PhoneRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 
@@ -37,6 +42,7 @@ public class RequestFactory {
         var request = new RegisterRestaurantRequest();
         request.setUser(buildUserRequest());
         request.setRestaurant(buildRestaurantProfileRequest());
+        request.setOwner(buildrestaurantOwnerRequest());
         return request;
     }
 
@@ -54,6 +60,14 @@ public class RequestFactory {
         return menuRequest;
     }
 
+    public static RegisterRestaurantOwnerRequest buildrestaurantOwnerRequest() {
+        var owner = new RegisterRestaurantOwnerRequest();
+        owner.setFirstName("John");
+        owner.setLastName("Doe");
+        owner.setBusinessRegistrationNumber("38546898022");
+        owner.setBusinessEmail("john@doe.com");
+        return owner;
+    }
 
     public static RestaurantProfileRequest buildRestaurantProfileRequest() {
         var restaurant = new RestaurantProfileRequest();

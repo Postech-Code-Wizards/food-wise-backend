@@ -3,9 +3,11 @@ package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.application.facade.RestaurantProfileFacade;
 import br.com.foodwise.platform.application.facade.UserFacade;
+import br.com.foodwise.platform.domain.RestaurantOwner;
 import br.com.foodwise.platform.domain.enums.UserType;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
@@ -28,9 +30,16 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static br.com.foodwise.platform.factory.RequestFactory.buildRestaurantProfileRequest;
 import static br.com.foodwise.platform.factory.RequestFactory.buildValidRegisterRestaurantRequest;
+import static br.com.foodwise.platform.factory.RequestFactory.buildrestaurantOwnerRequest;
 import static br.com.foodwise.platform.factory.SecurityHelperFactory.authenticateUser;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
@@ -63,14 +72,16 @@ class RestaurantProfileControllerTest {
         @Test
         void shouldRetrieveMyProfileSuccessfully() throws Exception {
             var response = Instancio.create(RestaurantProfileResponse.class);
+            var responseOwner = Instancio.create(RestaurantOwner.class);
+            response.setRestaurantOwner(responseOwner);
 
-            when(restaurantProfileFacade.retrieveRestaurantByEmail()).thenReturn(response);
+            when(restaurantProfileFacade.retrieveRestaurantByEmail(TEST_EMAIL)).thenReturn(response);
 
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/restaurant/my-profile"))
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/restaurant/my-profile").param("email", TEST_EMAIL))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.businessName").value(response.getBusinessName()));
 
-            verify(restaurantProfileFacade).retrieveRestaurantByEmail();
+            verify(restaurantProfileFacade).retrieveRestaurantByEmail(TEST_EMAIL);
         }
 
         @Test
@@ -104,14 +115,14 @@ class RestaurantProfileControllerTest {
         void shouldRetrieveRestaurantByEmailSuccessfully() throws Exception {
             var response = Instancio.create(RestaurantProfileResponse.class);
 
-            given(restaurantProfileFacade.retrieveRestaurantByEmail()).willReturn(response);
+            given(restaurantProfileFacade.retrieveRestaurantByEmail(TEST_EMAIL)).willReturn(response);
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/restaurant/retrieve-login")
                             .param("email", TEST_EMAIL))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.businessName").value(response.getBusinessName()));
 
-            verify(restaurantProfileFacade).retrieveRestaurantByEmail();
+            verify(restaurantProfileFacade).retrieveRestaurantByEmail(TEST_EMAIL);
         }
 
         @Test
@@ -156,6 +167,21 @@ class RestaurantProfileControllerTest {
             verify(restaurantProfileFacade, times(1)).updateRestaurantProfile(any(RestaurantProfileRequest.class), anyLong());
         }
 
+        @Test
+        void updateRestaurantOwner_ShouldUpdateSuccessfully() throws Exception {
+
+            var registerRestaurantOwnerRequest = buildrestaurantOwnerRequest();
+            Long userId = 1L;
+            var request = objectMapper.writeValueAsString(registerRestaurantOwnerRequest);
+
+            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurant/profile-owner/{userId}", userId)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(request))
+                    .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+            verify(restaurantProfileFacade, times(1)).updateRestaurantOwner(any(RegisterRestaurantOwnerRequest.class), eq(userId));
+        }
+
     }
 
     @Nested
@@ -192,6 +218,7 @@ class RestaurantProfileControllerTest {
                 case "businessHours" -> request.getRestaurant().setBusinessHours(fieldValue);
                 case "cuisineType" -> request.getRestaurant().setCuisineType(fieldValue);
                 case "address" -> request.getRestaurant().setAddress(null);
+                case "owner" -> request.setOwner(null);
                 default -> throw new IllegalArgumentException("Unknown field: " + fieldName);
             }
         }
