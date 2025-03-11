@@ -1,6 +1,5 @@
-package br.com.foodwise.platform.infrastructure.rest.converter.common;
+package br.com.foodwise.platform.application.facade.converter.common;
 
-import br.com.foodwise.platform.application.facade.converter.common.AddressRequestToDomainConverter;
 import br.com.foodwise.platform.domain.Address;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.AddressRequest;
 import org.instancio.Instancio;

@@ -1,4 +1,4 @@
-package br.com.foodwise.platform.infrastructure.rest.converter.menu;
+package br.com.foodwise.platform.application.facade.converter.menu;
 
 import br.com.foodwise.platform.application.facade.converter.menu.MenuUpdateRequestToMenuConverter;
 import br.com.foodwise.platform.domain.Menu;

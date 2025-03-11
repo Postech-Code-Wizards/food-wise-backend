@@ -3,6 +3,7 @@ package br.com.foodwise.platform.infrastructure.rest.controller;
 import br.com.foodwise.platform.application.facade.CustomerProfileFacade;
 import br.com.foodwise.platform.application.facade.UserFacade;
 import br.com.foodwise.platform.domain.enums.UserType;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;
@@ -217,6 +218,22 @@ class CustomerProfileControllerTest {
 
             verify(customerProfileFacade, times(0)).updateCustomerUserEmail(any(UserRequest.class), eq(id));
         }
+
+        @Test
+        @DisplayName("Should return 204 when user password is updated successfully")
+        void updatePasswordCustomerUserCredentialsSuccess() throws Exception {
+
+            var passwordRequest = new PasswordRequest("12345678", "87654321");
+            var request = objectMapper.writeValueAsString(passwordRequest);
+
+            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/customer/updatePassword")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(request))
+                    .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+            verify(userFacade, times(1)).updatePassword(any(PasswordRequest.class));
+        }
+
     }
 
 }

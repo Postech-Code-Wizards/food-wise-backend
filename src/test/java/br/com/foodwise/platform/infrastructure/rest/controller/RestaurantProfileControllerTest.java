@@ -4,7 +4,10 @@ package br.com.foodwise.platform.infrastructure.rest.controller;
 import br.com.foodwise.platform.application.facade.RestaurantProfileFacade;
 import br.com.foodwise.platform.application.facade.UserFacade;
 import br.com.foodwise.platform.domain.enums.UserType;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.instancio.Instancio;
@@ -23,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static br.com.foodwise.platform.factory.RequestFactory.buildRestaurantProfileRequest;
 import static br.com.foodwise.platform.factory.RequestFactory.buildValidRegisterRestaurantRequest;
 import static br.com.foodwise.platform.factory.SecurityHelperFactory.authenticateUser;
 import static org.mockito.BDDMockito.given;
@@ -53,7 +57,7 @@ class RestaurantProfileControllerTest {
 
         @BeforeEach
         void setUp() {
-            authenticateUser(TEST_EMAIL, "testPassword", UserType.CUSTOMER);
+            authenticateUser(TEST_EMAIL, "testPassword", UserType.RESTAURANT_OWNER);
         }
 
         @Test
@@ -108,6 +112,48 @@ class RestaurantProfileControllerTest {
                     .andExpect(MockMvcResultMatchers.jsonPath("$.businessName").value(response.getBusinessName()));
 
             verify(restaurantProfileFacade).retrieveRestaurantByEmail();
+        }
+
+        @Test
+        void updatePasswordRestaurantUserCredentialsSuccess() throws Exception {
+
+            var passwordRequest = new PasswordRequest("12345678", "87654321");
+            var request = objectMapper.writeValueAsString(passwordRequest);
+
+            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurant/updatePassword")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(request))
+                    .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+            verify(userFacade, times(1)).updatePassword(any(PasswordRequest.class));
+        }
+
+        @Test
+        void updateEmailRestaurantUserSuccess() throws Exception {
+
+            var userRequest = new UserRequest(TEST_EMAIL, "newPassword");
+            var request = objectMapper.writeValueAsString(userRequest);
+
+            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurant/{id}/updateEmail", 1L)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(request))
+                    .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+            verify(restaurantProfileFacade, times(1)).updateRestaurantUserEmail(any(UserRequest.class), anyLong());
+        }
+
+        @Test
+        void updateRestaurantUserSuccess() throws Exception {
+
+            var restaurantProfileRequest = buildRestaurantProfileRequest();
+            var request = objectMapper.writeValueAsString(restaurantProfileRequest);
+
+            mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurant/{id}/profile", 1L)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(request))
+                    .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+            verify(restaurantProfileFacade, times(1)).updateRestaurantProfile(any(RestaurantProfileRequest.class), anyLong());
         }
 
     }
@@ -182,10 +228,8 @@ class RestaurantProfileControllerTest {
         @BeforeEach
         void setUp() {
             reset(restaurantProfileFacade, userFacade);
-            authenticateUser(TEST_EMAIL, "testPassword", UserType.CUSTOMER);
+            authenticateUser(TEST_EMAIL, "testPassword", UserType.RESTAURANT_OWNER);
         }
-
-
     }
 
 }

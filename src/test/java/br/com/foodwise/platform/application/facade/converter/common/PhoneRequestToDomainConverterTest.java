@@ -1,4 +1,4 @@
-package br.com.foodwise.platform.infrastructure.rest.converter.common;
+package br.com.foodwise.platform.application.facade.converter.common;
 
 import br.com.foodwise.platform.application.facade.converter.common.PhoneRequestToDomainConverter;
 import br.com.foodwise.platform.domain.Phone;
