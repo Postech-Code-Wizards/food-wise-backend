@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -43,10 +42,6 @@ public class MenuJpaGateway implements MenuGateway {
 
     @Override
     public List<Menu> findByRestaurantProfileEntityBusinessName(String businessName) {
-        if(Objects.isNull(businessName)) {
-            log.info("Business name is null");
-        }
-
         var menuEntityList = menuRepository.findByRestaurantProfileEntityBusinessName(businessName);
 
         return menuEntityList.stream()
@@ -56,11 +51,6 @@ public class MenuJpaGateway implements MenuGateway {
 
     @Override
     public Menu save(Menu menu) {
-
-        if(Objects.isNull(menu)) {
-            log.info("Menu object in save action is null");
-        }
-
         MenuEntity menuEntity = menuDomainToEntityConverter.convert(menu);
         MenuEntity menuSaved = menuRepository.save(menuEntity);
         return menuEntityToDomainConverter.convert(menuSaved);

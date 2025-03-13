@@ -27,14 +27,7 @@ public class UserJpaGateway implements UserGateway {
 
     @Override
     public UserDetails findByEmail(String email) {
-
-        UserDetails userDetails = userRepository.findByEmail(email);
-        if(Objects.isNull(userDetails)) {
-            log.info("User not found: email={}", email);
-            return null;
-        }
-
-        return userDetails;
+        return userRepository.findByEmail(email);
     }
 
     @Override
@@ -58,11 +51,6 @@ public class UserJpaGateway implements UserGateway {
 
     @Override
     public User save(User user) {
-
-        if(Objects.isNull(user)) {
-            log.info("User is null");
-        }
-
         UserEntity userEntity = userDomainToEntityConverter.convert(user);
         UserEntity userEntitySaved = userRepository.save(userEntity);
         return userEntityToDomainConverter.convert(userEntitySaved);

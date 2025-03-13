@@ -41,7 +41,7 @@ public class CustomerProfileJpaGateway implements CustomerProfileGateway {
     @Override
     public void save(CustomerProfile customerProfile) {
         if(Objects.isNull(customerProfile)) {
-            log.info("Customer profile is null");
+            throw new ResourceNotFoundException("CUSTOMER_DOES_NOT_EXIST", "");
         }
 
         CustomerProfileEntity customerProfileEntity = customerProfileDomainToEntityConverter.convert(customerProfile);
