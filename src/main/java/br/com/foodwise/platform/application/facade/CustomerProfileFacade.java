@@ -4,8 +4,6 @@ import br.com.foodwise.platform.application.usecase.customer.*;
 import br.com.foodwise.platform.application.usecase.user.DeleteUserUseCase;
 import br.com.foodwise.platform.domain.CustomerProfile;
 import br.com.foodwise.platform.domain.User;
-import br.com.foodwise.platform.gateway.database.jpa.UserJpaGateway;
-import br.com.foodwise.platform.gateway.database.jpa.repository.UserRepository;
 import br.com.foodwise.platform.application.facade.converter.common.UserRequestToDomainConverter;
 import br.com.foodwise.platform.application.facade.converter.customer.CustomerProfileDomainToResponseConverter;
 import br.com.foodwise.platform.application.facade.converter.customer.CustomerProfileRequestToDomainConverter;
@@ -23,6 +21,7 @@ public class CustomerProfileFacade {
     private final DeleteUserUseCase deleteUserUseCase;
     private final UpdateCustomerUserEmailUseCase updateCustomerUserEmailUseCase;
     private final DeleteCustomerProfileUseCase deleteCustomerProfileUseCase;
+    private final RetrieveCustomerByEmailAuthenticatedUseCase retrieveCustomerByEmailAuthenticatedUseCase;
     private final RetrieveCustomerByEmailUseCase retrieveCustomerByEmailUseCase;
     private final RegisterCustomerUseCase registerCustomerUseCase;
     private final UpdateCustomerProfileUseCase updateCustomerProfileUseCase;
@@ -46,8 +45,13 @@ public class CustomerProfileFacade {
         updateCustomerUserEmailUseCase.execute(user, id);
     }
 
-    public CustomerProfileResponse retrieveCustomerByEmail() {
-        var customerProfile = retrieveCustomerByEmailUseCase.execute();
+    public CustomerProfileResponse retrieveCustomerByEmail(String email) {
+        var customerProfile = retrieveCustomerByEmailUseCase.execute(email);
+        return customerProfileDomainToResponseConverter.convert(customerProfile);
+    }
+
+    public CustomerProfileResponse retrieveCustomerByEmailAuthenticated() {
+        var customerProfile = retrieveCustomerByEmailAuthenticatedUseCase.execute();
         return customerProfileDomainToResponseConverter.convert(customerProfile);
     }
 

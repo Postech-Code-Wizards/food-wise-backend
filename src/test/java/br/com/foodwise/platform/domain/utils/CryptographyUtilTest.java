@@ -1,4 +1,4 @@
-package br.com.foodwise.platform.gateway.database.jpa.entities.utils;
+package br.com.foodwise.platform.domain.utils;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

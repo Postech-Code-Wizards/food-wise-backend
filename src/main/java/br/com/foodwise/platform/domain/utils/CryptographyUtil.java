@@ -1,4 +1,4 @@
-package br.com.foodwise.platform.gateway.database.jpa.entities.utils;
+package br.com.foodwise.platform.domain.utils;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;

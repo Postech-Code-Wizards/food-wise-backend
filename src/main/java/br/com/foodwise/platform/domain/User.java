@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.domain;
 
 import br.com.foodwise.platform.domain.enums.UserType;
-import br.com.foodwise.platform.gateway.database.jpa.entities.utils.CryptographyUtil;
+import br.com.foodwise.platform.domain.utils.CryptographyUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

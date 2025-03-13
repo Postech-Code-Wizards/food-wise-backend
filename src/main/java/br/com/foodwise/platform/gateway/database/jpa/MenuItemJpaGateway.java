@@ -24,7 +24,7 @@ public class MenuItemJpaGateway implements MenuItemGateway {
     @Override
     public MenuItem findById(Long id) {
         var menuEntity = menuItemRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("MENU_DOES_NOT_EXIST", ""));
+                .orElseThrow(() -> new ResourceNotFoundException("MENU_ITEM_DOES_NOT_EXIST", ""));
 
         return menuItemEntityToDomainConverter.convert(menuEntity);
     }
