@@ -13,12 +13,9 @@ public class RetrieveRestaurantByEmailUseCase {
 
     private final RestaurantProfileGateway restaurantProfileGateway;
 
-    public RestaurantProfile execute() {
-
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var user = (UserEntity) authentication.getPrincipal();
+    public RestaurantProfile execute(String email) {
 
         return restaurantProfileGateway
-                .findByUserEntityEmail(user.getEmail());
+                .findByUserEntityEmail(email);
     }
 }

@@ -34,8 +34,7 @@ public class CreateMenuUseCase {
                 menu.getName(),
                 menu.getDescription(),
                 ZonedDateTime.now(),
-                ZonedDateTime.now(),
-        null
+                ZonedDateTime.now()
         );
     }
 }

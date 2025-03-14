@@ -4,7 +4,7 @@ import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.gateway.UserGateway;
 import br.com.foodwise.platform.gateway.database.jpa.converter.UserEntityToDomainConverter;
 import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
-import br.com.foodwise.platform.gateway.database.jpa.entities.utils.CryptographyUtil;
+import br.com.foodwise.platform.domain.utils.CryptographyUtil;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

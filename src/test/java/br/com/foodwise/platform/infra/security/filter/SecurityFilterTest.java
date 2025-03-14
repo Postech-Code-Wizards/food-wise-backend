@@ -1,8 +1,8 @@
 package br.com.foodwise.platform.infra.security.filter;
 
-import br.com.foodwise.platform.application.service.TokenService;
+import br.com.foodwise.platform.application.facade.TokenFacade;
+import br.com.foodwise.platform.gateway.UserGateway;
 import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
-import br.com.foodwise.platform.gateway.database.jpa.repository.UserRepository;
 import br.com.foodwise.platform.infrastructure.security.filter.SecurityFilter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -19,22 +19,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class SecurityFilterTest {
 
     @Mock
-    private TokenService tokenService;
+    private TokenFacade tokenFacade;
 
     @Mock
-    private UserRepository userRepository;
+    private UserGateway userGateway;
 
     @Mock
     private FilterChain filterChain;
@@ -60,8 +55,8 @@ class SecurityFilterTest {
 
         request.addHeader("Authorization", "Bearer " + token);
 
-        when(tokenService.validateToken(token)).thenReturn(userLogin);
-        when(userRepository.findByEmail(userLogin)).thenReturn(user);
+        when(tokenFacade.validateToken(token)).thenReturn(userLogin);
+        when(userGateway.findByEmail(userLogin)).thenReturn(user);
         when(user.getAuthorities()).thenReturn(null);
 
         securityFilter.doFilterInternal(request, response, filterChain);
@@ -86,7 +81,7 @@ class SecurityFilterTest {
         String token = "invalidToken";
         request.addHeader("Authorization", "Bearer " + token);
 
-        when(tokenService.validateToken(token)).thenReturn("");
+        when(tokenFacade.validateToken(token)).thenReturn("");
 
         securityFilter.doFilterInternal(request, response, filterChain);
 

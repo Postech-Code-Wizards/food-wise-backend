@@ -4,6 +4,7 @@ import br.com.foodwise.platform.application.usecase.user.DeleteUserUseCase;
 import br.com.foodwise.platform.domain.enums.UserType;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -26,6 +27,7 @@ class DeleteRestaurantProfileEntityUseCaseTest {
     }
 
     @Test
+    @DisplayName("Must delete restaurant profile successfully")
     void deleteRestaurantProfileIsSuccessful() {
 
         var id = Instancio.create(long.class);

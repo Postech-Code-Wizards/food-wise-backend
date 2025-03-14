@@ -18,13 +18,13 @@ public class RegisterRestaurantUseCase {
     private final UserGateway userGateway;
 
     @Transactional
-    public void execute(RestaurantProfile restaurantProfile) {
+    public RestaurantProfile execute(RestaurantProfile restaurantProfile) {
         if (userGateway.existsByEmail(restaurantProfile.getUser().getEmail())) {
             throw new BusinessException("EMAIL_ALREADY_EXISTS", HttpStatus.CONFLICT, "");
         }
 
         restaurantProfile.getUser().registerUser(UserType.RESTAURANT_OWNER);
-        restaurantProfileGateway.save(restaurantProfile);
+        return restaurantProfileGateway.save(restaurantProfile);
     }
 
 }

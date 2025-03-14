@@ -14,4 +14,5 @@ public class UserDomainToEntityConverter {
         var modelMapper = new ModelMapper();
         return modelMapper.map(source, UserEntity.class);
     }
+
 }

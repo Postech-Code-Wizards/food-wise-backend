@@ -7,6 +7,7 @@ import br.com.foodwise.platform.gateway.database.jpa.converter.UserDomainToEntit
 import br.com.foodwise.platform.gateway.database.jpa.converter.UserEntityToDomainConverter;
 import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
 import br.com.foodwise.platform.gateway.database.jpa.repository.UserRepository;
+import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,14 +28,7 @@ public class UserJpaGateway implements UserGateway {
 
     @Override
     public UserDetails findByEmail(String email) {
-
-        UserDetails userDetails = userRepository.findByEmail(email);
-        if(Objects.isNull(userDetails)) {
-            log.info("User not found: email={}", email);
-            return null;
-        }
-
-        return userDetails;
+        return userRepository.findByEmail(email);
     }
 
     @Override
@@ -58,11 +52,6 @@ public class UserJpaGateway implements UserGateway {
 
     @Override
     public User save(User user) {
-
-        if(Objects.isNull(user)) {
-            log.info("User is null");
-        }
-
         UserEntity userEntity = userDomainToEntityConverter.convert(user);
         UserEntity userEntitySaved = userRepository.save(userEntity);
         return userEntityToDomainConverter.convert(userEntitySaved);
@@ -80,6 +69,12 @@ public class UserJpaGateway implements UserGateway {
             userEntity.setDeletedAt(ZonedDateTime.now());
             userRepository.save(userEntity);
         }
+    }
+
+    @Override
+    public User findUserById(Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return userEntityToDomainConverter.convert(userEntity);
     }
 
     private static void registerLogUserNotFound(long id, UserType userType) {
