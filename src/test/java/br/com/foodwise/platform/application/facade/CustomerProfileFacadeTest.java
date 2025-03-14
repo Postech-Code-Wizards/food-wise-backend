@@ -1,12 +1,12 @@
 package br.com.foodwise.platform.application.facade;
 
+import br.com.foodwise.platform.application.facade.converter.common.UserRequestToDomainConverter;
+import br.com.foodwise.platform.application.facade.converter.customer.CustomerProfileDomainToResponseConverter;
+import br.com.foodwise.platform.application.facade.converter.customer.CustomerProfileRequestToDomainConverter;
 import br.com.foodwise.platform.application.usecase.customer.*;
 import br.com.foodwise.platform.application.usecase.user.DeleteUserUseCase;
 import br.com.foodwise.platform.domain.CustomerProfile;
 import br.com.foodwise.platform.domain.User;
-import br.com.foodwise.platform.application.facade.converter.common.UserRequestToDomainConverter;
-import br.com.foodwise.platform.application.facade.converter.customer.CustomerProfileDomainToResponseConverter;
-import br.com.foodwise.platform.application.facade.converter.customer.CustomerProfileRequestToDomainConverter;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;
@@ -36,7 +36,7 @@ class CustomerProfileFacadeTest {
     private DeleteCustomerProfileUseCase deleteCustomerProfileUseCase;
 
     @Mock
-    private RetrieveCustomerByEmailUseCase retrieveCustomerByEmailUseCase;
+    private RetrieveCustomerByEmailAuthenticatedUseCase retrieveCustomerByEmailAuthenticatedUseCase;
 
     @Mock
     private RegisterCustomerUseCase registerCustomerUseCase;
@@ -52,6 +52,9 @@ class CustomerProfileFacadeTest {
 
     @Mock
     private UserRequestToDomainConverter userRequestToDomainConverter;
+
+    @Mock
+    private RetrieveCustomerByEmailUseCase retrieveCustomerByEmailUseCase;
 
     @InjectMocks
     private CustomerProfileFacade customerProfileFacade;
@@ -105,15 +108,27 @@ class CustomerProfileFacadeTest {
     }
 
     @Test
-    @DisplayName("Must call service to retrieve by email a customer successfully")
-    void retrieveCustomerByEmail_ShouldCallRetrieveCustomerByEmailUseCase() {
-        when(retrieveCustomerByEmailUseCase.execute()).thenReturn(customerProfile);
+    @DisplayName("Must call service to retrieve by email authenticated customer successfully")
+    void retrieveCustomerByEmail_ShouldCallRetrieveCustomerByEmailAuthenticatedUseCase() {
+        when(retrieveCustomerByEmailAuthenticatedUseCase.execute()).thenReturn(customerProfile);
         when(customerProfileDomainToResponseConverter.convert(customerProfile)).thenReturn(customerProfileResponse);
 
-        var result = customerProfileFacade.retrieveCustomerByEmail();
+        var result = customerProfileFacade.retrieveCustomerByEmailAuthenticated();
 
         assertEquals(customerProfileResponse, result);
-        verify(retrieveCustomerByEmailUseCase, times(1)).execute();
+        verify(retrieveCustomerByEmailAuthenticatedUseCase, times(1)).execute();
+    }
+
+    @Test
+    @DisplayName("Must call service to retrieve by email a customer successfully")
+    void retrieveCustomerByEmail_ShouldCallRetrieveCustomerByEmailUseCase() {
+        when(retrieveCustomerByEmailUseCase.execute(anyString())).thenReturn(customerProfile);
+        when(customerProfileDomainToResponseConverter.convert(customerProfile)).thenReturn(customerProfileResponse);
+
+        var result = customerProfileFacade.retrieveCustomerByEmail(anyString());
+
+        assertEquals(customerProfileResponse, result);
+        verify(retrieveCustomerByEmailUseCase, times(1)).execute(anyString());
     }
 
     @Test

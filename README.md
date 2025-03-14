@@ -92,24 +92,39 @@ This project uses PostgreSQL as a database. Connection properties are present in
   │   │   │      └── com/
   │   │   │          └── foodwise/
   │   │   │              └── platform/
-  │   │   │                  ├── config/ # App configuration
-  │   │   │                  ├── infra/
+  │   │   │                  ├── application/
+  │   │   │                      ├── facade/ # Simplifies complex service interactions
+  │   │   │                          └── converter/ # Application converters
+  │   │   │                              ├── common/ # General converters
+  │   │   │                              ├── customer/ # Customer specific converters
+  │   │   │                              ├── menu/ # Menu specific converters
+  │   │   │                              ├── menuItem/ # Menu item specific converters
+  │   │   │                              └── restaurant/ # Restaurant specific converters
+  │   │   │                      └── usecase/ # Defines use cases for the application
+  │   │   │                          ├── auth/ # Defines use cases for the application authentication
+  │   │   │                          ├── customer/ # Defines use cases for the application customer
+  │   │   │                          ├── menu/ # Defines use cases for the application menu
+  │   │   │                          ├── menuItem/ # Defines use cases for the application menu item
+  │   │   │                          ├── restaurant/ # Defines use cases for the application restaurant
+  │   │   │                          ├── token/ # Defines use cases for the application token
+  │   │   │                          └── user/ # Defines use cases for the application user
+  │   │   │                  ├── domain/ # Defines the application's domain model
+  │   │   │                      ├── enums/ # Defines a set of named constants
+  │   │   │                      └── utils/ # General utility functions
+  │   │   │                  ├── gateway/ # Access for gateway services
+  │   │   │                      └── database/ # Database interaction
+  │   │   │                          └── jpa/ # Java Persistence API implementation
+  │   │   │                             ├── converter/ # Database converters
+  │   │   │                             ├── entities/ # Data model definitions
+  │   │   │                             └── repository/ # Database operations
+  │   │   │                  ├── infrastructure/ # Application infrastructure setup
+  │   │   │                      ├── config/ # App configuration
+  │   │   │                      ├── rest/ # Entry point for external requests and infrastructure integration
+  │   │   │                          ├── controller/ # API endpoints
+  │   │   │                          └── dtos/ # Access to database information
+  │   │   │                              ├── request/ # Request object mapping class
+  │   │   │                              └── response/ # Response object mapping class
   │   │   │                      └── security/ # Security and access
-  │   │   │                  ├── model/ # Entities and repositories
-  │   │   │                      ├── entities/ # Business entities
-  │   │   │                      └── repositories/ # Access to database information
-  │   │   │                  ├── rest/
-  │   │   │                      ├── controller/ # API endpoints
-  │   │   │                          ├── exception/ # Exception handling
-  │   │   │                          └── handlers/ # Intercepting and handling exceptions
-  │   │   │                      ├── converter/ # Access to database information
-  │   │   │                          ├── common/ # General converters
-  │   │   │                          ├── customer/ # Customer specific converters
-  │   │   │                          └── restaurant/ # Restaurant specific converters
-  │   │   │                      └── dtos/ # Access to database information
-  │   │   │                          ├── request/ # Request object mapping class
-  │   │   │                          └── response/ # Response object mapping class
-  │   │   │                  ├── service/ #Business logic
   │   │   │                  └── FoodwiseApplication.java # Spring Boot main class
   │   │   └── resources/
   │   │       ├── db/

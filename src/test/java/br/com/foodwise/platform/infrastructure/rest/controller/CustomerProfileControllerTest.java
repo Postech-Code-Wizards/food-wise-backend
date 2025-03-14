@@ -63,28 +63,28 @@ class CustomerProfileControllerTest {
         void shouldRetrieveCustomerByEmailSuccessfully() throws Exception {
             var response = Instancio.create(CustomerProfileResponse.class);
 
-            given(customerProfileFacade.retrieveCustomerByEmail()).willReturn(response);
+            given(customerProfileFacade.retrieveCustomerByEmail(anyString())).willReturn(response);
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customer/retrieve-login")
                             .param("email", TEST_EMAIL))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value(response.getFirstName()));
 
-            verify(customerProfileFacade).retrieveCustomerByEmail();
+            verify(customerProfileFacade).retrieveCustomerByEmail(anyString());
         }
 
         @Test
         void shouldRetrieveMyProfileSuccessfully() throws Exception {
             var response = Instancio.create(CustomerProfileResponse.class);
-            when(customerProfileFacade.retrieveCustomerByEmail()).thenReturn(response);
+            when(customerProfileFacade.retrieveCustomerByEmailAuthenticated()).thenReturn(response);
 
-            given(customerProfileFacade.retrieveCustomerByEmail()).willReturn(response);
+            given(customerProfileFacade.retrieveCustomerByEmailAuthenticated()).willReturn(response);
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customer/my-profile"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value(response.getFirstName()));
 
-            verify(customerProfileFacade).retrieveCustomerByEmail();
+            verify(customerProfileFacade).retrieveCustomerByEmailAuthenticated();
         }
 
         @Test

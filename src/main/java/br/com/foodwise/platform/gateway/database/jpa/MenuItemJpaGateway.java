@@ -6,7 +6,6 @@ import br.com.foodwise.platform.gateway.database.jpa.converter.MenuItemDomainToE
 import br.com.foodwise.platform.gateway.database.jpa.converter.MenuItemEntityToDomainConverter;
 import br.com.foodwise.platform.gateway.database.jpa.repository.MenuItemRepository;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
-import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -25,7 +24,7 @@ public class MenuItemJpaGateway implements MenuItemGateway {
     @Override
     public MenuItem findById(Long id) {
         var menuEntity = menuItemRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("MENU_DOES_NOT_EXIST", ""));
+                .orElseThrow(() -> new ResourceNotFoundException("MENU_ITEM_DOES_NOT_EXIST", ""));
 
         return menuItemEntityToDomainConverter.convert(menuEntity);
     }
@@ -43,9 +42,6 @@ public class MenuItemJpaGateway implements MenuItemGateway {
     @Override
     public List<MenuItem> findMenuItemByName(String itemName) {
 
-        if(StringUtils.isBlank(itemName)) {
-            log.info("Item name is blank");
-        }
         var menuItemEntityList = menuItemRepository.findMenuItemEntityByName(itemName);
 
         return menuItemEntityList

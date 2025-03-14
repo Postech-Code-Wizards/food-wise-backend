@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -48,11 +46,6 @@ public class RestaurantProfileJpaGateway implements RestaurantProfileGateway {
 
     @Override
     public RestaurantProfile save(RestaurantProfile restaurantProfile) {
-
-        if(Objects.isNull(restaurantProfile)) {
-            log.info("Restaurant profile is null");
-        }
-
         RestaurantProfileEntity restaurantProfileEntity = restaurantProfileDomainToEntityConverter.convert(restaurantProfile);
         var restaurantSaved = restaurantProfileRepository.save(restaurantProfileEntity);
         return restaurantProfileEntityToDomainConverter.convert(restaurantSaved);

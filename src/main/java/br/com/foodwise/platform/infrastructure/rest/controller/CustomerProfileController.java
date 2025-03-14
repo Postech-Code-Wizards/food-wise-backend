@@ -35,13 +35,13 @@ public class CustomerProfileController implements CustomerProfileApi {
 
     @Override
     public ResponseEntity<CustomerProfileResponse> retrieveCustomerByEmail(@RequestParam @NotNull String email) {
-        var customerProfileResponse = customerProfileFacade.retrieveCustomerByEmail();
+        var customerProfileResponse = customerProfileFacade.retrieveCustomerByEmail(email);
         return ResponseEntity.status(HttpStatus.OK).body(customerProfileResponse);
     }
 
     @Override
     public ResponseEntity<CustomerProfileResponse> retrieveMyProfile() {
-        var customerProfileResponse = customerProfileFacade.retrieveCustomerByEmail();
+        var customerProfileResponse = customerProfileFacade.retrieveCustomerByEmailAuthenticated();
         return ResponseEntity.status(HttpStatus.OK).body(customerProfileResponse);
     }
 
