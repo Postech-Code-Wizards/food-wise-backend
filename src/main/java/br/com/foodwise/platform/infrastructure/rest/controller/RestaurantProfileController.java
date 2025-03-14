@@ -7,6 +7,7 @@ import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRe
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.response.IsDeliveryRestaurantResponse;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -99,7 +100,7 @@ public class RestaurantProfileController implements RestaurantProfileApi {
     public ResponseEntity<IsDeliveryRestaurantResponse> retrieveRestaurantById(@PathVariable("id")
                                                                             @NotNull
                                                                             Long id){
-        var response = restaurantProfileService.retrieveRestaurantById(id);
+        var response = restaurantProfileFacade.retrieveRestaurantById(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
 
     }

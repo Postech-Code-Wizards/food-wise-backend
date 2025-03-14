@@ -1,4 +1,4 @@
-package br.com.foodwise.platform.infrastructure.rest.converter.restaurant;
+package br.com.foodwise.platform.application.facade.converter.restaurant;
 
 import br.com.foodwise.platform.domain.RestaurantProfile;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.IsDeliveryRestaurantResponse;
