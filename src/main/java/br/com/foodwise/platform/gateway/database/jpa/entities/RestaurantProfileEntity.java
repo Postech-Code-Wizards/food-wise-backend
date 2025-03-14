@@ -49,7 +49,7 @@ public class RestaurantProfileEntity {
     private boolean isOpen = false;
 
     @Column(name = "is_delivery_order", nullable = false)
-    private Boolean isDeliveryOrder;
+    private boolean isDeliveryOrder;
 
     @CreationTimestamp
     @Column(name = "created_at")

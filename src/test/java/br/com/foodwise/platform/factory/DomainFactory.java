@@ -30,6 +30,7 @@ public class DomainFactory {
                 (short) 0,
                 "",
                 false,
+                false,
                 ZonedDateTime.now(),
                 ZonedDateTime.now(),
                 SecurityHelperFactory.buildMockUser(),

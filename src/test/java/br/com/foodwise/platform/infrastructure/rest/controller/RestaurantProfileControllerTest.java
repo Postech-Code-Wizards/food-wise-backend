@@ -10,6 +10,7 @@ import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRe
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.response.IsDeliveryRestaurantResponse;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.instancio.Instancio;
@@ -23,7 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -32,6 +35,7 @@ import static br.com.foodwise.platform.factory.RequestFactory.buildRestaurantPro
 import static br.com.foodwise.platform.factory.RequestFactory.buildValidRegisterRestaurantRequest;
 import static br.com.foodwise.platform.factory.RequestFactory.buildrestaurantOwnerRequest;
 import static br.com.foodwise.platform.factory.SecurityHelperFactory.authenticateUser;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.any;
@@ -180,6 +184,23 @@ class RestaurantProfileControllerTest {
                     .andExpect(MockMvcResultMatchers.status().isNoContent());
 
             verify(restaurantProfileFacade, times(1)).updateRestaurantOwner(any(RegisterRestaurantOwnerRequest.class), eq(userId));
+        }
+
+        @Test
+        void retrieveRestaurantById_ShouldReturnOkAndResponse() throws Exception {
+
+            IsDeliveryRestaurantResponse expectedResponse = Instancio.create(IsDeliveryRestaurantResponse.class);
+
+            when(restaurantProfileFacade.retrieveRestaurantById(anyLong())).thenReturn(expectedResponse);
+
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/restaurant/{id}", expectedResponse.getId()))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(expectedResponse.getId()))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.businessName").value(expectedResponse.getBusinessName()));
+
+            ResponseEntity<IsDeliveryRestaurantResponse> responseEntity = restaurantProfileController.retrieveRestaurantById(expectedResponse.getId());
+            assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+            assertEquals(expectedResponse, responseEntity.getBody());
         }
 
     }

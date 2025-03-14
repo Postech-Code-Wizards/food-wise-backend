@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
+
 @Component
 @RequiredArgsConstructor
 public class RestaurantProfileRequestToDomainConverter implements Converter<RestaurantProfileRequest, RestaurantProfile> {
@@ -27,8 +29,9 @@ public class RestaurantProfileRequestToDomainConverter implements Converter<Rest
                 source.getDeliveryRadius(),
                 source.getCuisineType(),
                 true,
-                false,
-                null,
+                source.getIsDeliveryOrder(),
+                ZonedDateTime.now(),
+                ZonedDateTime.now(),
                 user,
                 addressRequestToDomainConverter.convert(source.getAddress()),
                 phoneRequestToDomainConverter.convert(source.getPhone())
@@ -45,8 +48,9 @@ public class RestaurantProfileRequestToDomainConverter implements Converter<Rest
                 source.getDeliveryRadius(),
                 source.getCuisineType(),
                 true,
-                false,
-                null,
+                true,
+                ZonedDateTime.now(),
+                ZonedDateTime.now(),
                 null,
                 addressRequestToDomainConverter.convert(source.getAddress()),
                 phoneRequestToDomainConverter.convert(source.getPhone())

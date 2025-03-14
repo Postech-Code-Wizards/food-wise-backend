@@ -97,12 +97,9 @@ public class RestaurantProfileController implements RestaurantProfileApi {
     }
 
     @Override
-    public ResponseEntity<IsDeliveryRestaurantResponse> retrieveRestaurantById(@PathVariable("id")
-                                                                            @NotNull
-                                                                            Long id){
+    public ResponseEntity<IsDeliveryRestaurantResponse> retrieveRestaurantById(@PathVariable("id") @NotNull Long id){
         var response = restaurantProfileFacade.retrieveRestaurantById(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
-
     }
 
 }

@@ -22,7 +22,7 @@ public class RestaurantProfileEntityToDomainConverter {
                 source.getDeliveryRadius(),
                 source.getCuisineType(),
                 source.isOpen(),
-                source.getIsDeliveryOrder(),
+                source.isDeliveryOrder(),
                 source.getCreatedAt(),
                 source.getUpdatedAt(),
                 userEntityToDomainConverter.convert(source.getUserEntity()),

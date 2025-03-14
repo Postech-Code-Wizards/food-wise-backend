@@ -452,8 +452,6 @@ public interface RestaurantProfileApi {
     }
     )
     @GetMapping("/{id}")
-    ResponseEntity<IsDeliveryRestaurantResponse> retrieveRestaurantById(@PathVariable("id")
-                                                                               @NotNull
-                                                                               Long id);
+    ResponseEntity<IsDeliveryRestaurantResponse> retrieveRestaurantById(@PathVariable("id") @NotNull Long id);
 
 }

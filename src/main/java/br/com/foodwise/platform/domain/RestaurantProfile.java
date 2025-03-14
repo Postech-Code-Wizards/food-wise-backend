@@ -15,13 +15,10 @@ public class RestaurantProfile {
     private Short deliveryRadius;
     private String cuisineType;
     private boolean isOpen;
-    private Boolean isDeliveryOrder;
+    private boolean isDeliveryOrder;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
     private User user;
     private Address address;
     private Phone phone;
-
-    public RestaurantProfile(Object id, String businessName, String description, String businessHours, Short deliveryRadius, String cuisineType, boolean isOpen, boolean isDeliveryOrder, Object createdAt, User user, Address convert, Phone convert1) {
-    }
 }
