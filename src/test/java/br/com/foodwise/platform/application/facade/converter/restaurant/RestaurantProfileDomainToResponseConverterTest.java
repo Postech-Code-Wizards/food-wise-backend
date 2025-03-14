@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.application.facade.converter.restaurant;
 
-import br.com.foodwise.platform.application.facade.converter.restaurant.RestaurantProfileDomainToResponseConverter;
+import br.com.foodwise.platform.domain.RestaurantOwner;
 import br.com.foodwise.platform.domain.RestaurantProfile;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
 import org.instancio.Instancio;
@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
-import static org.instancio.Select.field;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class RestaurantProfileDomainToResponseConverterTest {
 
@@ -37,21 +37,17 @@ class RestaurantProfileDomainToResponseConverterTest {
     }
 
     @Test
-    @DisplayName("Should convert RestaurantProfile with null fields")
-    void convert_ShouldConvertRestaurantProfileWithNullFields() {
+    @DisplayName("Should convert RestaurantProfile and RestaurantOwner to RestaurantProfileResponse")
+    void convert_ShouldConvertProfileAndOwnerToResponse() {
 
-        RestaurantProfile source = Instancio.of(RestaurantProfile.class)
-                .set(field(RestaurantProfile::getId), null)
-                .set(field(RestaurantProfile::getBusinessName), null)
-                .set(field(RestaurantProfile::getDescription), null)
-                .create();
+        RestaurantProfile source = Instancio.create(RestaurantProfile.class);
+        RestaurantOwner owner = Instancio.create(RestaurantOwner.class);
 
-        RestaurantProfileResponse result = restaurantProfileDomainToResponseConverter.convert(source);
+        RestaurantProfileResponse response = restaurantProfileDomainToResponseConverter.convert(source, owner);
 
-        assertNotNull(result);
-        assertNull(result.getBusinessName());
-        assertNull(result.getDescription());
-
+        assertNotNull(response);
+        assertEquals(source.getDescription(), response.getDescription());
+        assertEquals(owner, response.getRestaurantOwner());
     }
 
 }

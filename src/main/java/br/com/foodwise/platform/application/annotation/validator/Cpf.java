@@ -2,6 +2,9 @@ package br.com.foodwise.platform.application.annotation.validator;
 
 public class Cpf {
 
+    private Cpf() {
+    }
+
     static boolean isValid(String digits) {
         if (Long.parseLong(digits) % 10 == 0) {
             return somaPonderada(digits) % 11 < 2;

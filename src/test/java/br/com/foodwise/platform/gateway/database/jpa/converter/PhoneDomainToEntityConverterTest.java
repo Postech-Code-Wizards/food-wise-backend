@@ -24,7 +24,7 @@ class PhoneDomainToEntityConverterTest {
 
     @Test
     @DisplayName("Test conversion of Phone to PhoneEntity")
-    public void testConvertPhoneToEntity() {
+    void testConvertPhoneToEntity() {
 
         Phone source = Instancio.create(Phone.class);
 

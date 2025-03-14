@@ -24,26 +24,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static br.com.foodwise.platform.factory.RequestFactory.buildRestaurantProfileRequest;
-import static br.com.foodwise.platform.factory.RequestFactory.buildValidRegisterRestaurantRequest;
-import static br.com.foodwise.platform.factory.RequestFactory.buildrestaurantOwnerRequest;
+import static br.com.foodwise.platform.factory.RequestFactory.*;
 import static br.com.foodwise.platform.factory.SecurityHelperFactory.authenticateUser;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
@@ -198,9 +188,7 @@ class RestaurantProfileControllerTest {
                     .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(expectedResponse.getId()))
                     .andExpect(MockMvcResultMatchers.jsonPath("$.businessName").value(expectedResponse.getBusinessName()));
 
-            ResponseEntity<IsDeliveryRestaurantResponse> responseEntity = restaurantProfileController.retrieveRestaurantById(expectedResponse.getId());
-            assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-            assertEquals(expectedResponse, responseEntity.getBody());
+            verify(restaurantProfileFacade, times(1)).retrieveRestaurantById(anyLong());
         }
 
     }

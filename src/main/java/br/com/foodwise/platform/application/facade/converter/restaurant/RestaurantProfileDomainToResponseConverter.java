@@ -20,7 +20,6 @@ public class RestaurantProfileDomainToResponseConverter {
         return response;
     }
 
-
     public RestaurantProfileResponse convert(RestaurantProfile source, RestaurantOwner owner) {
         var response = new RestaurantProfileResponse();
 

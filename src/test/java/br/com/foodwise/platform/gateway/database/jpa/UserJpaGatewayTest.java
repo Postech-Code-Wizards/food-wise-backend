@@ -6,6 +6,7 @@ import br.com.foodwise.platform.gateway.database.jpa.converter.UserDomainToEntit
 import br.com.foodwise.platform.gateway.database.jpa.converter.UserEntityToDomainConverter;
 import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
 import br.com.foodwise.platform.gateway.database.jpa.repository.UserRepository;
+import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -169,6 +170,33 @@ class UserJpaGatewayTest {
         userJpaGateway.findByIdAndUserTypeAndDeletedAtIsNull(id, userType);
 
         verify(userRepository).findByIdAndUserTypeAndDeletedAtIsNull(id, userType);
+    }
+
+    @Test
+    @DisplayName("Should find User by ID and convert to domain")
+    void findUserById_ShouldFindAndConvert() {
+
+        Long userId = Instancio.create(Long.class);
+        UserEntity userEntity = Instancio.create(UserEntity.class);
+        User expectedUser = Instancio.create(User.class);
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(userEntity));
+        when(userEntityToDomainConverter.convert(userEntity)).thenReturn(expectedUser);
+
+        User actualUser = userJpaGateway.findUserById(userId);
+
+        assertEquals(expectedUser, actualUser);
+    }
+
+    @Test
+    @DisplayName("Should throw ResourceNotFoundException when User is not found")
+    void findUserById_ShouldThrowResourceNotFound() {
+
+        Long userId = Instancio.create(Long.class);
+
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> userJpaGateway.findUserById(userId));
     }
 
 }

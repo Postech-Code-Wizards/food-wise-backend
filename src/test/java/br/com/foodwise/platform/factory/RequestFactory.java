@@ -75,6 +75,7 @@ public class RequestFactory {
         restaurant.setBusinessName("Valid Business");
         restaurant.setBusinessHours("09:00-18:00");
         restaurant.setCuisineType("Italian");
+        restaurant.setIsDeliveryOrder(true);
         restaurant.setAddress(buildAddressRequest());
         restaurant.setPhone(buildPhoneRequest());
         return restaurant;

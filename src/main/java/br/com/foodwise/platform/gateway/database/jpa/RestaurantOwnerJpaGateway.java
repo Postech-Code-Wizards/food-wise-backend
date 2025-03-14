@@ -38,4 +38,5 @@ public class RestaurantOwnerJpaGateway implements RestaurantOwnerGateway {
 
         restaurantOwnerRepository.save(restaurantOwnerEntity);
     }
+
 }
