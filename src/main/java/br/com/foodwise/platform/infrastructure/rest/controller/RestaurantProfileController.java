@@ -4,6 +4,7 @@ import br.com.foodwise.platform.application.facade.RestaurantProfileFacade;
 import br.com.foodwise.platform.application.facade.UserFacade;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
@@ -15,7 +16,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,8 +38,8 @@ public class RestaurantProfileController implements RestaurantProfileApi {
     }
 
     @Override
-    public ResponseEntity<RestaurantProfileResponse> retrieveMyProfile() {
-        var restaurantProfile = restaurantProfileFacade.retrieveRestaurantByEmail();
+    public ResponseEntity<RestaurantProfileResponse> retrieveMyProfile(String email) {
+        var restaurantProfile = restaurantProfileFacade.retrieveRestaurantByEmail(email);
         return ResponseEntity.status(HttpStatus.OK).body(restaurantProfile);
     }
 
@@ -65,6 +70,12 @@ public class RestaurantProfileController implements RestaurantProfileApi {
     }
 
     @Override
+    public ResponseEntity<RegisterRestaurantOwnerRequest> changeOwnerProfile(Long userId, RegisterRestaurantOwnerRequest registerRestaurantOwnerRequest) {
+        restaurantProfileFacade.updateRestaurantOwner(registerRestaurantOwnerRequest, userId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Override
     public ResponseEntity<RestaurantProfileRequest> changeMyEmail(
             @PathVariable("id") Long id,
             @Valid @RequestBody UserRequest userRequest
@@ -75,7 +86,7 @@ public class RestaurantProfileController implements RestaurantProfileApi {
 
     @Override
     public ResponseEntity<RestaurantProfileResponse> retrieveRestaurantByEmail(@RequestParam @NotNull String email) {
-        var restaurantProfileResponse = restaurantProfileFacade.retrieveRestaurantByEmail();
+        var restaurantProfileResponse = restaurantProfileFacade.retrieveRestaurantByEmail(email);
         return ResponseEntity.status(HttpStatus.OK).body(restaurantProfileResponse);
     }
 

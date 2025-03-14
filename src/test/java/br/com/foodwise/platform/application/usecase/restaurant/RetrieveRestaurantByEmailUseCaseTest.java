@@ -50,7 +50,7 @@ class RetrieveRestaurantByEmailUseCaseTest {
                 .thenReturn(restaurantProfile);
         when(authentication.getPrincipal()).thenReturn(user);
 
-        var response = retrieveRestaurantByEmailUseCase.execute();
+        var response = retrieveRestaurantByEmailUseCase.execute(user.getEmail());
 
         assertNotNull(response);
         assertEquals(response, restaurantProfile);

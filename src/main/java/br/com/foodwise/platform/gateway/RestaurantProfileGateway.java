@@ -10,6 +10,6 @@ public interface RestaurantProfileGateway {
 
     RestaurantProfile findByBusinessName(String businessName);
 
-    void save(RestaurantProfile restaurantProfile);
+    RestaurantProfile save(RestaurantProfile restaurantProfile);
 
 }

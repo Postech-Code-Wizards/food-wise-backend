@@ -17,4 +17,6 @@ public interface UserGateway {
     User save(User user);
 
     void delete(long id, UserType userType);
+
+    User findUserById(Long id);
 }

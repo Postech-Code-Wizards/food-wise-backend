@@ -7,6 +7,7 @@ import br.com.foodwise.platform.gateway.database.jpa.converter.UserDomainToEntit
 import br.com.foodwise.platform.gateway.database.jpa.converter.UserEntityToDomainConverter;
 import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
 import br.com.foodwise.platform.gateway.database.jpa.repository.UserRepository;
+import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -68,6 +69,12 @@ public class UserJpaGateway implements UserGateway {
             userEntity.setDeletedAt(ZonedDateTime.now());
             userRepository.save(userEntity);
         }
+    }
+
+    @Override
+    public User findUserById(Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return userEntityToDomainConverter.convert(userEntity);
     }
 
     private static void registerLogUserNotFound(long id, UserType userType) {
