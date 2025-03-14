@@ -17,6 +17,7 @@ public class RestaurantProfileResponse {
     private Short deliveryRadius;
     private String cuisineType;
     private boolean isOpen;
+    private Boolean isDeliveryOrder;
     private AddressEntity addressEntity;
     private PhoneEntity phoneEntity;
 

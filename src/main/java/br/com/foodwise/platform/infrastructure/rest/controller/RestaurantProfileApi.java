@@ -4,6 +4,7 @@ import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.Passwo
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.response.IsDeliveryRestaurantResponse;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -362,4 +363,65 @@ public interface RestaurantProfileApi {
     )
     @PutMapping("/updatePassword")
     ResponseEntity<Void> changePassword(@Valid @RequestBody PasswordRequest passwordRequest);
+
+    @Operation(
+            description = "Returns delivery availability of the restaurant searched by id",
+            summary = "Restaurant is delivery order",
+            responses = {
+        @ApiResponse(
+                responseCode = "200",
+                description = "Ok",
+                content = @Content(
+                        mediaType = "application/json",
+                        schema = @Schema(implementation = RestaurantProfileResponse.class)
+                )
+        ),
+        @ApiResponse(
+                responseCode = "404",
+                description = "Not Found restaurant profile",
+                content = @Content(
+                        mediaType = "application/json",
+                        examples = @ExampleObject(
+                                """
+                                        {
+                                            "statusCode": 404,
+                                            "errors": [
+                                                {
+                                                    "code": "NOT_FOUND",
+                                                    "message": "Restaurant businessName not found"
+                                                }
+                                            ]
+                                        }
+                                        """
+                        )
+                )
+        ),
+        @ApiResponse(
+                responseCode = "500",
+                description = "Sorry, internal server error, try again later",
+                content = @Content(
+                        mediaType = "application/json",
+                        examples = @ExampleObject(
+                                """
+                                        {
+                                            "statusCode": 500,
+                                            "errors": [
+                                                {
+                                                    "code": "INTERNAL_SERVER_ERROR",
+                                                    "message": "Sorry, internal server error, try again later"
+                                                }
+                                            ]
+                                        }
+                                        """
+                        )
+                )
+        )
+
+    }
+    )
+    @GetMapping("/{id}")
+    ResponseEntity<IsDeliveryRestaurantResponse> retrieveRestaurantById(@PathVariable("id")
+                                                                               @NotNull
+                                                                               Long id);
+
 }

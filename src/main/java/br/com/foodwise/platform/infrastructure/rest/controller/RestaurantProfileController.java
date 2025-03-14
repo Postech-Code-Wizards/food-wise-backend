@@ -12,6 +12,7 @@ import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.Passwo
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.response.IsDeliveryRestaurantResponse;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -36,11 +37,12 @@ public class RestaurantProfileController implements RestaurantProfileApi {
     private final UserRequestToDomainConverter userRequestToDomainConverter;
     private final PasswordRequestToDomainConverter passwordRequestToDomainConverter;
 
+
     @Override
     public ResponseEntity<Void> registerRestaurant(@RequestBody @Valid RegisterRestaurantRequest request) {
 
         User user = userRequestToDomainConverter.convert(request.getUser());
-        RestaurantProfile restaurantProfile = restaurantProfileRequestToDomainConverter.convert(request.getRestaurant(), user);
+        var restaurantProfile = restaurantProfileRequestToDomainConverter.convert(request.getRestaurant(), user);
         restaurantProfileService.registerRestaurant(restaurantProfile);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -102,6 +104,16 @@ public class RestaurantProfileController implements RestaurantProfileApi {
         User user = passwordRequestToDomainConverter.convert(passwordRequest);
         this.userService.updatePassword(user, passwordRequest.getNewPassword());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Override
+    public ResponseEntity<IsDeliveryRestaurantResponse> retrieveRestaurantById(@PathVariable("id")
+                                                                            @NotNull
+                                                                            Long id){
+        var response = restaurantProfileService.retrieveRestaurantById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+
     }
 
 }

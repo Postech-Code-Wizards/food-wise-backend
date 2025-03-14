@@ -7,11 +7,12 @@ import br.com.foodwise.platform.infrastructure.rest.converter.common.PhoneReques
 import br.com.foodwise.platform.infrastructure.rest.converter.common.UserRequestToDomainConverter;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RestaurantProfileRequestToDomainConverter {
+public class RestaurantProfileRequestToDomainConverter implements Converter<RestaurantProfileRequest, RestaurantProfile> {
 
     private final AddressRequestToDomainConverter addressRequestToDomainConverter;
     private final PhoneRequestToDomainConverter phoneRequestToDomainConverter;
@@ -26,7 +27,7 @@ public class RestaurantProfileRequestToDomainConverter {
                 source.getDeliveryRadius(),
                 source.getCuisineType(),
                 true,
-                null,
+                false,
                 null,
                 user,
                 addressRequestToDomainConverter.convert(source.getAddress()),
@@ -44,7 +45,7 @@ public class RestaurantProfileRequestToDomainConverter {
                 source.getDeliveryRadius(),
                 source.getCuisineType(),
                 true,
-                null,
+                false,
                 null,
                 null,
                 addressRequestToDomainConverter.convert(source.getAddress()),
