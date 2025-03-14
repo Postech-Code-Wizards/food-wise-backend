@@ -63,8 +63,7 @@ public class RestaurantProfileController implements RestaurantProfileApi {
     @Override
     public ResponseEntity<RestaurantProfileRequest> changeMyProfile(
             @PathVariable("id") Long id,
-            @Valid @RequestBody RestaurantProfileRequest restaurantProfileRequest
-    ) {
+            @Valid @RequestBody RestaurantProfileRequest restaurantProfileRequest) {
         restaurantProfileFacade.updateRestaurantProfile(restaurantProfileRequest, id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -94,6 +93,15 @@ public class RestaurantProfileController implements RestaurantProfileApi {
     public ResponseEntity<Void> changePassword(@Valid @RequestBody PasswordRequest passwordRequest) {
         userFacade.updatePassword(passwordRequest);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Override
+    public ResponseEntity<IsDeliveryRestaurantResponse> retrieveRestaurantById(@PathVariable("id")
+                                                                            @NotNull
+                                                                            Long id){
+        var response = restaurantProfileService.retrieveRestaurantById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+
     }
 
 }

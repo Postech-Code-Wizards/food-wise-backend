@@ -48,6 +48,9 @@ public class RestaurantProfileEntity {
     @Column(name = "is_open", nullable = false)
     private boolean isOpen = false;
 
+    @Column(name = "is_delivery_order", nullable = false)
+    private Boolean isDeliveryOrder;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private ZonedDateTime createdAt;
