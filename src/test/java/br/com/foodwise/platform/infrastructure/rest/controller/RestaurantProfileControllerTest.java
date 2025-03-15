@@ -183,7 +183,7 @@ class RestaurantProfileControllerTest {
 
             when(restaurantProfileFacade.retrieveRestaurantById(anyLong())).thenReturn(expectedResponse);
 
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/restaurant/{id}", expectedResponse.getId()))
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/restaurant/{id}/availability", expectedResponse.getId()))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(expectedResponse.getId()))
                     .andExpect(MockMvcResultMatchers.jsonPath("$.businessName").value(expectedResponse.getBusinessName()));

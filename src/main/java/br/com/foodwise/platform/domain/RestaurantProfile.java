@@ -1,6 +1,7 @@
 package br.com.foodwise.platform.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.ZonedDateTime;

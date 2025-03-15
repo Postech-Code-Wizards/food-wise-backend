@@ -48,7 +48,7 @@ public class RestaurantProfileRequestToDomainConverter implements Converter<Rest
                 source.getDeliveryRadius(),
                 source.getCuisineType(),
                 true,
-                true,
+                source.getIsDeliveryOrder(),
                 ZonedDateTime.now(),
                 ZonedDateTime.now(),
                 null,
