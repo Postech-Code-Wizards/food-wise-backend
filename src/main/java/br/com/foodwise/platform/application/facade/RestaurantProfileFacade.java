@@ -9,6 +9,7 @@ import br.com.foodwise.platform.application.usecase.restaurant.*;
 import br.com.foodwise.platform.domain.RestaurantOwner;
 import br.com.foodwise.platform.domain.RestaurantProfile;
 import br.com.foodwise.platform.domain.User;
+import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
@@ -16,6 +17,7 @@ import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restau
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.IsDeliveryRestaurantResponse;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -58,6 +60,15 @@ public class RestaurantProfileFacade {
     public RestaurantProfileResponse retrieveRestaurantByBusinessName(String businessName) {
         RestaurantProfile restaurantProfile = retrieveRestaurantByBusinessNameUseCase.execute(businessName);
         return restaurantProfileDomainToResponseConverter.convert(restaurantProfile);
+    }
+
+    public RestaurantProfileResponse retrieveMyProfile() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var userAuthenticated = (UserEntity) authentication.getPrincipal();
+
+        var restaurantProfile = retrieveRestaurantByEmailUseCase.execute(userAuthenticated.getEmail());
+        var restaurantOwner = retrieveRestaurantOwnerUseCase.execute(restaurantProfile.getId());
+        return restaurantProfileDomainToResponseConverter.convert(restaurantProfile, restaurantOwner);
     }
 
     public RestaurantProfileResponse retrieveRestaurantByEmail(String email) {

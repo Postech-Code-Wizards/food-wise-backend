@@ -39,8 +39,8 @@ public class RestaurantProfileController implements RestaurantProfileApi {
     }
 
     @Override
-    public ResponseEntity<RestaurantProfileResponse> retrieveMyProfile(String email) {
-        var restaurantProfile = restaurantProfileFacade.retrieveRestaurantByEmail(email);
+    public ResponseEntity<RestaurantProfileResponse> retrieveMyProfile() {
+        var restaurantProfile = restaurantProfileFacade.retrieveMyProfile();
         return ResponseEntity.status(HttpStatus.OK).body(restaurantProfile);
     }
 

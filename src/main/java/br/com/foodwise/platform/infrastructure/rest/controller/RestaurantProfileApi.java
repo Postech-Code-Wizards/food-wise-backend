@@ -133,7 +133,7 @@ public interface RestaurantProfileApi {
             }
     )
     @GetMapping("/my-profile")
-    ResponseEntity<RestaurantProfileResponse> retrieveMyProfile(@Valid String email);
+    ResponseEntity<RestaurantProfileResponse> retrieveMyProfile();
 
     @Operation(
             description = "Returns the profile of the restaurant searched by name",
