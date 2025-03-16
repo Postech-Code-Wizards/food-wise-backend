@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
-class CustomerDomainProfileEntityToDomainConverterTest {
+class CustomerProfileEntityToDomainConverterTest {
 
     @Mock
     private AddressEntityToDomainConverter addressEntityToDomainConverter;
@@ -29,7 +29,7 @@ class CustomerDomainProfileEntityToDomainConverterTest {
     private PhoneEntityToDomainConverter phoneEntityToDomainConverter;
 
     @InjectMocks
-    private CustomerDomainProfileEntityToDomainConverter customerDomainProfileEntityToDomainConverter;
+    private CustomerProfileEntityToDomainConverter customerProfileEntityToDomainConverter;
 
     @BeforeEach
     void setUp() {
@@ -49,7 +49,7 @@ class CustomerDomainProfileEntityToDomainConverterTest {
         when(userEntityToDomainConverter.convert(source.getUserEntity())).thenReturn(user);
         when(phoneEntityToDomainConverter.convert(source.getPhoneEntity())).thenReturn(phone);
 
-        CustomerProfile domain = customerDomainProfileEntityToDomainConverter.convert(source);
+        CustomerProfile domain = customerProfileEntityToDomainConverter.convert(source);
 
         assertNotNull(domain);
         assertEquals(source.getFirstName(), domain.getFirstName());

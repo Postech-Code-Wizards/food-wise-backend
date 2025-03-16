@@ -30,7 +30,7 @@ class GenerateTokenUseCaseTest {
     @Mock
     private ExpirationDateUseCase expirationDateUseCase;
 
-    private String secret = "secret";
+    private final String secret = "secret";
 
     @BeforeEach
     void setUp() {

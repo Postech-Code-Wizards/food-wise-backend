@@ -14,13 +14,13 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-class MenuItemDomainToEntityConverterTest {
+class MenuItemDomainToMenuItemEntityConverterTest {
 
     @Mock
     private MenuDomainToEntityConverter menuDomainToEntityConverter;
 
     @InjectMocks
-    private MenuItemDomainToEntityConverter menuItemDomainToEntityConverter;
+    private MenuItemDomainToMenuItemEntityConverter menuItemDomainToMenuItemEntityConverter;
 
     @BeforeEach
     void setUp() {
@@ -36,7 +36,7 @@ class MenuItemDomainToEntityConverterTest {
 
         when(menuDomainToEntityConverter.convert(source.getMenu())).thenReturn(menuEntity);
 
-        MenuItemEntity entity = menuItemDomainToEntityConverter.convert(source);
+        MenuItemEntity entity = menuItemDomainToMenuItemEntityConverter.convert(source);
 
         assertNotNull(entity);
         assertEquals(source.getId(), entity.getId());

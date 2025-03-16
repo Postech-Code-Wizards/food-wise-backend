@@ -3,7 +3,7 @@ package br.com.foodwise.platform.gateway.database.jpa;
 import br.com.foodwise.platform.domain.CustomerProfile;
 import br.com.foodwise.platform.gateway.CustomerProfileGateway;
 import br.com.foodwise.platform.gateway.database.jpa.converter.CustomerProfileDomainToEntityConverter;
-import br.com.foodwise.platform.gateway.database.jpa.converter.CustomerDomainProfileEntityToDomainConverter;
+import br.com.foodwise.platform.gateway.database.jpa.converter.CustomerProfileEntityToDomainConverter;
 import br.com.foodwise.platform.gateway.database.jpa.entities.CustomerProfileEntity;
 import br.com.foodwise.platform.gateway.database.jpa.repository.CustomerProfileRepository;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
@@ -19,7 +19,7 @@ import java.util.Objects;
 public class CustomerProfileJpaGateway implements CustomerProfileGateway {
 
     private final CustomerProfileRepository customerProfileRepository;
-    private final CustomerDomainProfileEntityToDomainConverter customerDomainProfileEntityToDomainConverter;
+    private final CustomerProfileEntityToDomainConverter customerProfileEntityToDomainConverter;
     private final CustomerProfileDomainToEntityConverter customerProfileDomainToEntityConverter;
 
     @Override
@@ -27,7 +27,7 @@ public class CustomerProfileJpaGateway implements CustomerProfileGateway {
         var customerProfileEntity = customerProfileRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("CUSTOMER_DOES_NOT_EXIST", ""));
 
-        return customerDomainProfileEntityToDomainConverter.convert(customerProfileEntity);
+        return customerProfileEntityToDomainConverter.convert(customerProfileEntity);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class CustomerProfileJpaGateway implements CustomerProfileGateway {
         var customerProfileEntity = customerProfileRepository.findByUserEntityEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User " + email));
 
-        return customerDomainProfileEntityToDomainConverter.convert(customerProfileEntity);
+        return customerProfileEntityToDomainConverter.convert(customerProfileEntity);
     }
 
     @Override
@@ -46,7 +46,6 @@ public class CustomerProfileJpaGateway implements CustomerProfileGateway {
 
         CustomerProfileEntity customerProfileEntity = customerProfileDomainToEntityConverter.convert(customerProfile);
         customerProfileRepository.save(customerProfileEntity);
-
     }
 
 }

@@ -14,7 +14,7 @@ public interface UserGateway {
 
     Optional<User> findByIdAndUserTypeAndDeletedAtIsNull(long id, UserType userType);
 
-    User save(User user);
+    void save(User user);
 
     void delete(long id, UserType userType);
 }

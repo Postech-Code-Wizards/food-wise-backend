@@ -10,7 +10,11 @@ import java.time.ZonedDateTime;
 public class OrderItem {
     private Long id;
     private MenuItem menuItem;
-    private OrderPayment orderPayment;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
+    private Order order;
+
+    public void updateMenuItem(MenuItem menuItem) {
+        this.menuItem = menuItem;
+    }
 }

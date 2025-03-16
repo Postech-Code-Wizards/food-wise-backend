@@ -16,4 +16,8 @@ public class CustomerProfile {
     private ZonedDateTime updatedAt;
     private User user;
     private Phone phone;
+
+    public void updateAddress(Address address) {
+        this.address = address;
+    }
 }

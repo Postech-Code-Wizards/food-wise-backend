@@ -1,28 +1,24 @@
 package br.com.foodwise.platform.gateway.database.jpa.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class OrderEntity {
 
     @Id
@@ -31,27 +27,23 @@ public class OrderEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id", nullable = false)
     private CustomerProfileEntity customerProfileEntity;
 
     @ManyToOne
-    @JoinColumn(name = "restaurant_id")
+    @JoinColumn(name = "restaurant_id", nullable = false)
     private RestaurantProfileEntity restaurantProfileEntity;
 
-    @OneToOne
-    @JoinColumn(name = "order_status_id", nullable = false)
-    private OrderStatusEntity orderStatusEntity;
-
-    @Column(name = "order_date", nullable = false)
+    @Column(name = "order_date")
     private ZonedDateTime orderDate;
 
     @ManyToOne
     @JoinColumn(name = "delivery_to_customer_address_id", nullable = false)
-    private AddressEntity addressEntityCustomer;
+    private AddressEntity addressCustomerEntity;
 
     @ManyToOne
     @JoinColumn(name = "delivery_from_restaurant_address_id", nullable = false)
-    private AddressEntity addressEntityRestaurant;
+    private AddressEntity addressRestaurantEntity;
 
     @Column(name = "total_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalPrice;
@@ -59,10 +51,25 @@ public class OrderEntity {
     @Column(name = "transaction_date")
     private ZonedDateTime transactionDate;
 
+    @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private ZonedDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
 
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "order_status_id", nullable = false)
+    private OrderStatusEntity orderStatusEntity;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItemEntity> orderItemsEntity;
+
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "order_payment_id", nullable = false)
+    private OrderPaymentEntity orderPaymentEntity;
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CustomerDomainProfileEntityToDomainConverter {
+public class CustomerProfileEntityToDomainConverter {
 
     private final AddressEntityToDomainConverter addressEntityToDomainConverter;
     private final UserEntityToDomainConverter userEntityToDomainConverter;

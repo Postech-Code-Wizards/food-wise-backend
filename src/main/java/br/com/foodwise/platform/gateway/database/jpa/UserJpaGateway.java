@@ -57,7 +57,7 @@ public class UserJpaGateway implements UserGateway {
     }
 
     @Override
-    public User save(User user) {
+    public void save(User user) {
 
         if(Objects.isNull(user)) {
             log.info("User is null");
@@ -65,7 +65,7 @@ public class UserJpaGateway implements UserGateway {
 
         UserEntity userEntity = userDomainToEntityConverter.convert(user);
         UserEntity userEntitySaved = userRepository.save(userEntity);
-        return userEntityToDomainConverter.convert(userEntitySaved);
+        userEntityToDomainConverter.convert(userEntitySaved);
     }
 
     @Override

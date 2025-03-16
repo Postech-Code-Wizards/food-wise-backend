@@ -2,7 +2,7 @@ package br.com.foodwise.platform.gateway.database.jpa;
 
 import br.com.foodwise.platform.domain.MenuItem;
 import br.com.foodwise.platform.gateway.MenuItemGateway;
-import br.com.foodwise.platform.gateway.database.jpa.converter.MenuItemDomainToEntityConverter;
+import br.com.foodwise.platform.gateway.database.jpa.converter.MenuItemDomainToMenuItemEntityConverter;
 import br.com.foodwise.platform.gateway.database.jpa.converter.MenuItemEntityToDomainConverter;
 import br.com.foodwise.platform.gateway.database.jpa.repository.MenuItemRepository;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
@@ -20,7 +20,7 @@ public class MenuItemJpaGateway implements MenuItemGateway {
 
     private final MenuItemRepository menuItemRepository;
     private final MenuItemEntityToDomainConverter menuItemEntityToDomainConverter;
-    private final MenuItemDomainToEntityConverter menuItemDomainToEntityConverter;
+    private final MenuItemDomainToMenuItemEntityConverter menuItemDomainToMenuItemEntityConverter;
 
     @Override
     public MenuItem findById(Long id) {
@@ -56,14 +56,14 @@ public class MenuItemJpaGateway implements MenuItemGateway {
 
     @Override
     public MenuItem save(MenuItem menuItem) {
-        var menuItemEntity = menuItemDomainToEntityConverter.convert(menuItem);
+        var menuItemEntity = menuItemDomainToMenuItemEntityConverter.convert(menuItem);
         var menuItemSaved = menuItemRepository.save(menuItemEntity);
         return menuItemEntityToDomainConverter.convert(menuItemSaved);
     }
 
     @Override
     public void delete(MenuItem menuItem) {
-        var menuItemEntity = menuItemDomainToEntityConverter.convert(menuItem);
+        var menuItemEntity = menuItemDomainToMenuItemEntityConverter.convert(menuItem);
         menuItemRepository.delete(menuItemEntity);
     }
 
