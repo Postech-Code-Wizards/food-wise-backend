@@ -33,8 +33,8 @@ public class RestaurantProfileControllerIT {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
     }
 
-    private static final String TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InRlc3RlMDVAdGVzdGUuY29tIiwiZXhwIjoxNzQyMjQzMjkxfQ.yzgJcchPnP3eNK0F7qmGUGjL_jdGRX5wWS_yJH3WZEI";
-    private static final String TEST_EMAIL = "teste04@teste.com";
+    private static final String TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJlc3RhdXJhbnRfdXNlcjA0QGNvZGV3aXphcmRzLmNvbSIsImV4cCI6MTc0MjI2MDgyMX0.5XZNhRillglVFVXmXzrXw86Sw4xii7CEyOWvBboEa8c";
+    private static final String TEST_EMAIL = "restaurant_user04@codewizards.com";
 
     @Test
     void shouldRegisterRestaurantSuccessfully() {
@@ -61,8 +61,8 @@ public class RestaurantProfileControllerIT {
             .body("$", hasKey("description"))
             .body("$", hasKey("businessHours"))
             .body("$", hasKey("deliveryRadius"))
-            .body("businessName", equalTo("teste"))
-            .body("description", equalTo("teste"))
+            .body("businessName", equalTo("Burger King"))
+            .body("description", equalTo("Description"))
             .body("businessHours", equalTo("09:00-18:00"));
     }
 
@@ -80,8 +80,8 @@ public class RestaurantProfileControllerIT {
             .body("$", hasKey("description"))
             .body("$", hasKey("businessHours"))
             .body("$", hasKey("deliveryRadius"))
-            .body("businessName", equalTo("teste"))
-            .body("description", equalTo("teste"))
+            .body("businessName", equalTo("Burger King"))
+            .body("description", equalTo("Description"))
             .body("businessHours", equalTo("09:00-18:00"));
     }
 
@@ -89,7 +89,7 @@ public class RestaurantProfileControllerIT {
     @Test
     void shouldRetrieveRestaurantByBusinessNameSuccessfully() {
 
-        var businessName = "teste";
+        var businessName = "Burger King";
 
         given()
             .header("Authorization", "Bearer " + TOKEN)
@@ -102,15 +102,15 @@ public class RestaurantProfileControllerIT {
             .body("$", hasKey("description"))
             .body("$", hasKey("businessHours"))
             .body("$", hasKey("deliveryRadius"))
-            .body("businessName", equalTo("teste"))
-            .body("description", equalTo("teste"))
+            .body("businessName", equalTo("Burger King"))
+            .body("description", equalTo("Description"))
             .body("businessHours", equalTo("09:00-18:00"));
     }
 
     @Test
     void retrieveRestaurantById_ShouldReturnOkAndResponse() {
 
-        var id = "1";
+        var id = "2";
 
         given()
             .header("Authorization", "Bearer " + TOKEN)
@@ -120,7 +120,7 @@ public class RestaurantProfileControllerIT {
             .statusCode(HttpStatus.OK.value())
             .body("$", hasKey("businessName"))
             .body("$", hasKey("deliveryOrder"))
-            .body("businessName", equalTo("teste"))
+            .body("businessName", equalTo("Burger King"))
             .body("deliveryOrder", equalTo(true));
     }
 
@@ -158,7 +158,7 @@ public class RestaurantProfileControllerIT {
 
     @Test
     void deleteRestaurant() {
-        var id = "4";
+        var id = "2";
 
         given()
             .header("Authorization", "Bearer " + TOKEN)
