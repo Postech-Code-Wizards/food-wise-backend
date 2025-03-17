@@ -26,7 +26,7 @@ public class OrderItemEntity {
 
     @ManyToOne
     @JoinColumn(name = "menu_item_id", nullable = false)
-    private MenuItemEntity menuItem;
+    private MenuItemEntity menuItemEntity;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

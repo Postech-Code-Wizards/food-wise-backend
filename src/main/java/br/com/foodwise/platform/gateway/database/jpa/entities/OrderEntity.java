@@ -60,7 +60,7 @@ public class OrderEntity {
     private ZonedDateTime updatedAt;
 
     @JsonIgnore
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_status_id", nullable = false)
     private OrderStatusEntity orderStatusEntity;
 
@@ -69,7 +69,7 @@ public class OrderEntity {
     private List<OrderItemEntity> orderItemsEntity;
 
     @JsonIgnore
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_payment_id", nullable = false)
     private OrderPaymentEntity orderPaymentEntity;
 }

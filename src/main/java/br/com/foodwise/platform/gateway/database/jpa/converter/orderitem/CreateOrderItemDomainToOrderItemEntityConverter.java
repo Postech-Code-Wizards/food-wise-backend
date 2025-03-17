@@ -2,30 +2,30 @@ package br.com.foodwise.platform.gateway.database.jpa.converter.orderitem;
 
 import br.com.foodwise.platform.domain.OrderItem;
 import br.com.foodwise.platform.gateway.database.jpa.converter.MenuItemDomainToMenuItemEntityConverter;
+import br.com.foodwise.platform.gateway.database.jpa.converter.orders.OrderDomainToOrderEntityConverter;
 import br.com.foodwise.platform.gateway.database.jpa.entities.OrderItemEntity;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class CreateOrderItemDomainToOrderItemEntityConverter implements Converter<OrderItem, OrderItemEntity> {
+public class CreateOrderItemDomainToOrderItemEntityConverter {
+
+    private final OrderDomainToOrderEntityConverter toOrderEntityConverter;
     private final MenuItemDomainToMenuItemEntityConverter menuItemDomainToMenuItemEntityConverter;
 
-    @Override
     public OrderItemEntity convert(OrderItem source) {
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(source, OrderItemEntity.class);
+        var orderItemEntity = new OrderItemEntity();
+        orderItemEntity.setOrderEntity(toOrderEntityConverter.convert(source.getOrder()));
+        orderItemEntity.setMenuItemEntity(menuItemDomainToMenuItemEntityConverter.convert(source.getMenuItem()));
+        orderItemEntity.setCreatedAt(source.getCreatedAt());
+        orderItemEntity.setUpdatedAt(source.getUpdatedAt());
+        return orderItemEntity;
     }
 
     public List<OrderItemEntity> convert(List<OrderItem> source) {
-        ModelMapper modelMapper = new ModelMapper();
-        return source.stream().map(orderItem ->
-                modelMapper.map(orderItem, OrderItemEntity.class)).collect(Collectors.toList());
+        return source.stream().map(this::convert).toList();
     }
 }

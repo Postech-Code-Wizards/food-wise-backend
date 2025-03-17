@@ -1,30 +1,32 @@
 package br.com.foodwise.platform.gateway.database.jpa.converter.orderitem;
 
 import br.com.foodwise.platform.domain.OrderItem;
+import br.com.foodwise.platform.gateway.database.jpa.converter.MenuItemEntityToDomainConverter;
+import br.com.foodwise.platform.gateway.database.jpa.converter.orders.OrderEntityToOrderDomainConverter;
 import br.com.foodwise.platform.gateway.database.jpa.entities.OrderItemEntity;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class OrderItemEntityToOrderItemDomainConverter implements Converter<List<OrderItemEntity>, List<OrderItem>> {
+public class OrderItemEntityToOrderItemDomainConverter {
 
-    @Override
+    private final OrderEntityToOrderDomainConverter orderEntityToOrderDomainConverter;
+    private final MenuItemEntityToDomainConverter menuItemEntityToDomainConverter;
+
     public List<OrderItem> convert(List<OrderItemEntity> source) {
-        ModelMapper modelMapper = new ModelMapper();
-        return source.stream().map(orderItem ->
-                modelMapper.map(orderItem, OrderItem.class)).collect(Collectors.toList());
-
-
+        return source.stream().map(this::convert).toList();
     }
 
     public OrderItem convert(OrderItemEntity source) {
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(source, OrderItem.class);
+        return OrderItem.builder()
+                .id(source.getId())
+                .order(orderEntityToOrderDomainConverter.convert(source.getOrderEntity()))
+                .menuItem(menuItemEntityToDomainConverter.convert(source.getMenuItemEntity()))
+                .createdAt(source.getCreatedAt())
+                .updatedAt(source.getUpdatedAt())
+                .build();
     }
 }

@@ -46,8 +46,6 @@ public class OrderJpaGateway implements OrderGateway {
         if (ObjectUtils.isEmpty(orderEntity)) {
             throw new OrderEmptyException("Order is empty");
         }
-        orderRepository.save(orderEntity);
-
         var orderSaved = orderRepository.save(orderEntity);
         return toOrderConverter.convert(orderSaved);
     }

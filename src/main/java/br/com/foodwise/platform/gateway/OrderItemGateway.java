@@ -1,6 +1,5 @@
 package br.com.foodwise.platform.gateway;
 
-import br.com.foodwise.platform.domain.Order;
 import br.com.foodwise.platform.domain.OrderItem;
 
 import java.util.List;

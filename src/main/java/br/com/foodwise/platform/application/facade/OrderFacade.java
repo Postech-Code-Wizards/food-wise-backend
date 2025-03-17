@@ -11,7 +11,6 @@ import br.com.foodwise.platform.application.usecase.order.orderstatus.CreateOrde
 import br.com.foodwise.platform.application.usecase.restaurant.RetrieveRestaurantProfileByIdUseCase;
 import br.com.foodwise.platform.domain.Order;
 import br.com.foodwise.platform.domain.OrderItem;
-import br.com.foodwise.platform.domain.enums.OrderStage;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.order.OrderItemEmptyException;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.order.OrderPaymentEmptyException;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.AddressRequest;
