@@ -31,7 +31,7 @@ public class UpdateRestaurantProfileUseCase {
                 restaurantProfile.getDeliveryRadius(),
                 restaurantProfile.getCuisineType(),
                 existingRestaurantProfile.isOpen(),
-                existingRestaurantProfile.isDeliveryOrder(),
+                restaurantProfile.isDeliveryOrder(),
                 existingRestaurantProfile.getCreatedAt(),
                 ZonedDateTime.now(),
                 existingRestaurantProfile.getUser(),

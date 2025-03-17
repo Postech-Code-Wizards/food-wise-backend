@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class AddressRequestToDomainConverterTest {
@@ -30,7 +31,7 @@ class AddressRequestToDomainConverterTest {
 
         Address result = addressRequestToDomainConverter.convert(source);
 
-        assertNull(result.getId());
+        assertNotNull(result.getId());
         assertEquals(source.getStreet(), result.getStreet());
         assertEquals(source.getCity(), result.getCity());
         assertEquals(source.getState(), result.getState());

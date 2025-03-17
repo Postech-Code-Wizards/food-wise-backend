@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PhoneRequest {
 
+    private Long id;
+
     @NotBlank(message = "Area code is required")
     private String areaCode;
 

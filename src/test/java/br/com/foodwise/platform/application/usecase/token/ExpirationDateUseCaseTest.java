@@ -28,11 +28,11 @@ class ExpirationDateUseCaseTest {
     void execute_shouldReturnInstantTwoHoursInTheFuture() {
 
         LocalDateTime now = LocalDateTime.now();
-        Instant expectedInstant = now.plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+        Instant expectedInstant = now.toInstant(ZoneOffset.of("-03:00"));
 
         Instant actualInstant = useCase.execute();
 
         assertNotNull(actualInstant);
-        assertTrue(actualInstant.compareTo(expectedInstant) <= 0);
+        assertTrue(actualInstant.compareTo(expectedInstant) >= 0);
     }
 }

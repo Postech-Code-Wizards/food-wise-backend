@@ -4,6 +4,7 @@ import br.com.foodwise.platform.domain.RestaurantOwner;
 import br.com.foodwise.platform.gateway.RestaurantOwnerGateway;
 import br.com.foodwise.platform.gateway.database.jpa.converter.RestaurantOwnerDomainToEntityConverter;
 import br.com.foodwise.platform.gateway.database.jpa.converter.RestaurantOwnerEntityToDomainConverter;
+import br.com.foodwise.platform.gateway.database.jpa.converter.UserDomainToEntityConverter;
 import br.com.foodwise.platform.gateway.database.jpa.entities.RestaurantOwnerEntity;
 import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
 import br.com.foodwise.platform.gateway.database.jpa.repository.RestaurantOwnerRepository;
@@ -21,6 +22,8 @@ public class RestaurantOwnerJpaGateway implements RestaurantOwnerGateway {
     private final RestaurantOwnerEntityToDomainConverter restaurantOwnerEntityToDomainConverter;
     private final UserRepository userRepository;
 
+    private final UserDomainToEntityConverter userDomainToEntityConverter;
+
     @Override
     public RestaurantOwner findById(Long id) {
 
@@ -31,10 +34,11 @@ public class RestaurantOwnerJpaGateway implements RestaurantOwnerGateway {
 
     @Override
     public void save(RestaurantOwner restaurantOwner) {
-        UserEntity user = userRepository.findById(restaurantOwner.getUser().getId()).orElseThrow(() -> new ResourceNotFoundException("User"));
+        //UserEntity user = userRepository.findById(restaurantOwner.getUser().getId()).orElseThrow(() -> new ResourceNotFoundException("User"));
 
         RestaurantOwnerEntity restaurantOwnerEntity = restaurantOwnerDomainToEntityConverter.convert(restaurantOwner);
-        restaurantOwnerEntity.setUserEntity(user);
+        UserEntity userEntity = userDomainToEntityConverter.convert(restaurantOwner.getUser());
+        restaurantOwnerEntity.setUserEntity(userEntity);
 
         restaurantOwnerRepository.save(restaurantOwnerEntity);
     }

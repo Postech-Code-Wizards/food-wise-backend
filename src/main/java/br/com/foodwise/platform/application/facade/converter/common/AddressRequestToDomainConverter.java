@@ -11,7 +11,7 @@ public class AddressRequestToDomainConverter {
 
     public Address convert(AddressRequest source) {
         return new Address(
-                null,
+                source.getId(),
                 source.getStreet(),
                 source.getCity(),
                 source.getState(),

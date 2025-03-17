@@ -11,7 +11,7 @@ public class PhoneRequestToDomainConverter {
 
     public Phone convert(PhoneRequest source) {
         return new Phone(
-                null,
+                source.getId(),
                 source.getAreaCode(),
                 source.getPhoneNumber(),
                 source.getPhoneType(),

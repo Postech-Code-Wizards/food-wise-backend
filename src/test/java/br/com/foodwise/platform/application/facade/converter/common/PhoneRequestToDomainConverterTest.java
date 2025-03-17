@@ -1,6 +1,5 @@
 package br.com.foodwise.platform.application.facade.converter.common;
 
-import br.com.foodwise.platform.application.facade.converter.common.PhoneRequestToDomainConverter;
 import br.com.foodwise.platform.domain.Phone;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PhoneRequest;
 import org.instancio.Instancio;
@@ -11,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class PhoneRequestToDomainConverterTest {
@@ -32,7 +32,7 @@ class PhoneRequestToDomainConverterTest {
 
         Phone result = phoneRequestToDomainConverter.convert(source);
 
-        assertNull(result.getId());
+        assertNotNull(result.getId());
         assertEquals(source.getAreaCode(), result.getAreaCode());
         assertEquals(source.getPhoneNumber(), result.getPhoneNumber());
         assertEquals(source.getPhoneType(), result.getPhoneType());

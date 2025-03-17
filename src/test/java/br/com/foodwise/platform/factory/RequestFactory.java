@@ -31,11 +31,11 @@ public class RequestFactory {
     }
 
     public static PhoneRequest buildPhoneRequest() {
-        return new PhoneRequest("55", "00123456789", PhoneType.MOBILE);
+        return new PhoneRequest(1L, "55", "00123456789", PhoneType.MOBILE);
     }
 
     public static AddressRequest buildAddressRequest() {
-        return new AddressRequest("123 Main St", "City", "ST", "Neighborhood", "12345", "Country", BigDecimal.ZERO, BigDecimal.ZERO);
+        return new AddressRequest(1L, "123 Main St", "City", "ST", "Neighborhood", "12345", "Country", BigDecimal.ZERO, BigDecimal.ZERO);
     }
 
     public static RegisterRestaurantRequest buildValidRegisterRestaurantRequest() {
