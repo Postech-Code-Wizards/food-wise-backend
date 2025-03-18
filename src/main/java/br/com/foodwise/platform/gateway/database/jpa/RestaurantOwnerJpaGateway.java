@@ -34,10 +34,9 @@ public class RestaurantOwnerJpaGateway implements RestaurantOwnerGateway {
 
     @Override
     public void save(RestaurantOwner restaurantOwner) {
-        //UserEntity user = userRepository.findById(restaurantOwner.getUser().getId()).orElseThrow(() -> new ResourceNotFoundException("User"));
+        UserEntity userEntity = userRepository.findById(restaurantOwner.getUser().getId()).orElseThrow(() -> new ResourceNotFoundException("User"));
 
         RestaurantOwnerEntity restaurantOwnerEntity = restaurantOwnerDomainToEntityConverter.convert(restaurantOwner);
-        UserEntity userEntity = userDomainToEntityConverter.convert(restaurantOwner.getUser());
         restaurantOwnerEntity.setUserEntity(userEntity);
 
         restaurantOwnerRepository.save(restaurantOwnerEntity);

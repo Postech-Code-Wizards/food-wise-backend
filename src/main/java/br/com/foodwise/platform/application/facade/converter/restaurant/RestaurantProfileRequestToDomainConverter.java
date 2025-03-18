@@ -1,10 +1,10 @@
 package br.com.foodwise.platform.application.facade.converter.restaurant;
 
-import br.com.foodwise.platform.domain.RestaurantProfile;
-import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.application.facade.converter.common.AddressRequestToDomainConverter;
 import br.com.foodwise.platform.application.facade.converter.common.PhoneRequestToDomainConverter;
 import br.com.foodwise.platform.application.facade.converter.common.UserRequestToDomainConverter;
+import br.com.foodwise.platform.domain.RestaurantProfile;
+import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;

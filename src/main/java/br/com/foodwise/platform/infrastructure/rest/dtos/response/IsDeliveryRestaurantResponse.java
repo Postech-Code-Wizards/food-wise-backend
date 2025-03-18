@@ -11,6 +11,6 @@ public class IsDeliveryRestaurantResponse {
 
     private Long id;
     private String businessName;
-    private boolean isDeliveryOrder;
+    private Boolean isDeliveryOrder;
 
 }

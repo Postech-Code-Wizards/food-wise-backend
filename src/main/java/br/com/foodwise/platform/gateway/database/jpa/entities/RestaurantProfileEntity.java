@@ -1,14 +1,6 @@
 package br.com.foodwise.platform.gateway.database.jpa.entities;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,7 +41,7 @@ public class RestaurantProfileEntity {
     private boolean isOpen = false;
 
     @Column(name = "is_delivery_order", nullable = false)
-    private boolean isDeliveryOrder;
+    private Boolean isDeliveryOrder;
 
     @CreationTimestamp
     @Column(name = "created_at")

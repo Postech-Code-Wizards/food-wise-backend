@@ -7,7 +7,6 @@ import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuItemRespon
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -20,14 +19,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureMockMvc
 class MenuItemControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Mock
     private MenuItemFacade menuItemFacade;

@@ -7,14 +7,6 @@ import br.com.foodwise.platform.gateway.database.jpa.entities.CustomerProfileEnt
 import br.com.foodwise.platform.gateway.database.jpa.entities.PhoneEntity;
 import br.com.foodwise.platform.gateway.database.jpa.entities.RestaurantProfileEntity;
 import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
-import br.com.foodwise.platform.domain.entities.Address;
-import br.com.foodwise.platform.domain.entities.CustomerProfile;
-import br.com.foodwise.platform.domain.entities.Menu;
-import br.com.foodwise.platform.domain.entities.Phone;
-import br.com.foodwise.platform.domain.entities.RestaurantProfile;
-import br.com.foodwise.platform.domain.entities.User;
-import br.com.foodwise.platform.domain.entities.enums.PhoneType;
-import br.com.foodwise.platform.domain.entities.enums.UserType;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.AddressRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PhoneRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
@@ -22,7 +14,6 @@ import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.custom
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 
@@ -76,20 +67,6 @@ public class RequestFactory {
         owner.setBusinessRegistrationNumber("38546898022");
         owner.setBusinessEmail("john@doe.com");
         return owner;
-    }
-
-    public static RegisterMenuItemRequest buildRegisterMenuItemRequest() {
-        Menu menu = new Menu();
-        menu.setId(1L);
-
-        var menuItemRequest = new RegisterMenuItemRequest();
-        menuItemRequest.setName("Item Test");
-        menuItemRequest.setDescription("Test Description");
-        menuItemRequest.setPrice(BigDecimal.ONE);
-        menuItemRequest.setCategory("Category Test");
-        menuItemRequest.setImageUrl("Image_Test");
-        menuItemRequest.setMenu(menu);
-        return menuItemRequest;
     }
 
     public static RestaurantProfileRequest buildRestaurantProfileRequest() {

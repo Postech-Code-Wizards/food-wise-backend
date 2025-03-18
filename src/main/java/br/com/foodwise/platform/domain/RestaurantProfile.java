@@ -1,7 +1,6 @@
 package br.com.foodwise.platform.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.time.ZonedDateTime;
@@ -16,7 +15,7 @@ public class RestaurantProfile {
     private Short deliveryRadius;
     private String cuisineType;
     private boolean isOpen;
-    private boolean isDeliveryOrder;
+    private Boolean isDeliveryOrder;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
     private User user;
