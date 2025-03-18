@@ -1,63 +1,62 @@
 package br.com.foodwise.platform.application.usecase.menuItem;
 
-import br.com.foodwise.platform.domain.entities.MenuItem;
-import br.com.foodwise.platform.domain.repository.MenuItemRepository;
+import br.com.foodwise.platform.domain.MenuItem;
+import br.com.foodwise.platform.gateway.MenuItemGateway;
+import org.instancio.Instancio;
+import org.instancio.InstancioApi;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
-import static br.com.foodwise.platform.factory.EntityFactory.buildMenuItem;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
 class RetrieveAllMenusItemUseCaseTest {
 
-    @InjectMocks
-    private RetrieveAllMenusItemUseCase retrieveAllMenusItemUseCase;
-
     @Mock
-    private MenuItemRepository menuItemRepository;
+    private MenuItemGateway menuItemGateway;
 
-    private MenuItem menuItem1;
-    private MenuItem menuItem2;
+    @InjectMocks
+    private RetrieveAllMenusItemUseCase useCase;
 
     @BeforeEach
     void setUp() {
-        menuItem1 = buildMenuItem();
-
-        menuItem2 = buildMenuItem();
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void shouldRetrieveAllMenusItemSuccessfully() {
-        List<MenuItem> menusItem = List.of(menuItem1, menuItem2);
+    @DisplayName("Should return all MenuItems from the gateway")
+    void should_return_all_MenuItems_from_the_gateway() {
 
-        when(menuItemRepository.findAll()).thenReturn(menusItem);
+        InstancioApi<List<MenuItem>> listApi = Instancio.ofList(MenuItem.class);
+        List<MenuItem> expectedMenuItems = listApi.create();
 
-        List<MenuItem> retrievedMenusItem = retrieveAllMenusItemUseCase.execute();
+        when(menuItemGateway.findAll()).thenReturn(expectedMenuItems);
 
-        assertNotNull(retrievedMenusItem);
-        assertEquals(2, retrievedMenusItem.size());
-        assertEquals(menuItem1.getId(), retrievedMenusItem.get(0).getId());
-        assertEquals(menuItem2.getId(), retrievedMenusItem.get(1).getId());
-        verify(menuItemRepository, times(1)).findAll();
+        List<MenuItem> actualMenuItems = useCase.execute();
+
+        assertEquals(expectedMenuItems, actualMenuItems);
+        verify(menuItemGateway).findAll();
     }
 
     @Test
-    void shouldReturnEmptyListWhenNoMenusItemExist() {
-        when(menuItemRepository.findAll()).thenReturn(List.of());
+    @DisplayName("Should return an empty list when no MenuItems are found")
+    void should_return_an_empty_list_when_no_MenuItems_are_found() {
 
-        List<MenuItem> retrievedMenusItem = retrieveAllMenusItemUseCase.execute();
+        List<MenuItem> expectedMenuItems = List.of();
 
-        assertNotNull(retrievedMenusItem);
-        assertTrue(retrievedMenusItem.isEmpty());
-        verify(menuItemRepository, times(1)).findAll();
+        when(menuItemGateway.findAll()).thenReturn(expectedMenuItems);
+
+        List<MenuItem> actualMenuItems = useCase.execute();
+
+        assertEquals(expectedMenuItems, actualMenuItems);
+        verify(menuItemGateway).findAll();
     }
 
 }

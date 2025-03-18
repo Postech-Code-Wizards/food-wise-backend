@@ -1,12 +1,12 @@
 package br.com.foodwise.platform.application.usecase.menu;
 
-import br.com.foodwise.platform.domain.entities.Menu;
-import br.com.foodwise.platform.domain.entities.RestaurantProfile;
-import br.com.foodwise.platform.domain.entities.User;
-import br.com.foodwise.platform.domain.entities.enums.UserType;
-import br.com.foodwise.platform.domain.repository.MenuRepository;
-import br.com.foodwise.platform.domain.repository.RestaurantProfileRepository;
-import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
+import br.com.foodwise.platform.domain.Menu;
+import br.com.foodwise.platform.domain.RestaurantProfile;
+import br.com.foodwise.platform.domain.User;
+import br.com.foodwise.platform.gateway.MenuGateway;
+import br.com.foodwise.platform.gateway.RestaurantProfileGateway;
+import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,19 +17,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.Optional;
-
-import static br.com.foodwise.platform.factory.EntityFactory.buildMenu;
-import static br.com.foodwise.platform.factory.EntityFactory.buildRestaurantProfile;
-import static br.com.foodwise.platform.factory.SecurityHelperFactory.buildMockUser;
+import static br.com.foodwise.platform.factory.DomainFactory.buildMenu;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CreateMenuUseCaseTest {
@@ -38,10 +30,10 @@ class CreateMenuUseCaseTest {
     private CreateMenuUseCase createMenuUseCase;
 
     @Mock
-    private MenuRepository menuRepository;
+    private MenuGateway menuGateway;
 
     @Mock
-    private RestaurantProfileRepository restaurantProfileRepository;
+    private RestaurantProfileGateway restaurantProfileGateway;
 
     @Mock
     private SecurityContext securityContext;
@@ -51,14 +43,16 @@ class CreateMenuUseCaseTest {
 
     private Menu menu;
     private User user;
+    private UserEntity userEntity;
     private RestaurantProfile restaurantProfile;
 
     @BeforeEach
     void setUp() {
 
         menu = buildMenu();
-        user = buildMockUser("email@teste.com", "password", UserType.CUSTOMER);
-        restaurantProfile = buildRestaurantProfile();
+        user = Instancio.create(User.class);
+        userEntity = Instancio.create(UserEntity.class);
+        restaurantProfile = Instancio.create(RestaurantProfile.class);
 
         when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
@@ -67,27 +61,16 @@ class CreateMenuUseCaseTest {
     @Test
     void shouldCreateMenuSuccessfully() {
         when(authentication.getPrincipal()).thenReturn(user);
-        when(restaurantProfileRepository.findById(any())).thenReturn(Optional.of(restaurantProfile));
-        when(menuRepository.save(any(Menu.class))).thenReturn(menu);
+        when(restaurantProfileGateway.findById(anyLong())).thenReturn(restaurantProfile);
+        when(menuGateway.save(any(Menu.class))).thenReturn(menu);
+        when(authentication.getPrincipal()).thenReturn(userEntity);
 
         Menu createdMenu = createMenuUseCase.execute(menu);
 
         assertNotNull(createdMenu);
         assertEquals(menu.getId(), createdMenu.getId());
         assertEquals(menu.getName(), createdMenu.getName());
-        verify(menuRepository, times(1)).save(menu);
-    }
-
-    @Test
-    void shouldThrowExceptionWhenRestaurantDoesNotExist() {
-        when(authentication.getPrincipal()).thenReturn(user);
-        when(restaurantProfileRepository.findById(any())).thenReturn(Optional.empty());
-
-        var exception = assertThrows(ResourceNotFoundException.class,
-                () -> createMenuUseCase.execute(menu));
-
-        assertEquals("RESTAURANT_DOES_NOT_EXIST", exception.getCode());
-        verify(menuRepository, never()).save(any());
+        verify(menuGateway, times(1)).save(any());
     }
 
 }

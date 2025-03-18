@@ -2,7 +2,7 @@
 **Foodwise** is a project developed with **Java JDK 21** and **Spring Boot**. The objective of this application is to provide a platform to help users request/offer meals in a practical and quick way. This project demonstrates the creation of a modern and scalable application with Java, using the latest technologies.
 
 ## About the project 
-![Foodwise Project Description](https://github.com/user-attachments/assets/ed76d10b-392b-4594-a456-ecc9572e70f0)
+![Foodwise Project Description](https://github.com/userEntity-attachments/assets/ed76d10b-392b-4594-a456-ecc9572e70f0)
 
 ## Prerequisites
 
@@ -92,24 +92,39 @@ This project uses PostgreSQL as a database. Connection properties are present in
   │   │   │      └── com/
   │   │   │          └── foodwise/
   │   │   │              └── platform/
-  │   │   │                  ├── config/ # App configuration
-  │   │   │                  ├── infra/
+  │   │   │                  ├── application/
+  │   │   │                      ├── facade/ # Simplifies complex service interactions
+  │   │   │                          └── converter/ # Application converters
+  │   │   │                              ├── common/ # General converters
+  │   │   │                              ├── customer/ # Customer specific converters
+  │   │   │                              ├── menu/ # Menu specific converters
+  │   │   │                              ├── menuItem/ # Menu item specific converters
+  │   │   │                              └── restaurant/ # Restaurant specific converters
+  │   │   │                      └── usecase/ # Defines use cases for the application
+  │   │   │                          ├── auth/ # Defines use cases for the application authentication
+  │   │   │                          ├── customer/ # Defines use cases for the application customer
+  │   │   │                          ├── menu/ # Defines use cases for the application menu
+  │   │   │                          ├── menuItem/ # Defines use cases for the application menu item
+  │   │   │                          ├── restaurant/ # Defines use cases for the application restaurant
+  │   │   │                          ├── token/ # Defines use cases for the application token
+  │   │   │                          └── user/ # Defines use cases for the application user
+  │   │   │                  ├── domain/ # Defines the application's domain model
+  │   │   │                      ├── enums/ # Defines a set of named constants
+  │   │   │                      └── utils/ # General utility functions
+  │   │   │                  ├── gateway/ # Access for gateway services
+  │   │   │                      └── database/ # Database interaction
+  │   │   │                          └── jpa/ # Java Persistence API implementation
+  │   │   │                             ├── converter/ # Database converters
+  │   │   │                             ├── entities/ # Data model definitions
+  │   │   │                             └── repository/ # Database operations
+  │   │   │                  ├── infrastructure/ # Application infrastructure setup
+  │   │   │                      ├── config/ # App configuration
+  │   │   │                      ├── rest/ # Entry point for external requests and infrastructure integration
+  │   │   │                          ├── controller/ # API endpoints
+  │   │   │                          └── dtos/ # Access to database information
+  │   │   │                              ├── request/ # Request object mapping class
+  │   │   │                              └── response/ # Response object mapping class
   │   │   │                      └── security/ # Security and access
-  │   │   │                  ├── model/ # Entities and repositories
-  │   │   │                      ├── entities/ # Business entities
-  │   │   │                      └── repositories/ # Access to database information
-  │   │   │                  ├── rest/
-  │   │   │                      ├── controller/ # API endpoints
-  │   │   │                          ├── exception/ # Exception handling
-  │   │   │                          └── handlers/ # Intercepting and handling exceptions
-  │   │   │                      ├── converter/ # Access to database information
-  │   │   │                          ├── common/ # General converters
-  │   │   │                          ├── customer/ # Customer specific converters
-  │   │   │                          └── restaurant/ # Restaurant specific converters
-  │   │   │                      └── dtos/ # Access to database information
-  │   │   │                          ├── request/ # Request object mapping class
-  │   │   │                          └── response/ # Response object mapping class
-  │   │   │                  ├── service/ #Business logic
   │   │   │                  └── FoodwiseApplication.java # Spring Boot main class
   │   │   └── resources/
   │   │       ├── db/
@@ -137,8 +152,8 @@ To run the tests, use the following command:
 
 ### Manual tests
 Follow through the postman requests.
-Everytime a user is updated they are logged out of the system and have to login again.
-The user can only update and delete their own profile. This is so that in the future we have ADMINs who are capable of visiting other profiles, but so far, customer and restaurant have regulated access so that we don't expose sensitive data.
+Everytime a userEntity is updated they are logged out of the system and have to login again.
+The userEntity can only update and delete their own profile. This is so that in the future we have ADMINs who are capable of visiting other profiles, but so far, customer and restaurant have regulated access so that we don't expose sensitive data.
 
 ## Contribution
 Contributions are very welcome! If you would like to contribute to Foodwise, please follow these steps::    

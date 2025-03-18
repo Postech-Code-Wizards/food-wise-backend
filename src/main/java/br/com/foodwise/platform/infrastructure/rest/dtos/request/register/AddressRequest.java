@@ -16,6 +16,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class AddressRequest {
 
+    private Long id;
+
     @NotBlank(message = "Street is required")
     private String street;
 

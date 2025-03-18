@@ -1,63 +1,60 @@
 package br.com.foodwise.platform.application.usecase.menuItem;
 
-import br.com.foodwise.platform.application.usecase.menu.RetrieveAllMenusByRestaurantNameUseCase;
-import br.com.foodwise.platform.domain.entities.Menu;
-import br.com.foodwise.platform.domain.entities.MenuItem;
-import br.com.foodwise.platform.domain.repository.MenuItemRepository;
-import br.com.foodwise.platform.domain.repository.MenuRepository;
+import br.com.foodwise.platform.domain.MenuItem;
+import br.com.foodwise.platform.gateway.MenuItemGateway;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 
+import java.util.Arrays;
 import java.util.List;
 
-import static br.com.foodwise.platform.factory.EntityFactory.buildMenu;
-import static br.com.foodwise.platform.factory.EntityFactory.buildMenuItem;
-import static java.util.Collections.emptyList;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
 class RetrieveAllMenusItemByItemNameUseCaseTest {
 
-    @InjectMocks
-    private RetrieveAllMenusItemByItemNameUseCase retrieveAllMenusItemByItemNameUseCase;
-
     @Mock
-    private MenuItemRepository menuItemRepository;
+    private MenuItemGateway menuItemGateway;
 
-    private String itemName;
-    private List<MenuItem> menusItem;
+    @InjectMocks
+    private RetrieveAllMenusItemByItemNameUseCase useCase;
 
     @BeforeEach
     void setUp() {
-        itemName = "Test Item";
-        menusItem = List.of(buildMenuItem(), buildMenuItem());
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void shouldRetrieveAllMenusItemByItemNameSuccessfully() {
-        when(menuItemRepository.findMenuItemByName(itemName)).thenReturn(menusItem);
+    void testExecute_shouldReturnMenuItems() {
 
-        List<MenuItem> result = retrieveAllMenusItemByItemNameUseCase.execute(itemName);
+        MenuItem menuItem1 = Instancio.create(MenuItem.class);
+        MenuItem menuItem2 = Instancio.create(MenuItem.class);
+        List<MenuItem> expectedMenuItems = Arrays.asList(menuItem1, menuItem2);
 
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        verify(menuItemRepository, times(1)).findMenuItemByName(itemName);
+        when(menuItemGateway.findMenuItemByName(anyString())).thenReturn(expectedMenuItems);
+
+        List<MenuItem> actualMenuItems = useCase.execute(anyString());
+
+        assertEquals(expectedMenuItems, actualMenuItems);
+        verify(menuItemGateway).findMenuItemByName(anyString());
     }
 
     @Test
-    void shouldReturnEmptyListWhenNoMenusItemFound() {
-        when(menuItemRepository.findMenuItemByName(itemName)).thenReturn(emptyList());
+    void testExecute_shouldReturnEmptyList() {
+        List<MenuItem> expectedMenuItems = List.of();
 
-        List<MenuItem> result = retrieveAllMenusItemByItemNameUseCase.execute(itemName);
+        when(menuItemGateway.findMenuItemByName(anyString())).thenReturn(expectedMenuItems);
 
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-        verify(menuItemRepository, times(1)).findMenuItemByName(itemName);
+        List<MenuItem> actualMenuItems = useCase.execute(anyString());
+
+        assertEquals(expectedMenuItems, actualMenuItems);
+        verify(menuItemGateway).findMenuItemByName(anyString());
     }
+
 }

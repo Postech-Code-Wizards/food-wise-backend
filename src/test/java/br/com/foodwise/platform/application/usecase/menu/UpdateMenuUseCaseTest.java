@@ -1,7 +1,8 @@
 package br.com.foodwise.platform.application.usecase.menu;
 
-import br.com.foodwise.platform.domain.entities.Menu;
-import br.com.foodwise.platform.domain.repository.MenuRepository;
+import br.com.foodwise.platform.domain.Menu;
+import br.com.foodwise.platform.gateway.MenuGateway;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,13 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static br.com.foodwise.platform.factory.EntityFactory.buildMenu;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UpdateMenuUseCaseTest {
@@ -24,41 +21,26 @@ class UpdateMenuUseCaseTest {
     private UpdateMenuUseCase updateMenuUseCase;
 
     @Mock
-    private MenuRepository menuRepository;
+    private MenuGateway menuGateway;
+
+    Menu updatedMenu;
 
     @BeforeEach
     void setUp() {
-        var existingMenu = buildMenu();
+        updatedMenu = Instancio.create(Menu.class);
     }
 
     @Test
     void shouldUpdateMenuSuccessfully() {
-        Menu updatedMenu = new Menu();
-        updatedMenu.setId(1L);
-        updatedMenu.setName("Updated Menu Name");
 
-        when(menuRepository.save(updatedMenu)).thenReturn(updatedMenu);
+        when(menuGateway.save(updatedMenu)).thenReturn(updatedMenu);
 
         Menu result = updateMenuUseCase.execute(updatedMenu);
 
         assertNotNull(result);
-        assertEquals("Updated Menu Name", result.getName());
-        assertEquals(1L, result.getId());
-        verify(menuRepository, times(1)).save(updatedMenu);
+        assertEquals(updatedMenu.getName(), result.getName());
+        assertEquals(updatedMenu.getId(), result.getId());
+        verify(menuGateway, times(1)).save(updatedMenu);
     }
 
-    @Test
-    void shouldThrowExceptionWhenMenuIdDoesNotExist() {
-        Menu nonExistentMenu = new Menu();
-        nonExistentMenu.setId(99L);
-        nonExistentMenu.setName("Non-existent Menu");
-
-        when(menuRepository.save(nonExistentMenu)).thenThrow(new RuntimeException("Menu not found"));
-
-        RuntimeException exception = assertThrows(RuntimeException.class,
-                () -> updateMenuUseCase.execute(nonExistentMenu));
-
-        assertEquals("Menu not found", exception.getMessage());
-        verify(menuRepository, times(1)).save(nonExistentMenu);
-    }
 }

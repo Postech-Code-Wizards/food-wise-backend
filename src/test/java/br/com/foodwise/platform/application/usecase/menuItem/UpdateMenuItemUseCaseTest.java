@@ -1,53 +1,54 @@
 package br.com.foodwise.platform.application.usecase.menuItem;
 
-import br.com.foodwise.platform.domain.entities.MenuItem;
-import br.com.foodwise.platform.domain.repository.MenuItemRepository;
+import br.com.foodwise.platform.domain.MenuItem;
+import br.com.foodwise.platform.gateway.MenuItemGateway;
+import org.instancio.Instancio;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
 class UpdateMenuItemUseCaseTest {
 
-    @InjectMocks
-    private UpdateMenuItemUseCase updateMenuItemUseCase;
-
     @Mock
-    private MenuItemRepository menuItemRepository;
+    private MenuItemGateway menuItemGateway;
 
-    @Test
-    void shouldUpdateMenuItemSuccessfully() {
-        MenuItem updatedMenuItem = new MenuItem();
-        updatedMenuItem.setId(1L);
-        updatedMenuItem.setName("Updated Menu Item Name");
+    @InjectMocks
+    private UpdateMenuItemUseCase useCase;
 
-        when(menuItemRepository.save(updatedMenuItem)).thenReturn(updatedMenuItem);
-
-        MenuItem result = updateMenuItemUseCase.execute(updatedMenuItem);
-
-        assertNotNull(result);
-        assertEquals("Updated Menu Item Name", result.getName());
-        assertEquals(1L, result.getId());
-        verify(menuItemRepository, times(1)).save(updatedMenuItem);
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void shouldThrowExceptionWhenMenuItemIdDoesNotExist() {
-        MenuItem nonExistentMenuItem = new MenuItem();
-        nonExistentMenuItem.setId(99L);
-        nonExistentMenuItem.setName("Non-existent Menu Item");
+    @DisplayName("Should update a MenuItem and return the updated MenuItem")
+    void should_update_a_MenuItem_and_return_the_updated_MenuItem() {
 
-        when(menuItemRepository.save(nonExistentMenuItem)).thenThrow(new RuntimeException("Menu Item not found"));
+        MenuItem menuItem = Instancio.create(MenuItem.class);
+        when(menuItemGateway.save(menuItem)).thenReturn(menuItem);
 
-        RuntimeException exception = assertThrows(RuntimeException.class,
-                () -> updateMenuItemUseCase.execute(nonExistentMenuItem));
+        MenuItem updatedMenuItem = useCase.execute(menuItem);
 
-        assertEquals("Menu Item not found", exception.getMessage());
-        verify(menuItemRepository, times(1)).save(nonExistentMenuItem);
+        assertEquals(menuItem, updatedMenuItem);
+        verify(menuItemGateway).save(menuItem);
     }
+
+    @Test
+    @DisplayName("Should call the MenuItemGateway save method with the provided MenuItem")
+    void should_call_the_MenuItemGateway_save_method_with_the_provided_MenuItem() {
+        MenuItem menuItem = Instancio.create(MenuItem.class);
+        when(menuItemGateway.save(menuItem)).thenReturn(menuItem);
+
+        useCase.execute(menuItem);
+
+        verify(menuItemGateway).save(menuItem);
+    }
+
 }

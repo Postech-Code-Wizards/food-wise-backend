@@ -1,68 +1,55 @@
 package br.com.foodwise.platform.application.usecase.menuItem;
 
-import br.com.foodwise.platform.domain.entities.Menu;
-import br.com.foodwise.platform.domain.entities.MenuItem;
-import br.com.foodwise.platform.domain.repository.MenuItemRepository;
-import br.com.foodwise.platform.domain.repository.MenuRepository;
-import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
+import br.com.foodwise.platform.domain.MenuItem;
+import br.com.foodwise.platform.gateway.MenuItemGateway;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 
-import java.util.Optional;
-
-import static br.com.foodwise.platform.factory.EntityFactory.buildMenu;
-import static br.com.foodwise.platform.factory.EntityFactory.buildMenuItem;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
 class CreateMenuItemUseCaseTest {
 
+    @Mock
+    private MenuItemGateway menuItemGateway;
+
     @InjectMocks
-    private CreateMenuItemUseCase createMenuItemUseCase;
-
-    @Mock
-    private MenuItemRepository menuItemRepository;
-
-    @Mock
-    private MenuRepository menuRepository;
-
-    private MenuItem menuItem;
-
-    private Menu menu;
+    private CreateMenuItemUseCase useCase;
 
     @BeforeEach
     void setUp() {
-        menuItem = buildMenuItem();
-        menu = buildMenu();
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void shouldCreateMenuItemSuccessfully() {
-        when(menuRepository.findById(any())).thenReturn(Optional.of(menu));
-        when(menuItemRepository.save(any(MenuItem.class))).thenReturn(menuItem);
+    @DisplayName("Should save a MenuItem and return the saved MenuItem")
+    void should_save_a_MenuItem_and_return_the_saved_MenuItem() {
 
-        MenuItem createdMenuItem = createMenuItemUseCase.execute(menuItem);
+        MenuItem menuItem = Instancio.create(MenuItem.class);
+        when(menuItemGateway.save(menuItem)).thenReturn(menuItem);
 
-        assertNotNull(createdMenuItem);
-        assertEquals(menuItem.getId(), createdMenuItem.getId());
-        assertEquals(menuItem.getName(), createdMenuItem.getName());
-        verify(menuItemRepository, times(1)).save(menuItem);
+        MenuItem savedMenuItem = useCase.execute(menuItem);
+
+        assertEquals(menuItem, savedMenuItem);
+        verify(menuItemGateway).save(menuItem);
     }
 
     @Test
-    void shouldThrowExceptionWhenMenuItemNotFound() {
-        when(menuRepository.findById(any())).thenReturn(Optional.empty());
+    @DisplayName("Should call the MenuItemGateway save method with the provided MenuItem")
+    void should_call_the_MenuItemGateway_save_method_with_the_provided_MenuItem() {
 
-        var exception = assertThrows(ResourceNotFoundException.class,
-                () -> createMenuItemUseCase.execute(menuItem));
+        MenuItem menuItem = Instancio.create(MenuItem.class);
+        when(menuItemGateway.save(menuItem)).thenReturn(menuItem);
 
-        assertEquals("NOT_FOUND", exception.getCode());
-        verify(menuItemRepository, never()).save(any());
+        useCase.execute(menuItem);
+
+        verify(menuItemGateway).save(menuItem);
     }
+
 }

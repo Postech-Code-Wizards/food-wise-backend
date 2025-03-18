@@ -1,28 +1,40 @@
 package br.com.foodwise.platform.application.usecase.menu;
 
-import br.com.foodwise.platform.domain.entities.Menu;
-import br.com.foodwise.platform.domain.entities.User;
-import br.com.foodwise.platform.domain.repository.MenuRepository;
-import br.com.foodwise.platform.domain.repository.RestaurantProfileRepository;
-import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
+import br.com.foodwise.platform.domain.Menu;
+import br.com.foodwise.platform.domain.RestaurantProfile;
+import br.com.foodwise.platform.gateway.MenuGateway;
+import br.com.foodwise.platform.gateway.RestaurantProfileGateway;
+import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.time.ZonedDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class CreateMenuUseCase {
 
-    private final MenuRepository menuRepository;
-    private final RestaurantProfileRepository restaurantProfileRepository;
+    private final MenuGateway menuGateway;
+    private final RestaurantProfileGateway restaurantProfileGateway;
 
     public Menu execute(Menu menu) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var user = (User) authentication.getPrincipal();
+        var user = (UserEntity) authentication.getPrincipal();
 
-        var restaurantProfile = restaurantProfileRepository.findById(user.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("RESTAURANT_DOES_NOT_EXIST", ""));
-        menu.setRestaurantProfile(restaurantProfile);
-        return menuRepository.save(menu);
+        var restaurantProfile = restaurantProfileGateway.findById(user.getId());
+        var newMenu = populate(menu, restaurantProfile);
+        return menuGateway.save(newMenu);
+    }
+
+    private static Menu populate(Menu menu, RestaurantProfile restaurantProfile) {
+        return new Menu(
+                menu.getId(),
+                restaurantProfile,
+                menu.getName(),
+                menu.getDescription(),
+                ZonedDateTime.now(),
+                ZonedDateTime.now()
+        );
     }
 }

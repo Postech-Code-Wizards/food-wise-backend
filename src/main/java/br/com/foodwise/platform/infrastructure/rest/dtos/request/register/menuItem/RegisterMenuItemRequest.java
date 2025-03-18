@@ -1,6 +1,6 @@
 package br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem;
 
-import br.com.foodwise.platform.domain.entities.Menu;
+import br.com.foodwise.platform.domain.Menu;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;

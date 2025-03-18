@@ -38,7 +38,7 @@ public interface MenuApi {
                                                         "errors": [
                                                             {
                                                                 "code": "INVALID_MENU_DATA",
-                                                                "message": "Invalid menu data provided"
+                                                                "message": "Invalid menuEntity data provided"
                                                             }
                                                         ]
                                                     }
@@ -73,7 +73,7 @@ public interface MenuApi {
 
     @Operation(
             description = "Retrieve a Menu by its ID",
-            summary = "Get a menu by ID",
+            summary = "Get a menuEntity by ID",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -224,7 +224,7 @@ public interface MenuApi {
 
     @Operation(
             description = "Update a Menu",
-            summary = "Update menu data",
+            summary = "Update menuEntity data",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Updated successfully"),
                     @ApiResponse(
@@ -274,7 +274,7 @@ public interface MenuApi {
 
     @Operation(
             description = "Delete a Menu",
-            summary = "Delete a menu by ID",
+            summary = "Delete a menuEntity by ID",
             responses = {
                     @ApiResponse(responseCode = "204", description = "Deleted successfully"),
                     @ApiResponse(

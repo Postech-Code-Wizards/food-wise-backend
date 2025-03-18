@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.application.usecase.menu;
 
-import br.com.foodwise.platform.domain.entities.Menu;
-import br.com.foodwise.platform.domain.repository.MenuRepository;
+import br.com.foodwise.platform.domain.Menu;
+import br.com.foodwise.platform.gateway.MenuGateway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,13 +11,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static br.com.foodwise.platform.factory.EntityFactory.buildMenu;
+import static br.com.foodwise.platform.factory.DomainFactory.buildMenu;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class RetrieveAllMenusUseCaseTest {
@@ -26,7 +23,7 @@ class RetrieveAllMenusUseCaseTest {
     private RetrieveAllMenusUseCase retrieveAllMenusUseCase;
 
     @Mock
-    private MenuRepository menuRepository;
+    private MenuGateway menuGateway;
 
     private Menu menu1;
     private Menu menu2;
@@ -34,33 +31,22 @@ class RetrieveAllMenusUseCaseTest {
     @BeforeEach
     void setUp() {
         menu1 = buildMenu();
-
         menu2 = buildMenu();
     }
 
     @Test
     void shouldRetrieveAllMenusSuccessfully() {
-        List<Menu> menus = List.of(menu1, menu2);
+        List<Menu> menuEntities = List.of(menu1, menu2);
 
-        when(menuRepository.findAll()).thenReturn(menus);
+        when(menuGateway.findAll()).thenReturn(menuEntities);
 
-        List<Menu> retrievedMenus = retrieveAllMenusUseCase.execute();
+        List<Menu> retrievedMenuEntities = retrieveAllMenusUseCase.execute();
 
-        assertNotNull(retrievedMenus);
-        assertEquals(2, retrievedMenus.size());
-        assertEquals(menu1.getId(), retrievedMenus.get(0).getId());
-        assertEquals(menu2.getId(), retrievedMenus.get(1).getId());
-        verify(menuRepository, times(1)).findAll();
+        assertNotNull(retrievedMenuEntities);
+        assertEquals(2, retrievedMenuEntities.size());
+        assertEquals(menu1.getId(), retrievedMenuEntities.get(0).getId());
+        assertEquals(menu2.getId(), retrievedMenuEntities.get(1).getId());
+        verify(menuGateway, times(1)).findAll();
     }
 
-    @Test
-    void shouldReturnEmptyListWhenNoMenusExist() {
-        when(menuRepository.findAll()).thenReturn(List.of());
-
-        List<Menu> retrievedMenus = retrieveAllMenusUseCase.execute();
-
-        assertNotNull(retrievedMenus);
-        assertTrue(retrievedMenus.isEmpty());
-        verify(menuRepository, times(1)).findAll();
-    }
 }

@@ -1,9 +1,6 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
-import br.com.foodwise.platform.application.service.MenuItemService;
-import br.com.foodwise.platform.domain.entities.MenuItem;
-import br.com.foodwise.platform.infrastructure.rest.converter.menuItem.MenuItemToMenuItemResponseConverter;
-import br.com.foodwise.platform.infrastructure.rest.converter.menuItem.RegisterMenuItemRequestToMenuItemConverter;
+import br.com.foodwise.platform.application.facade.MenuItemFacade;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemAvailable;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuItemResponse;
@@ -22,67 +19,42 @@ import java.util.List;
 @RequestMapping("api/v1/menu-item")
 @RequiredArgsConstructor
 public class MenuItemController implements MenuItemApi {
-    private final MenuItemService menuItemService;
 
-    private final RegisterMenuItemRequestToMenuItemConverter registerMenuItemRequestToMenuItemConverter;
-    private final MenuItemToMenuItemResponseConverter menuItemToMenuItemResponseConverter;
+    private final MenuItemFacade menuItemFacade;
 
     @Override
     public ResponseEntity<MenuItemResponse> createMenuItem(@RequestBody @Valid RegisterMenuItemRequest menuItemRequestDTO) {
-        var createdMenuitem = menuItemService.createMenuItem(convertToMenuItem(menuItemRequestDTO));
-        return ResponseEntity.status(HttpStatus.CREATED).body(convertToMenuItemResponse(createdMenuitem));
+        var menuItemResponse = menuItemFacade.createMenuItem(menuItemRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(menuItemResponse);
     }
 
     @Override
     public ResponseEntity<MenuItemResponse> getMenuItemById(@PathVariable Long id) {
-        var menuItem = fetchMenuItemById(id);
-        return ResponseEntity.ok(convertToMenuItemResponse(menuItem));
+        var menuItemResponse = menuItemFacade.getMenuItemById(id);
+        return ResponseEntity.ok(menuItemResponse);
     }
 
     @Override
     public ResponseEntity<List<MenuItemResponse>> getMenusItemsByItemName(@PathVariable String name) {
-        return ResponseEntity.ok(menuItemService
-                .getAllMenusItemByItemName(name).stream()
-                .map(this::convertToMenuItemResponse)
-                .toList());
+        return ResponseEntity.ok(menuItemFacade
+                .getAllMenusItemByItemName(name));
     }
 
     @Override
     public ResponseEntity<List<MenuItemResponse>> getAllMenuItems() {
-        return ResponseEntity.ok(menuItemService.getAllMenuItems().stream()
-                .map(this::convertToMenuItemResponse)
-                .toList());
+        return ResponseEntity.ok(menuItemFacade.getAllMenuItems());
     }
 
     @Override
     public ResponseEntity<MenuItemResponse> updateMenuItem(@PathVariable Long id, @RequestBody @Valid RegisterMenuItemRequest menuItemRequestDTO) {
-        var updatedMenuItem = processUpdateMenuItem(id, menuItemRequestDTO);
-        return ResponseEntity.ok(convertToMenuItemResponse(updatedMenuItem));
+        var updatedMenuItem = menuItemFacade.updateMenuItem(id, menuItemRequestDTO);
+        return ResponseEntity.ok(updatedMenuItem);
     }
 
     @Override
     public ResponseEntity<MenuItemResponse> updateAvailableMenuItem(@PathVariable Long id, @RequestBody @Valid RegisterMenuItemAvailable available) {
-        var updatedMenuItem = processUpdateAvailableMenuItem(id, available);
-        return ResponseEntity.ok(convertToMenuItemResponse(updatedMenuItem));
+        var updatedMenuItem = menuItemFacade.updateAvailableMenuItem(id, available);
+        return ResponseEntity.ok(updatedMenuItem);
     }
 
-    private MenuItem processUpdateAvailableMenuItem(Long id, RegisterMenuItemAvailable available) {
-        return menuItemService.updateAvailableMenuItem(id, available);
-    }
-
-    private MenuItem fetchMenuItemById(Long id) {
-        return menuItemService.getMenuItemById(id);
-    }
-
-    private MenuItem processUpdateMenuItem(Long id, RegisterMenuItemRequest menuItemRequestDTO) {
-        return menuItemService.updateMenuItem(id, menuItemRequestDTO);
-    }
-
-    private MenuItem convertToMenuItem(RegisterMenuItemRequest menuItemRequestDTO) {
-        return registerMenuItemRequestToMenuItemConverter.convert(menuItemRequestDTO);
-    }
-
-    private MenuItemResponse convertToMenuItemResponse(MenuItem menuItem) {
-        return menuItemToMenuItemResponseConverter.convert(menuItem);
-    }
 }
