@@ -85,13 +85,13 @@ public class OrderFacade {
         updateOrderRestaurantAddressUseCase.updateOrder(id, address);
     }
 
-    public void updateOrderOrderItems(Long id, OrderItemsRequest request) {
+    public void updateOrderItems(Long id, OrderItemsRequest request) {
         List<OrderItem> orderItem = Optional.ofNullable(toOrderItemConverter.convert(request))
                 .orElseThrow(() -> new OrderItemEmptyException("Order item is empty"));
         updateOrderOrderItemsUseCase.updateOrderItems(id, orderItem);
     }
 
-    public void updateOrderOrderPayment(Long id, OrderPaymentRequest request) {
+    public void updateOrderPayment(Long id, OrderPaymentRequest request) {
         var orderPayment = toOrderPaymentConverter.convert(request);
         if (!ObjectUtils.isEmpty(orderPayment)) {
             updateOrderOrderPaymentUseCase.updateOrder(id, orderPayment);

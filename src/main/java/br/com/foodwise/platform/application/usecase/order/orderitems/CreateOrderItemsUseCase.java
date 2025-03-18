@@ -16,17 +16,13 @@ public class CreateOrderItemsUseCase {
 
     public List<OrderItem> create(List<MenuItem> menuItems, Order order) {
         List<OrderItem> orderItems = menuItems.stream().map(menuItem ->
-                new OrderItem(
-                        null,
-                        menuItem,
-                        null,
-                        null,
-                        order
-                )
+                OrderItem.builder()
+                        .menuItem(menuItem)
+                        .order(order)
+                        .build()
         ).toList();
 
         return orderItemGateway.saveAll(orderItems);
     }
-
 
 }

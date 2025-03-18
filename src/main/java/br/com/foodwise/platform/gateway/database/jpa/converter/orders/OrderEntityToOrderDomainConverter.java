@@ -4,6 +4,7 @@ import br.com.foodwise.platform.domain.Order;
 import br.com.foodwise.platform.gateway.database.jpa.converter.AddressEntityToDomainConverter;
 import br.com.foodwise.platform.gateway.database.jpa.converter.CustomerProfileEntityToDomainConverter;
 import br.com.foodwise.platform.gateway.database.jpa.converter.RestaurantProfileEntityToDomainConverter;
+import br.com.foodwise.platform.gateway.database.jpa.converter.orderitem.OrderItemEntityToOrderItemDomainConverter;
 import br.com.foodwise.platform.gateway.database.jpa.converter.orderpayment.OrderPaymentEntityToOrderPaymentConverter;
 import br.com.foodwise.platform.gateway.database.jpa.converter.orderstatus.OrderStatusEntityToOrderStatusDomainConverter;
 import br.com.foodwise.platform.gateway.database.jpa.entities.OrderEntity;
@@ -19,6 +20,7 @@ public class OrderEntityToOrderDomainConverter {
     private final OrderPaymentEntityToOrderPaymentConverter orderPaymentEntityToOrderPaymentConverter;
     private final CustomerProfileEntityToDomainConverter customerProfileEntityToDomainConverter;
     private final RestaurantProfileEntityToDomainConverter restaurantProfileEntityToDomainConverter;
+    private final OrderItemEntityToOrderItemDomainConverter orderItemEntityToOrderItemDomainConverter;
 
     public Order convert(OrderEntity source) {
         return Order.builder()
@@ -34,6 +36,7 @@ public class OrderEntityToOrderDomainConverter {
                 .updatedAt(source.getUpdatedAt())
                 .totalPrice(source.getTotalPrice())
                 .transactionDate(source.getTransactionDate())
+                .orderItems(orderItemEntityToOrderItemDomainConverter.convert(source.getOrderItemsEntity()))
                 .build();
     }
 }

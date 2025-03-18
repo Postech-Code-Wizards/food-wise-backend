@@ -64,11 +64,11 @@ public class OrderController implements OrderApi {
     }
 
     @Override
-    public ResponseEntity<Void> updateOrderOrderItems(
+    public ResponseEntity<Void> updateOrderItems(
             @Parameter(description = "ID of the order to update", required = true) @PathVariable Long id,
             @RequestBody @Valid OrderItemsRequest request
     ) {
-        orderFacade.updateOrderOrderItems(id, request);
+        orderFacade.updateOrderItems(id, request);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -77,7 +77,7 @@ public class OrderController implements OrderApi {
             @Parameter(description = "ID of the order to update", required = true) @PathVariable Long id,
             @RequestBody @Valid OrderPaymentRequest request
     ) {
-        orderFacade.updateOrderOrderPayment(id, request);
+        orderFacade.updateOrderPayment(id, request);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

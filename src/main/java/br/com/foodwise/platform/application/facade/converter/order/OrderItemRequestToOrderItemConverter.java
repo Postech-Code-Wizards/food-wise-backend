@@ -16,7 +16,7 @@ public class OrderItemRequestToOrderItemConverter implements Converter<OrderItem
         return orderItemsRequests.getMenuItems().stream().map(menuItem ->
                 new OrderItem(
                         null,
-                        menuItem,
+                        null,
                         null,
                         null,
                         null

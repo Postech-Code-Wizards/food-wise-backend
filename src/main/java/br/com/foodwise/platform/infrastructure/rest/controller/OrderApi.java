@@ -207,7 +207,7 @@ public interface OrderApi {
             )
     })
     @PatchMapping("/{id}/orderEntity-items")
-    ResponseEntity<Void> updateOrderOrderItems(
+    ResponseEntity<Void> updateOrderItems(
             @Parameter(description = "ID of the orderEntity to update", required = true) @PathVariable Long id,
             @RequestBody @Valid OrderItemsRequest request
     );

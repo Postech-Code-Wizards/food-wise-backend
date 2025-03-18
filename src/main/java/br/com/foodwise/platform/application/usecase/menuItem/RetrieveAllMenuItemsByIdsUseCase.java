@@ -12,7 +12,7 @@ import java.util.List;
 public class RetrieveAllMenuItemsByIdsUseCase {
     private final MenuItemGateway menuItemGateway;
 
-    public List<MenuItem> retrieveAllById(List<Long> MenuItemsIds) {
-        return MenuItemsIds.stream().map(menuItemGateway::findById).toList();
+    public List<MenuItem> retrieveAllById(List<Long> menuItemsIds) {
+        return menuItemsIds.stream().map(menuItemGateway::findById).toList();
     }
 }
