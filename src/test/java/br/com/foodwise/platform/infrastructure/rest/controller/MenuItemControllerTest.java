@@ -2,8 +2,8 @@ package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.application.facade.MenuItemFacade;
 import br.com.foodwise.platform.domain.enums.UserType;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemAvailable;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.item.RegisterMenuItemAvailable;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.item.RegisterMenuItemRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuItemResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.instancio.Instancio;

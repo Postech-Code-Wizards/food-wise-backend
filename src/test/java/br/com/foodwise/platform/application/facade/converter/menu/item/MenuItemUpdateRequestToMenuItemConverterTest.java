@@ -1,8 +1,7 @@
-package br.com.foodwise.platform.application.facade.converter.menuItem;
+package br.com.foodwise.platform.application.facade.converter.menu.item;
 
-import br.com.foodwise.platform.domain.Menu;
 import br.com.foodwise.platform.domain.MenuItem;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.item.RegisterMenuItemRequest;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,10 +12,10 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class RegisterMenuItemRequestToMenuItemConverterTest {
+class MenuItemUpdateRequestToMenuItemConverterTest {
 
     @InjectMocks
-    private RegisterMenuItemRequestToMenuItemConverter registerMenuItemRequestToMenuItemConverter;
+    private MenuItemUpdateRequestToMenuItemConverter menuItemUpdateRequestToMenuItemConverter;
 
     @BeforeEach
     void setUp() {
@@ -28,9 +27,9 @@ class RegisterMenuItemRequestToMenuItemConverterTest {
     void testConvertRegisterMenuItemRequestToMenuItem() {
 
         RegisterMenuItemRequest source = Instancio.create(RegisterMenuItemRequest.class);
-        Menu menu = Instancio.create(Menu.class);
+        MenuItem response = Instancio.create(MenuItem.class);
 
-        MenuItem convertedMenuItem = registerMenuItemRequestToMenuItemConverter.convert(source, menu);
+        MenuItem convertedMenuItem = menuItemUpdateRequestToMenuItemConverter.convert(response, source);
 
         assertNotNull(convertedMenuItem);
         assertEquals(source.getName(), convertedMenuItem.getName());
@@ -39,9 +38,6 @@ class RegisterMenuItemRequestToMenuItemConverterTest {
         assertEquals(source.getCategory(), convertedMenuItem.getCategory());
         assertEquals(source.isAvailable(), convertedMenuItem.isAvailable());
         assertEquals(source.getImageUrl(), convertedMenuItem.getImageUrl());
-        assertEquals(menu, convertedMenuItem.getMenu());
-        assertNotNull(convertedMenuItem.getCreatedAt());
-        assertNotNull(convertedMenuItem.getUpdatedAt());
     }
 
 }

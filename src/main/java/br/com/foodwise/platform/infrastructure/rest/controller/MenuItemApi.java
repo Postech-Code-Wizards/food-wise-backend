@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemAvailable;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.item.RegisterMenuItemAvailable;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.item.RegisterMenuItemRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuItemResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -1,8 +1,8 @@
 package br.com.foodwise.platform.application.facade;
 
-import br.com.foodwise.platform.application.facade.converter.menuItem.MenuItemToMenuItemResponseConverter;
-import br.com.foodwise.platform.application.facade.converter.menuItem.MenuItemUpdateRequestToMenuItemConverter;
-import br.com.foodwise.platform.application.facade.converter.menuItem.RegisterMenuItemRequestToMenuItemConverter;
+import br.com.foodwise.platform.application.facade.converter.menu.item.MenuItemToMenuItemResponseConverter;
+import br.com.foodwise.platform.application.facade.converter.menu.item.MenuItemUpdateRequestToMenuItemConverter;
+import br.com.foodwise.platform.application.facade.converter.menu.item.RegisterMenuItemRequestToMenuItemConverter;
 import br.com.foodwise.platform.application.usecase.menu.RetrieveMenuUseCase;
 import br.com.foodwise.platform.application.usecase.menu.item.CreateMenuItemUseCase;
 import br.com.foodwise.platform.application.usecase.menu.item.RetrieveAllMenusItemByItemNameUseCase;
@@ -10,8 +10,8 @@ import br.com.foodwise.platform.application.usecase.menu.item.RetrieveAllMenusIt
 import br.com.foodwise.platform.application.usecase.menu.item.RetrieveMenuItemUseCase;
 import br.com.foodwise.platform.application.usecase.menu.item.UpdateMenuItemUseCase;
 import br.com.foodwise.platform.domain.MenuItem;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemAvailable;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.item.RegisterMenuItemAvailable;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.item.RegisterMenuItemRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuItemResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
