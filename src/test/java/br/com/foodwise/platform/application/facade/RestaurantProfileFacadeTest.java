@@ -18,6 +18,7 @@ import br.com.foodwise.platform.application.usecase.restaurant.UpdateRestaurantU
 import br.com.foodwise.platform.domain.RestaurantOwner;
 import br.com.foodwise.platform.domain.RestaurantProfile;
 import br.com.foodwise.platform.domain.User;
+import br.com.foodwise.platform.domain.enums.UserType;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
@@ -32,8 +33,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static br.com.foodwise.platform.factory.SecurityHelperFactory.authenticateUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -198,7 +201,6 @@ class RestaurantProfileFacadeTest {
     void retrieveRestaurantById_shouldRetrieveAndConvert() {
 
         Long restaurantId = Instancio.create(Long.class);
-        RestaurantProfile restaurantProfile = Instancio.create(RestaurantProfile.class);
         IsDeliveryRestaurantResponse expectedResponse = Instancio.create(IsDeliveryRestaurantResponse.class);
 
         when(retrieveRestaurantByIdUseCase.execute(restaurantId)).thenReturn(restaurantProfile);
@@ -208,6 +210,22 @@ class RestaurantProfileFacadeTest {
 
         assertNotNull(actualResponse);
         assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    @DisplayName("Should retrieve my restaurant profile successfully")
+    void retrieveMyProfile_ShouldRetrieveProfile() {
+
+        RestaurantProfileResponse expectedResponse = Instancio.create(RestaurantProfileResponse.class);
+        authenticateUser(user.getEmail(), user.getPassword(), UserType.RESTAURANT_OWNER);
+        when(retrieveRestaurantByEmailUseCase.execute(anyString())).thenReturn(restaurantProfile);
+        when(retrieveRestaurantOwnerUseCase.execute(restaurantProfile.getId())).thenReturn(restaurantOwner);
+        when(restaurantProfileDomainToResponseConverter.convert(restaurantProfile, restaurantOwner)).thenReturn(expectedResponse);
+
+        RestaurantProfileResponse result = restaurantProfileFacade.retrieveMyProfile();
+
+        assertNotNull(result);
+        assertEquals(expectedResponse, result);
     }
 
 }

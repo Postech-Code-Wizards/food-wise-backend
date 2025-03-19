@@ -104,7 +104,7 @@ This project uses PostgreSQL as a database. Connection properties are present in
   │   │   │                          ├── auth/ # Defines use cases for the application authentication
   │   │   │                          ├── customer/ # Defines use cases for the application customer
   │   │   │                          ├── menu/ # Defines use cases for the application menu
-  │   │   │                          ├── menuItem/ # Defines use cases for the application menu item
+  │   │   │                              └── item/ # Defines use cases for the application menu item
   │   │   │                          ├── restaurant/ # Defines use cases for the application restaurant
   │   │   │                          ├── token/ # Defines use cases for the application token
   │   │   │                          └── user/ # Defines use cases for the application user
