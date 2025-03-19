@@ -1,8 +1,7 @@
 package br.com.foodwise.platform.application.facade.converter.menu;
 
-import br.com.foodwise.platform.application.facade.converter.menu.MenuToMenuResponseConverter;
-import br.com.foodwise.platform.domain.Menu;
 import br.com.foodwise.platform.application.facade.converter.restaurant.RestaurantProfileDomainToResponseConverter;
+import br.com.foodwise.platform.domain.Menu;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuResponse;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.RestaurantProfileResponse;
 import org.instancio.Instancio;
@@ -14,7 +13,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.instancio.Select.field;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 class MenuToMenuResponseConverterTest {

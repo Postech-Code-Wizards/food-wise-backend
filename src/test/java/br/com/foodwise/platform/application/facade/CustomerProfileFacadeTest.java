@@ -3,7 +3,12 @@ package br.com.foodwise.platform.application.facade;
 import br.com.foodwise.platform.application.facade.converter.common.UserRequestToDomainConverter;
 import br.com.foodwise.platform.application.facade.converter.customer.CustomerProfileDomainToResponseConverter;
 import br.com.foodwise.platform.application.facade.converter.customer.CustomerProfileRequestToDomainConverter;
-import br.com.foodwise.platform.application.usecase.customer.*;
+import br.com.foodwise.platform.application.usecase.customer.DeleteCustomerProfileUseCase;
+import br.com.foodwise.platform.application.usecase.customer.RegisterCustomerUseCase;
+import br.com.foodwise.platform.application.usecase.customer.RetrieveCustomerByEmailAuthenticatedUseCase;
+import br.com.foodwise.platform.application.usecase.customer.RetrieveCustomerByEmailUseCase;
+import br.com.foodwise.platform.application.usecase.customer.UpdateCustomerProfileUseCase;
+import br.com.foodwise.platform.application.usecase.customer.UpdateCustomerUserEmailUseCase;
 import br.com.foodwise.platform.application.usecase.user.DeleteUserUseCase;
 import br.com.foodwise.platform.domain.CustomerProfile;
 import br.com.foodwise.platform.domain.User;
@@ -21,7 +26,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerProfileFacadeTest {

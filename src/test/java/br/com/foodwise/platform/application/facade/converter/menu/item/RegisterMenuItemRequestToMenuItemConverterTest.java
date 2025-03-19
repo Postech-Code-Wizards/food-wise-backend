@@ -1,8 +1,8 @@
-package br.com.foodwise.platform.application.facade.converter.menuItem;
+package br.com.foodwise.platform.application.facade.converter.menu.item;
 
 import br.com.foodwise.platform.domain.Menu;
 import br.com.foodwise.platform.domain.MenuItem;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.item.RegisterMenuItemRequest;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +25,7 @@ class RegisterMenuItemRequestToMenuItemConverterTest {
 
     @Test
     @DisplayName("Test conversion of RegisterMenuItemRequest to MenuItem")
-    public void testConvertRegisterMenuItemRequestToMenuItem() {
+    void testConvertRegisterMenuItemRequestToMenuItem() {
 
         RegisterMenuItemRequest source = Instancio.create(RegisterMenuItemRequest.class);
         Menu menu = Instancio.create(Menu.class);

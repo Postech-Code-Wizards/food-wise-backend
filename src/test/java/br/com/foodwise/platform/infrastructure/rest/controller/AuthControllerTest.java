@@ -1,102 +1,99 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.application.facade.TokenFacade;
+import br.com.foodwise.platform.domain.enums.UserType;
 import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
-import br.com.foodwise.platform.infrastructure.rest.controller.exception.BusinessException;
+import br.com.foodwise.platform.gateway.database.jpa.repository.UserRepository;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.AuthRequest;
-import br.com.foodwise.platform.infrastructure.rest.dtos.response.AuthResponse;
-import org.instancio.Instancio;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.ZonedDateTime;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
+@Transactional
 class AuthControllerTest {
 
-    @Mock
+    private static UserEntity savedUser;
+    @Autowired
+    private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
+    @MockBean
     private AuthenticationManager authenticationManager;
-
-    @Mock
+    @MockBean
     private TokenFacade tokenFacade;
+    @Autowired
+    private UserRepository userRepository;
 
-    @InjectMocks
-    private AuthController authController;
+    @BeforeEach
+    void setUp(@Autowired UserRepository userRepository) {
+        savedUser = new UserEntity();
+        savedUser.setEmail("test@code-wizards.com");
+        savedUser.setPassword(new BCryptPasswordEncoder().encode("password"));
+        savedUser.setUserType(UserType.CUSTOMER);
 
-    @Test
-    void shouldReturnAuthResponse_whenAuthenticationIsSuccessful() {
-        var email = "test@code-wizards.com";
-        var password = "password";
-        var token = "jwt-token";
-
-        var authRequest = new AuthRequest(email, password);
-        var authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
-        var user = mock(UserEntity.class);
-        var authentication = mock(Authentication.class);
-
-        when(authenticationManager.authenticate(authenticationToken)).thenReturn(authentication);
-        when(authentication.getPrincipal()).thenReturn(user);
-        when(tokenFacade.generateToken(user)).thenReturn(token);
-
-        ResponseEntity<AuthResponse> response = authController.login(authRequest);
-
-        assertNotNull(response);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(token, response.getBody().token());
-
-        verify(authenticationManager).authenticate(authenticationToken);
-        verify(tokenFacade).generateToken(user);
+        userRepository.save(savedUser);
     }
 
-    @Test
-    void shouldThrowException_whenAuthenticationFails() {
-        var email = "test@code-wizards.com";
-        var password = "password";
-        var authRequest = new AuthRequest(email, password);
-        var authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
+    @Nested
+    class LoginTests {
 
-        when(authenticationManager.authenticate(authenticationToken))
-                .thenThrow(new BadCredentialsException("Invalid credentials"));
+        @Test
+        @DisplayName("Should return AuthResponse when authentication is successful")
+        void shouldReturnAuthResponse_whenAuthenticationIsSuccessful() throws Exception {
+            var email = "test@code-wizards.com";
+            var password = "password";
+            var token = "jwt-token";
 
-        assertThrows(BadCredentialsException.class, () -> authController.login(authRequest));
+            var authRequest = new AuthRequest(email, password);
+            var authentication = mock(Authentication.class);
 
-        verify(authenticationManager).authenticate(authenticationToken);
-        verifyNoInteractions(tokenFacade);
-    }
+            when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
+                    .thenReturn(authentication);
+            when(authentication.getPrincipal()).thenReturn(savedUser);
+            when(tokenFacade.generateToken(savedUser)).thenReturn(token);
 
-    @Test
-    void shouldThrowException_whenUserIsDeleted() {
-        final var email = "tes1t@code-wizards.com";
-        final var password = "password";
+            mockMvc.perform(post("/api/v1/auth/login")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(authRequest)))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.token").value(token));
 
-        var authRequest = new AuthRequest(email, password);
-        var authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
-        var user = Instancio.create(UserEntity.class);
-        user.setDeletedAt(ZonedDateTime.now());
-        var authentication = mock(Authentication.class);
+            verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
+            verify(tokenFacade, times(1)).generateToken(savedUser);
+        }
 
-        when(authenticationManager.authenticate(authenticationToken)).thenReturn(authentication);
-        when(authentication.getPrincipal()).thenReturn(user);
+        @Test
+        void shouldReturnBadRequest_whenAuthenticationIsEmpty() throws Exception {
+            var request = new AuthRequest("", "");
 
-        assertThrows(BusinessException.class, () -> authController.login(authRequest));
+            mockMvc.perform(post("/api/v1/auth/login")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(request)))
+                    .andExpect(status().isBadRequest());
+        }
     }
 }

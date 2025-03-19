@@ -1,11 +1,11 @@
 package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.application.facade.MenuFacade;
-import br.com.foodwise.platform.domain.Menu;
-import br.com.foodwise.platform.domain.enums.UserType;
 import br.com.foodwise.platform.application.facade.converter.menu.MenuToMenuResponseConverter;
 import br.com.foodwise.platform.application.facade.converter.menu.MenuUpdateRequestToMenuConverter;
 import br.com.foodwise.platform.application.facade.converter.menu.RegisterMenuRequestToMenuConverter;
+import br.com.foodwise.platform.domain.Menu;
+import br.com.foodwise.platform.domain.enums.UserType;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;

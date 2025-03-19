@@ -1,6 +1,5 @@
 package br.com.foodwise.platform.application.facade.converter.menu;
 
-import br.com.foodwise.platform.application.facade.converter.menu.MenuUpdateRequestToMenuConverter;
 import br.com.foodwise.platform.domain.Menu;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
 import org.instancio.Instancio;
@@ -10,7 +9,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
 class MenuUpdateRequestToMenuConverterTest {

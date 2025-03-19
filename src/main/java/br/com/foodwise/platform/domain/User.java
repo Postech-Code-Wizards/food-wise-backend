@@ -19,13 +19,13 @@ public class User {
     private ZonedDateTime updatedAt;
     private ZonedDateTime deletedAt;
 
-    public void delete(){
+    public void delete() {
         this.isActive = false;
         this.updatedAt = ZonedDateTime.now();
         this.deletedAt = ZonedDateTime.now();
     }
 
-    public void registerUser(UserType userType){
+    public void registerUser(UserType userType) {
         this.userType = userType;
         this.password = CryptographyUtil.getEncryptedPassword(this.password);
         this.isActive = true;

@@ -59,7 +59,7 @@ public class MenuJpaGateway implements MenuGateway {
 
     @Override
     public void delete(Menu menu) {
-        if(Objects.isNull(menu)) {
+        if (Objects.isNull(menu)) {
             log.info("Menu object in delete action is null");
         }
 

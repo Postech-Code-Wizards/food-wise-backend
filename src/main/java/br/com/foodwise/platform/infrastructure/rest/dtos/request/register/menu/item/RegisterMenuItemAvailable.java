@@ -1,4 +1,4 @@
-package br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem;
+package br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.item;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

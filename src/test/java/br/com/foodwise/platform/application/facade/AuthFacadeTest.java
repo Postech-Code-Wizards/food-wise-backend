@@ -9,7 +9,6 @@ import org.springframework.security.core.Authentication;
 
 import java.time.ZonedDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -26,13 +25,6 @@ class AuthFacadeTest {
         when(authentication.getPrincipal()).thenReturn(user);
 
         assertThrows(BusinessException.class, () -> AuthFacade.validateUserIsActive(authentication));
-    }
-
-    @Test
-    @DisplayName("Must test the class constructor")
-    void testAuthFacadeConstructor() {
-        AuthFacade authFacade = new AuthFacade();
-        assertNotNull(authFacade);
     }
 
 }

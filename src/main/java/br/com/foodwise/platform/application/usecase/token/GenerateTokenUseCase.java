@@ -12,10 +12,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GenerateTokenUseCase {
 
+    private final ExpirationDateUseCase expirationDateUseCase;
     @Value("${api.security.token.secret}")
     private String secret;
-
-    private final ExpirationDateUseCase expirationDateUseCase;
 
     public String execute(UserEntity userEntity) {
         try {

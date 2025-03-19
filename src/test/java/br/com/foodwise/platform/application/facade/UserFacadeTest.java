@@ -1,12 +1,12 @@
 package br.com.foodwise.platform.application.facade;
 
+import br.com.foodwise.platform.application.facade.converter.common.PasswordRequestToDomainConverter;
 import br.com.foodwise.platform.application.usecase.user.DeleteUserUseCase;
 import br.com.foodwise.platform.application.usecase.user.LoadUserByUsernameUseCase;
 import br.com.foodwise.platform.application.usecase.user.UpdatePasswordUseCase;
 import br.com.foodwise.platform.application.usecase.user.UpdateUserEmailUseCase;
 import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.domain.enums.UserType;
-import br.com.foodwise.platform.application.facade.converter.common.PasswordRequestToDomainConverter;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +18,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UserFacadeTest {

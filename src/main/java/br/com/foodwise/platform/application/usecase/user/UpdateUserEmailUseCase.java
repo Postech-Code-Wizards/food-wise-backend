@@ -17,17 +17,6 @@ public class UpdateUserEmailUseCase {
 
     private final UserGateway userGateway;
 
-    @Transactional
-    public void execute(User user, Long id, UserType userType) {
-        var existingUser = userGateway.findByIdAndUserTypeAndDeletedAtIsNull(id, userType)
-                .orElseThrow(() -> new ResourceNotFoundException("USER_DOES_NOT_EXIST", ""));
-
-        if (ObjectUtils.isNotEmpty(user.getEmail()) && !user.getPassword().equals(existingUser.getPassword())) {
-            User userSave = populate(existingUser, user);
-            userGateway.save(userSave);
-        }
-    }
-
     private static User populate(User existingUser, User user) {
         return new User(
                 existingUser.getId(),
@@ -39,6 +28,17 @@ public class UpdateUserEmailUseCase {
                 ZonedDateTime.now(),
                 existingUser.getDeletedAt()
         );
+    }
+
+    @Transactional
+    public void execute(User user, Long id, UserType userType) {
+        var existingUser = userGateway.findByIdAndUserTypeAndDeletedAtIsNull(id, userType)
+                .orElseThrow(() -> new ResourceNotFoundException("USER_DOES_NOT_EXIST", ""));
+
+        if (ObjectUtils.isNotEmpty(user.getEmail()) && !user.getPassword().equals(existingUser.getPassword())) {
+            User userSave = populate(existingUser, user);
+            userGateway.save(userSave);
+        }
     }
 
 }

@@ -14,15 +14,6 @@ public class UpdateRestaurantOwnerUseCase {
 
     private final RestaurantOwnerGateway restaurantOwnerGateway;
 
-    @Transactional
-    public void execute(RestaurantOwner restaurantOwner ,Long userId) {
-        var existingOwner = restaurantOwnerGateway.findById(userId);
-
-        RestaurantOwner restaurantOwnerSave = populate(existingOwner, restaurantOwner);
-        restaurantOwnerGateway.save(restaurantOwnerSave);
-
-    }
-
     private static RestaurantOwner populate(RestaurantOwner existingOwner, RestaurantOwner restaurantOwner) {
         return new RestaurantOwner(
                 existingOwner.getId(),
@@ -34,5 +25,14 @@ public class UpdateRestaurantOwnerUseCase {
                 ZonedDateTime.now(),
                 existingOwner.getUser()
         );
+    }
+
+    @Transactional
+    public void execute(RestaurantOwner restaurantOwner, Long userId) {
+        var existingOwner = restaurantOwnerGateway.findById(userId);
+
+        RestaurantOwner restaurantOwnerSave = populate(existingOwner, restaurantOwner);
+        restaurantOwnerGateway.save(restaurantOwnerSave);
+
     }
 }

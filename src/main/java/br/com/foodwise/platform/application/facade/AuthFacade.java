@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthFacade {
 
-    public AuthFacade() {
+    private AuthFacade() {
     }
 
     public static void validateUserIsActive(Authentication auth) {

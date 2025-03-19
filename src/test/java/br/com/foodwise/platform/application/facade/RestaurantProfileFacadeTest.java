@@ -5,7 +5,16 @@ import br.com.foodwise.platform.application.facade.converter.restaurant.Restaura
 import br.com.foodwise.platform.application.facade.converter.restaurant.RestaurantProfileDomainToIsDeliveryRestaurantResponse;
 import br.com.foodwise.platform.application.facade.converter.restaurant.RestaurantProfileDomainToResponseConverter;
 import br.com.foodwise.platform.application.facade.converter.restaurant.RestaurantProfileRequestToDomainConverter;
-import br.com.foodwise.platform.application.usecase.restaurant.*;
+import br.com.foodwise.platform.application.usecase.restaurant.DeleteRestaurantProfileUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.RegisterRestaurantOwnerUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.RegisterRestaurantUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.RetrieveRestaurantByBusinessNameUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.RetrieveRestaurantByEmailUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.RetrieveRestaurantByIdUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.RetrieveRestaurantOwnerUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.UpdateRestaurantOwnerUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.UpdateRestaurantProfileUseCase;
+import br.com.foodwise.platform.application.usecase.restaurant.UpdateRestaurantUserEmailUseCase;
 import br.com.foodwise.platform.domain.RestaurantOwner;
 import br.com.foodwise.platform.domain.RestaurantProfile;
 import br.com.foodwise.platform.domain.User;

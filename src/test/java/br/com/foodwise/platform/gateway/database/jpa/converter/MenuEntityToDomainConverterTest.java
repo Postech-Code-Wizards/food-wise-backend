@@ -11,7 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 class MenuEntityToDomainConverterTest {
@@ -29,7 +30,7 @@ class MenuEntityToDomainConverterTest {
 
     @Test
     @DisplayName("Test conversion of MenuEntity to Menu")
-    public void testConvertMenuEntityToDomain() {
+    void testConvertMenuEntityToDomain() {
 
         MenuEntity source = Instancio.create(MenuEntity.class);
         RestaurantProfile restaurantProfile = Instancio.create(RestaurantProfile.class);

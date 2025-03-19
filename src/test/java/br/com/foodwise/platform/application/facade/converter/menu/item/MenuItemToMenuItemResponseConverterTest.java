@@ -1,4 +1,4 @@
-package br.com.foodwise.platform.application.facade.converter.menuItem;
+package br.com.foodwise.platform.application.facade.converter.menu.item;
 
 import br.com.foodwise.platform.domain.MenuItem;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuItemResponse;
@@ -24,7 +24,7 @@ class MenuItemToMenuItemResponseConverterTest {
 
     @Test
     @DisplayName("Test conversion of MenuItem to MenuItemResponse")
-    public void testConvertMenuItemToMenuItemResponse() {
+    void testConvertMenuItemToMenuItemResponse() {
 
         MenuItem source = Instancio.create(MenuItem.class);
 

@@ -14,14 +14,6 @@ public class UpdateRestaurantProfileUseCase {
 
     private final RestaurantProfileGateway restaurantProfileGateway;
 
-    @Transactional
-    public void execute(RestaurantProfile restaurantProfile, Long id) {
-        var existingRestaurantProfile = restaurantProfileGateway.findById(id);
-
-        var restaurantProfileUpdate = populate(restaurantProfile, existingRestaurantProfile);
-        restaurantProfileGateway.save(restaurantProfileUpdate);
-    }
-
     private static RestaurantProfile populate(RestaurantProfile restaurantProfile, RestaurantProfile existingRestaurantProfile) {
         return new RestaurantProfile(
                 existingRestaurantProfile.getId(),
@@ -38,5 +30,13 @@ public class UpdateRestaurantProfileUseCase {
                 restaurantProfile.getAddress(),
                 restaurantProfile.getPhone()
         );
+    }
+
+    @Transactional
+    public void execute(RestaurantProfile restaurantProfile, Long id) {
+        var existingRestaurantProfile = restaurantProfileGateway.findById(id);
+
+        var restaurantProfileUpdate = populate(restaurantProfile, existingRestaurantProfile);
+        restaurantProfileGateway.save(restaurantProfileUpdate);
     }
 }

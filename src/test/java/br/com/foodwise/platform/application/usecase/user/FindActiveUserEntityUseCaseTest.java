@@ -13,7 +13,9 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class FindActiveUserEntityUseCaseTest {
 

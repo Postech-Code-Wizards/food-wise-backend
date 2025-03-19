@@ -16,10 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
 class ValidateTokenUseCaseTest {
 
+    private static final String SECRET = "secret";
     @InjectMocks
     private ValidateTokenUseCase useCase;
-
-    private static final String SECRET = "secret";
 
     @BeforeEach
     void setUp() {

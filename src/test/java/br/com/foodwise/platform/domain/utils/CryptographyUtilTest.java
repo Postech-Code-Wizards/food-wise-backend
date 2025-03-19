@@ -4,7 +4,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CryptographyUtilTest {
 
@@ -37,7 +39,7 @@ class CryptographyUtilTest {
 
     @Test
     @DisplayName("Should encrypt an empty password")
-    void should_encrypt_empty_password(){
+    void should_encrypt_empty_password() {
 
         String password = "";
 

@@ -2,8 +2,8 @@ package br.com.foodwise.platform.gateway.database.jpa;
 
 import br.com.foodwise.platform.domain.CustomerProfile;
 import br.com.foodwise.platform.gateway.CustomerProfileGateway;
-import br.com.foodwise.platform.gateway.database.jpa.converter.CustomerProfileDomainToEntityConverter;
 import br.com.foodwise.platform.gateway.database.jpa.converter.CustomerDomainProfileEntityToDomainConverter;
+import br.com.foodwise.platform.gateway.database.jpa.converter.CustomerProfileDomainToEntityConverter;
 import br.com.foodwise.platform.gateway.database.jpa.entities.CustomerProfileEntity;
 import br.com.foodwise.platform.gateway.database.jpa.repository.CustomerProfileRepository;
 import br.com.foodwise.platform.infrastructure.rest.controller.exception.ResourceNotFoundException;
@@ -40,7 +40,7 @@ public class CustomerProfileJpaGateway implements CustomerProfileGateway {
 
     @Override
     public void save(CustomerProfile customerProfile) {
-        if(Objects.isNull(customerProfile)) {
+        if (Objects.isNull(customerProfile)) {
             throw new ResourceNotFoundException("CUSTOMER_DOES_NOT_EXIST", "");
         }
 

@@ -1,9 +1,12 @@
 package br.com.foodwise.platform.application.facade;
 
-import br.com.foodwise.platform.application.usecase.user.*;
+import br.com.foodwise.platform.application.facade.converter.common.PasswordRequestToDomainConverter;
+import br.com.foodwise.platform.application.usecase.user.DeleteUserUseCase;
+import br.com.foodwise.platform.application.usecase.user.LoadUserByUsernameUseCase;
+import br.com.foodwise.platform.application.usecase.user.UpdatePasswordUseCase;
+import br.com.foodwise.platform.application.usecase.user.UpdateUserEmailUseCase;
 import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.domain.enums.UserType;
-import br.com.foodwise.platform.application.facade.converter.common.PasswordRequestToDomainConverter;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PasswordRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

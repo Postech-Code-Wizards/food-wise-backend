@@ -1,9 +1,9 @@
 package br.com.foodwise.platform.application.facade.converter.customer;
 
-import br.com.foodwise.platform.domain.CustomerProfile;
-import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.application.facade.converter.common.AddressRequestToDomainConverter;
 import br.com.foodwise.platform.application.facade.converter.common.PhoneRequestToDomainConverter;
+import br.com.foodwise.platform.domain.CustomerProfile;
+import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

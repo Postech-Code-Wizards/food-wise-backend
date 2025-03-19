@@ -2,18 +2,18 @@ package br.com.foodwise.platform.application.usecase.restaurant;
 
 import br.com.foodwise.platform.domain.RestaurantOwner;
 import br.com.foodwise.platform.gateway.RestaurantOwnerGateway;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.instancio.Instancio;
-
-import java.time.ZonedDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UpdateRestaurantOwnerUseCaseTest {
@@ -27,7 +27,7 @@ class UpdateRestaurantOwnerUseCaseTest {
     @Test
     @DisplayName("Should update RestaurantOwner successfully")
     void execute_ShouldUpdateSuccessfully() {
-        
+
         Long userId = Instancio.create(Long.class);
         RestaurantOwner existingOwner = Instancio.create(RestaurantOwner.class);
         RestaurantOwner updatedOwner = Instancio.create(RestaurantOwner.class);
@@ -44,7 +44,7 @@ class UpdateRestaurantOwnerUseCaseTest {
     @Test
     @DisplayName("Should update RestaurantOwner with correct populated data")
     void execute_ShouldUpdateWithCorrectData() {
-        
+
         Long userId = Instancio.create(Long.class);
         RestaurantOwner existingOwner = Instancio.create(RestaurantOwner.class);
         RestaurantOwner updatedOwner = Instancio.create(RestaurantOwner.class);

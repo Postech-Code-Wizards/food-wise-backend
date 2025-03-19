@@ -1,12 +1,17 @@
 package br.com.foodwise.platform.application.facade;
 
-import br.com.foodwise.platform.application.usecase.customer.*;
-import br.com.foodwise.platform.application.usecase.user.DeleteUserUseCase;
-import br.com.foodwise.platform.domain.CustomerProfile;
-import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.application.facade.converter.common.UserRequestToDomainConverter;
 import br.com.foodwise.platform.application.facade.converter.customer.CustomerProfileDomainToResponseConverter;
 import br.com.foodwise.platform.application.facade.converter.customer.CustomerProfileRequestToDomainConverter;
+import br.com.foodwise.platform.application.usecase.customer.DeleteCustomerProfileUseCase;
+import br.com.foodwise.platform.application.usecase.customer.RegisterCustomerUseCase;
+import br.com.foodwise.platform.application.usecase.customer.RetrieveCustomerByEmailAuthenticatedUseCase;
+import br.com.foodwise.platform.application.usecase.customer.RetrieveCustomerByEmailUseCase;
+import br.com.foodwise.platform.application.usecase.customer.UpdateCustomerProfileUseCase;
+import br.com.foodwise.platform.application.usecase.customer.UpdateCustomerUserEmailUseCase;
+import br.com.foodwise.platform.application.usecase.user.DeleteUserUseCase;
+import br.com.foodwise.platform.domain.CustomerProfile;
+import br.com.foodwise.platform.domain.User;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;

@@ -14,14 +14,6 @@ public class UpdateCustomerProfileUseCase {
 
     private final CustomerProfileGateway customerProfileGateway;
 
-    @Transactional
-    public void execute(CustomerProfile customerProfile, Long id) {
-        var existingCustomerProfile = customerProfileGateway.findById(id);
-
-        var customerProfileUpdate = populate(customerProfile, existingCustomerProfile);
-        customerProfileGateway.save(customerProfileUpdate);
-    }
-
     private static CustomerProfile populate(CustomerProfile customerProfile, CustomerProfile existingCustomerProfile) {
         return new CustomerProfile(
                 existingCustomerProfile.getId(),
@@ -33,6 +25,14 @@ public class UpdateCustomerProfileUseCase {
                 existingCustomerProfile.getUser(),
                 customerProfile.getPhone()
         );
+    }
+
+    @Transactional
+    public void execute(CustomerProfile customerProfile, Long id) {
+        var existingCustomerProfile = customerProfileGateway.findById(id);
+
+        var customerProfileUpdate = populate(customerProfile, existingCustomerProfile);
+        customerProfileGateway.save(customerProfileUpdate);
     }
 
 }

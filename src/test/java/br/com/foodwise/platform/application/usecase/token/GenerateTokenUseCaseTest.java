@@ -18,19 +18,21 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class GenerateTokenUseCaseTest {
 
+    private final String secret = "secret";
     @InjectMocks
     private GenerateTokenUseCase useCase;
-
     @Mock
     private ExpirationDateUseCase expirationDateUseCase;
-
-    private String secret = "secret";
 
     @BeforeEach
     void setUp() {

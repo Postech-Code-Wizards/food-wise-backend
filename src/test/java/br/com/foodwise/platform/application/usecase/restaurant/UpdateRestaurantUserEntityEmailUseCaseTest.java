@@ -29,7 +29,7 @@ class UpdateRestaurantUserEntityEmailUseCaseTest {
 
     @Test
     @DisplayName("Given an existing user, must update email successfully")
-    void updateUserEmailIsSuccess(){
+    void updateUserEmailIsSuccess() {
 
         User user = Instancio.create(User.class);
         Long userId = Instancio.create(Long.class);
