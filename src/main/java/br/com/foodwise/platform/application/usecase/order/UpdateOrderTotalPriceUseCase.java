@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.application.usecase.order;
 
 import br.com.foodwise.platform.gateway.OrderGateway;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.order.UpdateOrderTotalPriceRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.update.order.UpdateOrderTotalPriceRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +13,6 @@ public class UpdateOrderTotalPriceUseCase {
     public void updateOrder(Long id, UpdateOrderTotalPriceRequest totalPriceRequest) {
         var order = orderGateway.findById(id);
         order.updateOrderTotalPrice(totalPriceRequest.getTotalPrice());
-        orderGateway.save(order);
+        orderGateway.updateTotalPrice(order);
     }
 }

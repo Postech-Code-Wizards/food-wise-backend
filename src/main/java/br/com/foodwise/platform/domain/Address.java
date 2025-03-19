@@ -21,4 +21,17 @@ public class Address {
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
 
+    public Address update(Address address) {
+        this.street = address.getStreet();
+        this.city = address.getCity();
+        this.state = address.getState();
+        this.neighborhood = address.getNeighborhood();
+        this.postalCode = address.getPostalCode();
+        this.country = address.getCountry();
+        this.latitude = address.getLatitude();
+        this.longitude = address.getLongitude();
+
+        return this;
+    }
+
 }

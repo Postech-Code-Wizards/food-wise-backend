@@ -15,6 +15,6 @@ public class CreateOrderUseCase {
 
     @Transactional
     public Order create(Order order) {
-        return orderGateway.save(order);
+        return orderGateway.createOrderSave(order);
     }
 }

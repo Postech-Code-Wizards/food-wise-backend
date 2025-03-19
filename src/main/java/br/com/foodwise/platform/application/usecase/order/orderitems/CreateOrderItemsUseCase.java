@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,17 +16,13 @@ public class CreateOrderItemsUseCase {
 
     public List<OrderItem> create(List<MenuItem> menuItems, Order order) {
         List<OrderItem> orderItems = menuItems.stream().map(menuItem ->
-                new OrderItem(
-                        null,
-                        menuItem,
-                        null,
-                        null,
-                        order
-                )
-        ).collect(Collectors.toList());
+                OrderItem.builder()
+                        .menuItem(menuItem)
+                        .order(order)
+                        .build()
+        ).toList();
 
         return orderItemGateway.saveAll(orderItems);
     }
-
 
 }

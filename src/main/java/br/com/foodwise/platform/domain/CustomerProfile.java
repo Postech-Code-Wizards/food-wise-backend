@@ -17,7 +17,8 @@ public class CustomerProfile {
     private User user;
     private Phone phone;
 
-    public void updateAddress(Address address) {
-        this.address = address;
+    public CustomerProfile updateAddress(Address address) {
+        this.address = address.update(address);
+        return this;
     }
 }
