@@ -1,6 +1,7 @@
 package br.com.foodwise.platform.application.usecase.order;
 
-import br.com.foodwise.platform.domain.OrderItem;
+import br.com.foodwise.platform.domain.MenuItem;
+import br.com.foodwise.platform.domain.Order;
 import br.com.foodwise.platform.gateway.OrderGateway;
 import br.com.foodwise.platform.gateway.OrderItemGateway;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +15,8 @@ public class UpdateOrderOrderItemsUseCase {
     private final OrderGateway orderGateway;
     private final OrderItemGateway orderItemGateway;
 
-    public void updateOrderItems(Long id, List<OrderItem> orderItems) {
-        var order = orderGateway.findById(id);
-        order.updateOrderItems(orderItems);
-
-        orderItemGateway.saveAll(orderItems);
-        orderGateway.save(order);
+    public void updateOrderItems(Order order, List<MenuItem> menuItemList) {
+        order.updateOrderItems(menuItemList);
+        orderGateway.updateOrderItems(order);
     }
 }

@@ -42,7 +42,7 @@ class OrderDomainToOrderEntityConverterTest {
 
     @Test
     @DisplayName("Should convert Order domain to OrderEntity")
-    void convert_ShouldConvertOrderToOrderEntity() {
+    void convert_ShouldCreateOrderConvertOrderToOrderEntity() {
 
         Order source = Instancio.create(Order.class);
         CustomerProfileEntity customerProfileEntity = Instancio.create(CustomerProfileEntity.class);

@@ -20,4 +20,9 @@ public class RestaurantProfile {
     private User user;
     private Address address;
     private Phone phone;
+
+    public RestaurantProfile updateAddress(Address address){
+        this.address = address.update(address);
+        return this;
+    }
 }

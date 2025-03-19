@@ -1,8 +1,8 @@
 package br.com.foodwise.platform.application.usecase.order;
 
-import br.com.foodwise.platform.domain.OrderPayment;
+import br.com.foodwise.platform.domain.enums.PaymentMethod;
 import br.com.foodwise.platform.gateway.OrderGateway;
-import br.com.foodwise.platform.gateway.OrderPaymentGateway;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.update.order.UpdateOrderPaymentRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +10,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UpdateOrderOrderPaymentUseCase {
     private final OrderGateway orderGateway;
-    private final OrderPaymentGateway orderPaymentGateway;
 
-    public void updateOrder(Long id, OrderPayment orderPaymentData) {
+    public void updateOrder(Long id, UpdateOrderPaymentRequest request) {
         var order = orderGateway.findById(id);
-        var orderPayment = order.getOrderPayment();
-
-        orderPayment.updateOrderPaymentMethod(orderPaymentData.getPaymentMethod());
-        order.updateOrderPayment(orderPayment);
-
-        orderPaymentGateway.save(orderPayment);
-        orderGateway.save(order);
+        order.updateOrderPayment(PaymentMethod.valueOf(request.getPaymentMethod()));
+        orderGateway.updateOrderPayment(order);
     }
 }

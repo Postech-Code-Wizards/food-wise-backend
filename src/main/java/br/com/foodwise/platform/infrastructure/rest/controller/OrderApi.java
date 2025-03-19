@@ -2,9 +2,9 @@ package br.com.foodwise.platform.infrastructure.rest.controller;
 
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.AddressRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.order.CreateOrderRequest;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.order.OrderItemsRequest;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.order.OrderPaymentRequest;
-import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.order.UpdateOrderTotalPriceRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.update.order.UpdateOrderItemsRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.update.order.UpdateOrderPaymentRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.update.order.UpdateOrderTotalPriceRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.orders.OrderResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -152,35 +152,6 @@ public interface OrderApi {
             @RequestBody @Valid AddressRequest request
     );
 
-    @Operation(summary = "Update restaurant's address", description = "Update the address of the restaurant for the given orderEntity.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Restaurant address updated successfully"),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Order not found",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    """
-                                            {
-                                                "statusCode": 404,
-                                                "errors": [
-                                                    {
-                                                        "code": "ORDER_NOT_FOUND",
-                                                        "message": "Order not found"
-                                                    }
-                                                ]
-                                            }
-                                            """
-                            )
-                    )
-            )
-    })
-    @PatchMapping("/{id}/restaurant-address")
-    ResponseEntity<Void> updateOrderRestaurantAddress(
-            @Parameter(description = "ID of the orderEntity to update", required = true) @PathVariable Long id,
-            @RequestBody @Valid AddressRequest request
-    );
 
     @Operation(summary = "Update orderEntity items", description = "Update the items of the given orderEntity.")
     @ApiResponses(value = {
@@ -206,10 +177,11 @@ public interface OrderApi {
                     )
             )
     })
-    @PatchMapping("/{id}/orderEntity-items")
+
+    @PutMapping("/{id}/order-items")
     ResponseEntity<Void> updateOrderItems(
             @Parameter(description = "ID of the orderEntity to update", required = true) @PathVariable Long id,
-            @RequestBody @Valid OrderItemsRequest request
+            @RequestBody @Valid UpdateOrderItemsRequest request
     );
 
     @Operation(summary = "Update orderEntity payment", description = "Update the payment method for the given orderEntity.")
@@ -236,10 +208,10 @@ public interface OrderApi {
                     )
             )
     })
-    @PatchMapping("/{id}/orderEntity-payment")
+    @PutMapping("/{id}/order-payment")
     ResponseEntity<Void> updateOrderPayment(
             @Parameter(description = "ID of the orderEntity to update", required = true) @PathVariable Long id,
-            @RequestBody @Valid OrderPaymentRequest request
+            @RequestBody @Valid UpdateOrderPaymentRequest request
     );
 
     @Operation(summary = "Update total price of the orderEntity", description = "Update the total price of the orderEntity.")
@@ -266,7 +238,7 @@ public interface OrderApi {
                     )
             )
     })
-    @PatchMapping("/{id}/total-price")
+    @PutMapping("/{id}/total-price")
     ResponseEntity<Void> updateOrderTotalPrice(
             @Parameter(description = "ID of the orderEntity to update", required = true) @PathVariable Long id,
             @RequestBody @Valid UpdateOrderTotalPriceRequest request
@@ -296,7 +268,7 @@ public interface OrderApi {
                     )
             )
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/delete")
     ResponseEntity<Void> cancelOrder(
             @Parameter(description = "ID of the orderEntity to cancel", required = true) @PathVariable Long id
     );

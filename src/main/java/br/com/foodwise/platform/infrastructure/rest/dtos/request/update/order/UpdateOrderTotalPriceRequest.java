@@ -1,4 +1,4 @@
-package br.com.foodwise.platform.infrastructure.rest.dtos.request.register.order;
+package br.com.foodwise.platform.infrastructure.rest.dtos.request.update.order;
 
 import jakarta.validation.constraints.DecimalMin;
 import lombok.AllArgsConstructor;

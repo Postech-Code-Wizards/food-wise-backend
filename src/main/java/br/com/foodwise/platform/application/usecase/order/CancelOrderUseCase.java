@@ -11,6 +11,7 @@ public class CancelOrderUseCase {
     private final OrderGateway orderGateway;
 
     public void cancelOrder(Order order) {
-        orderGateway.save(order);
+        order.cancelOrder();
+        orderGateway.cancelOrderSave(order);
     }
 }
