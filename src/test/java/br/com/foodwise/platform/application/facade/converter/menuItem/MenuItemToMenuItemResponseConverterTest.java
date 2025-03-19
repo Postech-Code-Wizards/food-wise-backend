@@ -24,7 +24,7 @@ class MenuItemToMenuItemResponseConverterTest {
 
     @Test
     @DisplayName("Test conversion of MenuItem to MenuItemResponse")
-    public void testConvertMenuItemToMenuItemResponse() {
+    void testConvertMenuItemToMenuItemResponse() {
 
         MenuItem source = Instancio.create(MenuItem.class);
 

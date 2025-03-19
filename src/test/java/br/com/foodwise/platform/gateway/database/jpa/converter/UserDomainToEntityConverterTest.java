@@ -24,7 +24,7 @@ class UserDomainToEntityConverterTest {
 
     @Test
     @DisplayName("Test conversion of User to UserEntity")
-    public void testConvertUserToEntity() {
+    void testConvertUserToEntity() {
 
         User source = Instancio.create(User.class);
 

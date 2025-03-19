@@ -25,7 +25,7 @@ class AddressEntityToDomainConverterTest {
 
     @Test
     @DisplayName("Test conversion of AddressEntity to Address domain object ")
-    public void testConvertAddressEntityToDomain() {
+    void testConvertAddressEntityToDomain() {
 
         AddressEntity source = Instancio.create(AddressEntity.class);
 

@@ -24,7 +24,7 @@ class MenuItemUpdateRequestToMenuItemConverterTest {
 
     @Test
     @DisplayName("Test conversion of RegisterMenuItemRequest to MenuItem")
-    public void testConvertRegisterMenuItemRequestToMenuItem() {
+    void testConvertRegisterMenuItemRequestToMenuItem() {
 
         RegisterMenuItemRequest source = Instancio.create(RegisterMenuItemRequest.class);
         MenuItem response = Instancio.create(MenuItem.class);

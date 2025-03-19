@@ -4,11 +4,11 @@ import br.com.foodwise.platform.application.facade.converter.menuItem.MenuItemTo
 import br.com.foodwise.platform.application.facade.converter.menuItem.MenuItemUpdateRequestToMenuItemConverter;
 import br.com.foodwise.platform.application.facade.converter.menuItem.RegisterMenuItemRequestToMenuItemConverter;
 import br.com.foodwise.platform.application.usecase.menu.RetrieveMenuUseCase;
-import br.com.foodwise.platform.application.usecase.menuItem.CreateMenuItemUseCase;
-import br.com.foodwise.platform.application.usecase.menuItem.RetrieveAllMenusItemByItemNameUseCase;
-import br.com.foodwise.platform.application.usecase.menuItem.RetrieveAllMenusItemUseCase;
-import br.com.foodwise.platform.application.usecase.menuItem.RetrieveMenuItemUseCase;
-import br.com.foodwise.platform.application.usecase.menuItem.UpdateMenuItemUseCase;
+import br.com.foodwise.platform.application.usecase.menu.item.CreateMenuItemUseCase;
+import br.com.foodwise.platform.application.usecase.menu.item.RetrieveAllMenusItemByItemNameUseCase;
+import br.com.foodwise.platform.application.usecase.menu.item.RetrieveAllMenusItemUseCase;
+import br.com.foodwise.platform.application.usecase.menu.item.RetrieveMenuItemUseCase;
+import br.com.foodwise.platform.application.usecase.menu.item.UpdateMenuItemUseCase;
 import br.com.foodwise.platform.domain.MenuItem;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemAvailable;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemRequest;

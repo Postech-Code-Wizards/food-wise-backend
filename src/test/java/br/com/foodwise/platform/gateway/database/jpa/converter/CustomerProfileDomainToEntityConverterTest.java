@@ -38,7 +38,7 @@ class CustomerProfileDomainToEntityConverterTest {
 
     @Test
     @DisplayName("Test conversion of CustomerProfile to CustomerProfileEntity")
-    public void testConvertCustomerProfileToEntity() {
+    void testConvertCustomerProfileToEntity() {
 
         CustomerProfile source = Instancio.create(CustomerProfile.class);
         AddressEntity addressEntity = Instancio.create(AddressEntity.class);

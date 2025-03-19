@@ -1,4 +1,4 @@
-package br.com.foodwise.platform.application.usecase.menuItem;
+package br.com.foodwise.platform.application.usecase.menu.item;
 
 import br.com.foodwise.platform.domain.MenuItem;
 import br.com.foodwise.platform.gateway.MenuItemGateway;

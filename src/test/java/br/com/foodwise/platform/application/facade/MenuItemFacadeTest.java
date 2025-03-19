@@ -4,11 +4,11 @@ import br.com.foodwise.platform.application.facade.converter.menuItem.MenuItemTo
 import br.com.foodwise.platform.application.facade.converter.menuItem.MenuItemUpdateRequestToMenuItemConverter;
 import br.com.foodwise.platform.application.facade.converter.menuItem.RegisterMenuItemRequestToMenuItemConverter;
 import br.com.foodwise.platform.application.usecase.menu.RetrieveMenuUseCase;
-import br.com.foodwise.platform.application.usecase.menuItem.CreateMenuItemUseCase;
-import br.com.foodwise.platform.application.usecase.menuItem.RetrieveAllMenusItemByItemNameUseCase;
-import br.com.foodwise.platform.application.usecase.menuItem.RetrieveAllMenusItemUseCase;
-import br.com.foodwise.platform.application.usecase.menuItem.RetrieveMenuItemUseCase;
-import br.com.foodwise.platform.application.usecase.menuItem.UpdateMenuItemUseCase;
+import br.com.foodwise.platform.application.usecase.menu.item.CreateMenuItemUseCase;
+import br.com.foodwise.platform.application.usecase.menu.item.RetrieveAllMenusItemByItemNameUseCase;
+import br.com.foodwise.platform.application.usecase.menu.item.RetrieveAllMenusItemUseCase;
+import br.com.foodwise.platform.application.usecase.menu.item.RetrieveMenuItemUseCase;
+import br.com.foodwise.platform.application.usecase.menu.item.UpdateMenuItemUseCase;
 import br.com.foodwise.platform.domain.Menu;
 import br.com.foodwise.platform.domain.MenuItem;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menuItem.RegisterMenuItemAvailable;
@@ -73,7 +73,7 @@ class MenuItemFacadeTest {
 
     @Test
     @DisplayName("Test createMenuItem")
-    public void testCreateMenuItem() {
+    void testCreateMenuItem() {
 
         RegisterMenuItemRequest request = Instancio.create(RegisterMenuItemRequest.class);
         Menu menu = Instancio.create(Menu.class);
@@ -97,7 +97,7 @@ class MenuItemFacadeTest {
 
     @Test
     @DisplayName("Test getMenuItemById")
-    public void testGetMenuItemById() {
+    void testGetMenuItemById() {
 
         Long id = Instancio.create(Long.class);
         MenuItem menuItem = Instancio.create(MenuItem.class);
@@ -115,7 +115,7 @@ class MenuItemFacadeTest {
 
     @Test
     @DisplayName("Test getAllMenusItemByItemName")
-    public void testGetAllMenusItemByItemName() {
+    void testGetAllMenusItemByItemName() {
 
         String itemName = Instancio.create(String.class);
         List<MenuItem> menuItems = Instancio.stream(MenuItem.class).limit(3).collect(Collectors.toList());
@@ -135,7 +135,7 @@ class MenuItemFacadeTest {
 
     @Test
     @DisplayName("Test getAllMenuItems")
-    public void testGetAllMenuItems() {
+    void testGetAllMenuItems() {
 
         List<MenuItem> menuItems = Instancio.stream(MenuItem.class).limit(3).collect(Collectors.toList());
         List<MenuItemResponse> responses = Instancio.stream(MenuItemResponse.class).limit(3).collect(Collectors.toList());
@@ -154,7 +154,7 @@ class MenuItemFacadeTest {
 
     @Test
     @DisplayName("Test updateMenuItem")
-    public void testUpdateMenuItem() {
+    void testUpdateMenuItem() {
 
         Long id = Instancio.create(Long.class);
         RegisterMenuItemRequest request = Instancio.create(RegisterMenuItemRequest.class);
@@ -181,7 +181,7 @@ class MenuItemFacadeTest {
 
     @Test
     @DisplayName("Test updateAvailableMenuItem")
-    public void testUpdateAvailableMenuItem() {
+    void testUpdateAvailableMenuItem() {
 
         Long id = Instancio.create(Long.class);
         RegisterMenuItemAvailable available = Instancio.create(RegisterMenuItemAvailable.class);

@@ -38,7 +38,7 @@ class RestaurantProfileDomainToEntityConverterTest {
 
     @Test
     @DisplayName("Test conversion of RestaurantProfile to RestaurantProfileEntity")
-    public void testConvertRestaurantProfileToEntity() {
+    void testConvertRestaurantProfileToEntity() {
 
         RestaurantProfile source = Instancio.create(RestaurantProfile.class);
 

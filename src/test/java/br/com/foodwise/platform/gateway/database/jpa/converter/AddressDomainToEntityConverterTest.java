@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(InstancioExtension.class)
-public class AddressDomainToEntityConverterTest {
+class AddressDomainToEntityConverterTest {
 
     @InjectMocks
     private AddressDomainToEntityConverter addressDomainToEntityConverter;
@@ -27,7 +27,7 @@ public class AddressDomainToEntityConverterTest {
 
     @Test
     @DisplayName("Test conversion of Address domain object to AddressEntity")
-    public void testConvertAddressDomainToEntity() {
+    void testConvertAddressDomainToEntity() {
 
         Address source = Instancio.create(Address.class);
         AddressEntity entity = addressDomainToEntityConverter.convert(source);

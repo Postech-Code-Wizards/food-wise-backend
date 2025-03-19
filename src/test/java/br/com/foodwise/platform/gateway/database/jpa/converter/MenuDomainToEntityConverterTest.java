@@ -30,7 +30,7 @@ class MenuDomainToEntityConverterTest {
 
     @Test
     @DisplayName("Test conversion of Menu to MenuEntity")
-    public void testConvertMenuToEntity() {
+    void testConvertMenuToEntity() {
 
         Menu source = Instancio.create(Menu.class);
         RestaurantProfileEntity restaurantProfileEntity = Instancio.create(RestaurantProfileEntity.class);

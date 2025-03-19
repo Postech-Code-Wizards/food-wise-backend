@@ -38,7 +38,7 @@ class RestaurantProfileEntityToDomainConverterTest {
 
     @Test
     @DisplayName("Test conversion of RestaurantProfileEntity to RestaurantProfile")
-    public void testConvertRestaurantProfileEntityToDomain() {
+    void testConvertRestaurantProfileEntityToDomain() {
 
         RestaurantProfileEntity source = Instancio.create(RestaurantProfileEntity.class);
         Address address = Instancio.create(Address.class);
