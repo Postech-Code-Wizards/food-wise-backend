@@ -16,7 +16,7 @@ public class DeleteUserUseCase {
     public void execute(long id, UserType userType) {
         validateUserIsAuthenticatedUseCase.execute(id);
 
-         var user = userGateway.findByIdAndUserTypeAndDeletedAtIsNull(id, userType)
+        var user = userGateway.findByIdAndUserTypeAndDeletedAtIsNull(id, userType)
                 .orElseThrow(() -> new ResourceNotFoundException("USER_DOES_NOT_EXIST", ""));
         user.delete();
         userGateway.save(user);

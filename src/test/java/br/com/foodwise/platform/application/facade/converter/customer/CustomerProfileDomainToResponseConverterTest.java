@@ -1,6 +1,5 @@
 package br.com.foodwise.platform.application.facade.converter.customer;
 
-import br.com.foodwise.platform.application.facade.converter.customer.CustomerProfileDomainToResponseConverter;
 import br.com.foodwise.platform.domain.CustomerProfile;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.CustomerProfileResponse;
 import org.instancio.Instancio;

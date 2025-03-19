@@ -1,6 +1,10 @@
 package br.com.foodwise.platform.factory;
 
-import br.com.foodwise.platform.domain.*;
+import br.com.foodwise.platform.domain.Address;
+import br.com.foodwise.platform.domain.CustomerProfile;
+import br.com.foodwise.platform.domain.Menu;
+import br.com.foodwise.platform.domain.Phone;
+import br.com.foodwise.platform.domain.RestaurantProfile;
 import br.com.foodwise.platform.domain.enums.PhoneType;
 
 import java.math.BigDecimal;

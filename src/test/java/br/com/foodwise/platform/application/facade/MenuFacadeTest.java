@@ -1,10 +1,15 @@
 package br.com.foodwise.platform.application.facade;
 
-import br.com.foodwise.platform.application.usecase.menu.*;
-import br.com.foodwise.platform.domain.Menu;
 import br.com.foodwise.platform.application.facade.converter.menu.MenuToMenuResponseConverter;
 import br.com.foodwise.platform.application.facade.converter.menu.MenuUpdateRequestToMenuConverter;
 import br.com.foodwise.platform.application.facade.converter.menu.RegisterMenuRequestToMenuConverter;
+import br.com.foodwise.platform.application.usecase.menu.CreateMenuUseCase;
+import br.com.foodwise.platform.application.usecase.menu.DeleteMenuUseCase;
+import br.com.foodwise.platform.application.usecase.menu.RetrieveAllMenusByRestaurantNameUseCase;
+import br.com.foodwise.platform.application.usecase.menu.RetrieveAllMenusUseCase;
+import br.com.foodwise.platform.application.usecase.menu.RetrieveMenuUseCase;
+import br.com.foodwise.platform.application.usecase.menu.UpdateMenuUseCase;
+import br.com.foodwise.platform.domain.Menu;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuResponse;
 import org.instancio.Instancio;
@@ -18,7 +23,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class MenuFacadeTest {
@@ -96,7 +104,7 @@ class MenuFacadeTest {
         List<MenuResponse> menus = menuFacade.getAllMenusByRestaurantName(restaurantName);
 
         assertEquals(1, menus.size());
-        assertEquals(menuResponse, menus.getFirst());
+        assertEquals(menuResponse, menus.get(0));
         verify(retrieveAllMenusByRestaurantNameUseCase, times(1)).execute(restaurantName);
     }
 
@@ -108,7 +116,7 @@ class MenuFacadeTest {
         List<MenuResponse> menus = menuFacade.getAllMenus();
 
         assertEquals(1, menus.size());
-        assertEquals(menuResponse, menus.getFirst());
+        assertEquals(menuResponse, menus.get(0));
         verify(retrieveAllMenusUseCase, times(1)).execute();
     }
 

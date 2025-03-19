@@ -37,7 +37,7 @@ public class RestaurantProfileRequest {
     )
     private Short deliveryRadius;
 
-    @NotNull(message ="Delivery Order is required" )
+    @NotNull(message = "Delivery Order is required")
     private Boolean isDeliveryOrder;
 
     @NotBlank(message = "Cuisine type is required")

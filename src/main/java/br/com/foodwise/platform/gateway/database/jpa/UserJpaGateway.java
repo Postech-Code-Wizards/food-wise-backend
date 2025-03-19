@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
-import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -25,6 +24,10 @@ public class UserJpaGateway implements UserGateway {
     private final UserRepository userRepository;
     private final UserEntityToDomainConverter userEntityToDomainConverter;
     private final UserDomainToEntityConverter userDomainToEntityConverter;
+
+    private static void registerLogUserNotFound(long id, UserType userType) {
+        log.info("User not found: id={}, userType={}", id, userType);
+    }
 
     @Override
     public UserDetails findByEmail(String email) {
@@ -39,7 +42,7 @@ public class UserJpaGateway implements UserGateway {
     @Override
     public Optional<User> findByIdAndUserTypeAndDeletedAtIsNull(long id, UserType userType) {
         Optional<UserEntity> userEntityOp = userRepository.findByIdAndUserTypeAndDeletedAtIsNull(id, userType);
-        if(userEntityOp.isEmpty()) {
+        if (userEntityOp.isEmpty()) {
             registerLogUserNotFound(id, userType);
             return Optional.empty();
         }
@@ -61,7 +64,7 @@ public class UserJpaGateway implements UserGateway {
     public void delete(long id, UserType userType) {
         Optional<UserEntity> userEntityOp = userRepository.findByIdAndUserTypeAndDeletedAtIsNull(id, userType);
 
-        if(userEntityOp.isEmpty()) {
+        if (userEntityOp.isEmpty()) {
             registerLogUserNotFound(id, userType);
         } else {
             UserEntity userEntity = userEntityOp.get();
@@ -75,10 +78,6 @@ public class UserJpaGateway implements UserGateway {
     public User findUserById(Long id) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return userEntityToDomainConverter.convert(userEntity);
-    }
-
-    private static void registerLogUserNotFound(long id, UserType userType) {
-        log.info("User not found: id={}, userType={}", id, userType);
     }
 
 }

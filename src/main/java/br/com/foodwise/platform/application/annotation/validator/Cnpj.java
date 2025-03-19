@@ -8,8 +8,7 @@ public class Cnpj {
     static boolean isValid(String digits) {
         if (Long.parseLong(digits) % 10 == 0) {
             return somaPonderada(digits) % 11 < 2;
-        }
-        else {
+        } else {
             return somaPonderada(digits) % 11 == 0;
         }
     }

@@ -14,7 +14,7 @@ public class UpdateRestaurantUserEmailUseCase {
     private final UpdateUserEmailUseCase updateUserEmailUseCase;
 
     @Transactional
-    public void execute(User user, Long id){
+    public void execute(User user, Long id) {
         updateUserEmailUseCase.execute(user, id, UserType.RESTAURANT_OWNER);
     }
 

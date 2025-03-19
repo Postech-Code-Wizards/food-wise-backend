@@ -1,10 +1,15 @@
 package br.com.foodwise.platform.application.facade;
 
-import br.com.foodwise.platform.application.usecase.menu.*;
-import br.com.foodwise.platform.domain.Menu;
 import br.com.foodwise.platform.application.facade.converter.menu.MenuToMenuResponseConverter;
 import br.com.foodwise.platform.application.facade.converter.menu.MenuUpdateRequestToMenuConverter;
 import br.com.foodwise.platform.application.facade.converter.menu.RegisterMenuRequestToMenuConverter;
+import br.com.foodwise.platform.application.usecase.menu.CreateMenuUseCase;
+import br.com.foodwise.platform.application.usecase.menu.DeleteMenuUseCase;
+import br.com.foodwise.platform.application.usecase.menu.RetrieveAllMenusByRestaurantNameUseCase;
+import br.com.foodwise.platform.application.usecase.menu.RetrieveAllMenusUseCase;
+import br.com.foodwise.platform.application.usecase.menu.RetrieveMenuUseCase;
+import br.com.foodwise.platform.application.usecase.menu.UpdateMenuUseCase;
+import br.com.foodwise.platform.domain.Menu;
 import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +33,7 @@ public class MenuFacade {
 
     public MenuResponse createMenu(RegisterMenuRequest menuRequestDTO) {
         var menuConverted = registerMenuRequestToMenuConverter.convert(menuRequestDTO);
-        var menu =  createMenuUseCase.execute(menuConverted);
+        var menu = createMenuUseCase.execute(menuConverted);
         return convertToMenuResponse(menu);
     }
 

@@ -18,15 +18,6 @@ public class CreateMenuUseCase {
     private final MenuGateway menuGateway;
     private final RestaurantProfileGateway restaurantProfileGateway;
 
-    public Menu execute(Menu menu) {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var user = (UserEntity) authentication.getPrincipal();
-
-        var restaurantProfile = restaurantProfileGateway.findById(user.getId());
-        var newMenu = populate(menu, restaurantProfile);
-        return menuGateway.save(newMenu);
-    }
-
     private static Menu populate(Menu menu, RestaurantProfile restaurantProfile) {
         return new Menu(
                 menu.getId(),
@@ -36,5 +27,14 @@ public class CreateMenuUseCase {
                 ZonedDateTime.now(),
                 ZonedDateTime.now()
         );
+    }
+
+    public Menu execute(Menu menu) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var user = (UserEntity) authentication.getPrincipal();
+
+        var restaurantProfile = restaurantProfileGateway.findById(user.getId());
+        var newMenu = populate(menu, restaurantProfile);
+        return menuGateway.save(newMenu);
     }
 }

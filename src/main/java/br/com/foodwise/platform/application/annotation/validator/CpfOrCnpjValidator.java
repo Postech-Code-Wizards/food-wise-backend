@@ -8,7 +8,7 @@ public class CpfOrCnpjValidator implements ConstraintValidator<CpfOrCnpj, String
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if(value == null || value.isEmpty()) return true;
+        if (value == null || value.isEmpty()) return true;
         String digits = value.replaceAll("\\D", "");
 
         if (digits.matches("(.)\\1*")) {

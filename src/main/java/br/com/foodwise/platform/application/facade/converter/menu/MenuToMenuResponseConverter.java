@@ -1,7 +1,7 @@
 package br.com.foodwise.platform.application.facade.converter.menu;
 
-import br.com.foodwise.platform.domain.Menu;
 import br.com.foodwise.platform.application.facade.converter.restaurant.RestaurantProfileDomainToResponseConverter;
+import br.com.foodwise.platform.domain.Menu;
 import br.com.foodwise.platform.infrastructure.rest.dtos.response.MenuResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

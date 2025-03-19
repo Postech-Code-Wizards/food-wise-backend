@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class LoadUserByUsernameUseCase implements UserDetailsService  {
+public class LoadUserByUsernameUseCase implements UserDetailsService {
 
     private final UserGateway userGateway;
 

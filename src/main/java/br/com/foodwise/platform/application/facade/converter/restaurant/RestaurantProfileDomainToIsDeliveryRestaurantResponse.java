@@ -13,11 +13,11 @@ public class RestaurantProfileDomainToIsDeliveryRestaurantResponse implements Co
 
     @Override
     public IsDeliveryRestaurantResponse convert(RestaurantProfile source) {
-       var response = new IsDeliveryRestaurantResponse();
+        var response = new IsDeliveryRestaurantResponse();
 
-       var mapper = new ModelMapper();
+        var mapper = new ModelMapper();
 
-       mapper.map(source, response);
+        mapper.map(source, response);
 
         return response;
     }

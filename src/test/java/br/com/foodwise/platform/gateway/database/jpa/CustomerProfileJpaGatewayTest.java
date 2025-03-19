@@ -18,7 +18,10 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class CustomerProfileJpaGatewayTest {
 
@@ -119,7 +122,7 @@ class CustomerProfileJpaGatewayTest {
 
         CustomerProfile customerProfile = null;
 
-        assertThrows(ResourceNotFoundException.class, () ->customerProfileJpaGateway.save(customerProfile));
+        assertThrows(ResourceNotFoundException.class, () -> customerProfileJpaGateway.save(customerProfile));
         verify(customerProfileDomainToEntityConverter, never()).convert(any());
         verify(customerProfileRepository, never()).save(any());
     }

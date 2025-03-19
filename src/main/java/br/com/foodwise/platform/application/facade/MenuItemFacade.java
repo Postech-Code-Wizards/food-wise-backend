@@ -35,6 +35,21 @@ public class MenuItemFacade {
     private final RegisterMenuItemRequestToMenuItemConverter registerMenuItemRequestToMenuItemConverter;
     private final MenuItemToMenuItemResponseConverter menuItemToMenuItemResponseConverter;
 
+    private static MenuItem populateAvailableMenuItem(RegisterMenuItemAvailable available, MenuItem existingMenuItem) {
+        return MenuItem.builder()
+                .id(existingMenuItem.getId())
+                .name(existingMenuItem.getName())
+                .description(existingMenuItem.getDescription())
+                .price(existingMenuItem.getPrice())
+                .category(existingMenuItem.getCategory())
+                .isAvailable(available.getAvailable())
+                .imageUrl(existingMenuItem.getImageUrl())
+                .createdAt(existingMenuItem.getCreatedAt())
+                .updatedAt(existingMenuItem.getUpdatedAt())
+                .menu(existingMenuItem.getMenu())
+                .build();
+    }
+
     public MenuItemResponse createMenuItem(RegisterMenuItemRequest registerMenuItemRequest) {
         var menu = retrieveMenuUseCase.execute(registerMenuItemRequest.getMenu().getId());
         var menuItem = registerMenuItemRequestToMenuItemConverter.convert(registerMenuItemRequest, menu);
@@ -73,21 +88,6 @@ public class MenuItemFacade {
         var menuItemSaved = updateMenuItemUseCase.execute(menuItem);
 
         return menuItemToMenuItemResponseConverter.convert(menuItemSaved);
-    }
-
-    private static MenuItem populateAvailableMenuItem(RegisterMenuItemAvailable available, MenuItem existingMenuItem) {
-        return MenuItem.builder()
-                .id(existingMenuItem.getId())
-                .name(existingMenuItem.getName())
-                .description(existingMenuItem.getDescription())
-                .price(existingMenuItem.getPrice())
-                .category(existingMenuItem.getCategory())
-                .isAvailable(available.getAvailable())
-                .imageUrl(existingMenuItem.getImageUrl())
-                .createdAt(existingMenuItem.getCreatedAt())
-                .updatedAt(existingMenuItem.getUpdatedAt())
-                .menu(existingMenuItem.getMenu())
-                .build();
     }
 
 }

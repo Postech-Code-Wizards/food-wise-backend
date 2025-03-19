@@ -22,7 +22,9 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class RestaurantOwnerJpaGatewayTest {
 
@@ -49,7 +51,7 @@ class RestaurantOwnerJpaGatewayTest {
     @Test
     @DisplayName("Should find RestaurantOwner by ID and convert to domain")
     void findById_ShouldFindAndConvert() {
-        
+
         Long restaurantOwnerId = Instancio.create(Long.class);
         RestaurantOwnerEntity restaurantOwnerEntity = Instancio.create(RestaurantOwnerEntity.class);
         RestaurantOwner expectedRestaurantOwner = Instancio.create(RestaurantOwner.class);
@@ -65,7 +67,7 @@ class RestaurantOwnerJpaGatewayTest {
     @Test
     @DisplayName("Should throw ResourceNotFoundException when RestaurantOwner is not found")
     void findById_ShouldThrowResourceNotFound() {
-        
+
         Long restaurantOwnerId = Instancio.create(Long.class);
 
         when(restaurantOwnerRepository.findById(restaurantOwnerId)).thenReturn(Optional.empty());
@@ -76,7 +78,7 @@ class RestaurantOwnerJpaGatewayTest {
     @Test
     @DisplayName("Should save RestaurantOwner and convert from domain")
     void save_ShouldSaveAndConvert() {
-        
+
         RestaurantOwner restaurantOwner = Instancio.create(RestaurantOwner.class);
         RestaurantOwnerEntity restaurantOwnerEntity = Instancio.create(RestaurantOwnerEntity.class);
         UserEntity userEntity = Instancio.create(UserEntity.class);
@@ -95,7 +97,7 @@ class RestaurantOwnerJpaGatewayTest {
     @Test
     @DisplayName("Should throw ResourceNotFoundException when User is not found during save")
     void save_ShouldThrowResourceNotFound_WhenUserNotFound() {
-        
+
         RestaurantOwner restaurantOwner = Instancio.create(RestaurantOwner.class);
         User user = restaurantOwner.getUser();
 

@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RetrieveRestaurantByIdUseCase {
 
-     private final RestaurantProfileGateway restaurantProfileGateway;
+    private final RestaurantProfileGateway restaurantProfileGateway;
 
-     public RestaurantProfile execute(Long id){
-         return restaurantProfileGateway.findById(id);
-     }
+    public RestaurantProfile execute(Long id) {
+        return restaurantProfileGateway.findById(id);
+    }
 
 }
