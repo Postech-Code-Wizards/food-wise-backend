@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -55,9 +54,6 @@ class RestaurantProfileControllerTest {
     @MockBean
     private UserFacade userFacade;
 
-    @InjectMocks
-    private RestaurantProfileController restaurantProfileController;
-
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -76,13 +72,13 @@ class RestaurantProfileControllerTest {
             var responseOwner = Instancio.create(RestaurantOwner.class);
             response.setRestaurantOwner(responseOwner);
 
-            when(restaurantProfileFacade.retrieveRestaurantByEmail(TEST_EMAIL)).thenReturn(response);
+            when(restaurantProfileFacade.retrieveMyProfile()).thenReturn(response);
 
-            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/restaurant/my-profile").param("email", TEST_EMAIL))
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/restaurant/my-profile"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.businessName").value(response.getBusinessName()));
 
-            verify(restaurantProfileFacade).retrieveRestaurantByEmail(TEST_EMAIL);
+            verify(restaurantProfileFacade).retrieveMyProfile();
         }
 
         @Test
