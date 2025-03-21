@@ -1,15 +1,21 @@
 package br.com.foodwise.platform.factory;
 
-import br.com.foodwise.platform.model.entities.*;
-import br.com.foodwise.platform.model.entities.enums.PhoneType;
-import br.com.foodwise.platform.model.entities.enums.UserType;
-import br.com.foodwise.platform.rest.dtos.request.register.AddressRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.PhoneRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.UserRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.customer.CustomerProfileRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.customer.RegisterCustomerRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
-import br.com.foodwise.platform.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
+import br.com.foodwise.platform.domain.enums.PhoneType;
+import br.com.foodwise.platform.domain.enums.UserType;
+import br.com.foodwise.platform.gateway.database.jpa.entities.AddressEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.CustomerProfileEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.PhoneEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.RestaurantProfileEntity;
+import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.AddressRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.PhoneRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.UserRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.CustomerProfileRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.customer.RegisterCustomerRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.menu.RegisterMenuRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantOwnerRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RegisterRestaurantRequest;
+import br.com.foodwise.platform.infrastructure.rest.dtos.request.register.restaurant.RestaurantProfileRequest;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -25,17 +31,18 @@ public class RequestFactory {
     }
 
     public static PhoneRequest buildPhoneRequest() {
-        return new PhoneRequest("55", "00123456789", PhoneType.MOBILE);
+        return new PhoneRequest(1L, "55", "00123456789", PhoneType.MOBILE);
     }
 
     public static AddressRequest buildAddressRequest() {
-        return new AddressRequest("123 Main St", "City", "ST", "Neighborhood", "12345", "Country", BigDecimal.ZERO, BigDecimal.ZERO);
+        return new AddressRequest(1L, "123 Main St", "City", "ST", "Neighborhood", "12345", "Country", BigDecimal.ZERO, BigDecimal.ZERO);
     }
 
     public static RegisterRestaurantRequest buildValidRegisterRestaurantRequest() {
         var request = new RegisterRestaurantRequest();
         request.setUser(buildUserRequest());
         request.setRestaurant(buildRestaurantProfileRequest());
+        request.setOwner(buildrestaurantOwnerRequest());
         return request;
     }
 
@@ -46,12 +53,29 @@ public class RequestFactory {
         return request;
     }
 
+    public static RegisterMenuRequest buildRegisterMenuRequest() {
+        var menuRequest = new RegisterMenuRequest();
+        menuRequest.setName("Request Test");
+        menuRequest.setDescription("Test Description");
+        return menuRequest;
+    }
+
+    public static RegisterRestaurantOwnerRequest buildrestaurantOwnerRequest() {
+        var owner = new RegisterRestaurantOwnerRequest();
+        owner.setFirstName("John");
+        owner.setLastName("Doe");
+        owner.setBusinessRegistrationNumber("38546898022");
+        owner.setBusinessEmail("john@doe.com");
+        return owner;
+    }
+
     public static RestaurantProfileRequest buildRestaurantProfileRequest() {
         var restaurant = new RestaurantProfileRequest();
         restaurant.setDeliveryRadius((short) 1);
         restaurant.setBusinessName("Valid Business");
         restaurant.setBusinessHours("09:00-18:00");
         restaurant.setCuisineType("Italian");
+        restaurant.setIsDeliveryOrder(true);
         restaurant.setAddress(buildAddressRequest());
         restaurant.setPhone(buildPhoneRequest());
         return restaurant;
@@ -66,9 +90,9 @@ public class RequestFactory {
         return request;
     }
 
-    public static User buildUserEntity() {
+    public static UserEntity buildUserEntity() {
         var userRequest = buildUserRequest();
-        var user = new User();
+        var user = new UserEntity();
         user.setId(1L);
         user.setUpdatedAt(null);
         user.setActive(true);
@@ -79,9 +103,9 @@ public class RequestFactory {
         return user;
     }
 
-    public static Address buildAddressEntity() {
+    public static AddressEntity buildAddressEntity() {
         var addressRequest = buildAddressRequest();
-        var address = new Address();
+        var address = new AddressEntity();
         address.setId(1L);
         address.setUpdatedAt(null);
         address.setCity(addressRequest.getCity());
@@ -95,9 +119,9 @@ public class RequestFactory {
         return address;
     }
 
-    public static Phone buildPhoneEntity() {
+    public static PhoneEntity buildPhoneEntity() {
         var phoneRequest = buildPhoneRequest();
-        var phone = new Phone();
+        var phone = new PhoneEntity();
         phone.setId(1L);
         phone.setUpdatedAt(null);
         phone.setCreatedAt(ZonedDateTime.now());
@@ -107,25 +131,25 @@ public class RequestFactory {
         return phone;
     }
 
-    public static CustomerProfile buildCustomerProfileEntity() {
+    public static CustomerProfileEntity buildCustomerProfileEntity() {
         var customerProfileRequest = buildCustomerProfileRequest();
-        var customerProfile = new CustomerProfile();
-        customerProfile.setUser(buildUserEntity());
+        var customerProfile = new CustomerProfileEntity();
+        customerProfile.setUserEntity(buildUserEntity());
         customerProfile.setUpdatedAt(null);
         customerProfile.setCreatedAt(ZonedDateTime.now());
         customerProfile.setFirstName(customerProfileRequest.getFirstName());
         customerProfile.setLastName(customerProfileRequest.getLastName());
-        customerProfile.setAddress(buildAddressEntity());
-        customerProfile.setPhone(buildPhoneEntity());
+        customerProfile.setAddressEntity(buildAddressEntity());
+        customerProfile.setPhoneEntity(buildPhoneEntity());
         return customerProfile;
     }
 
-    public static RestaurantProfile buildRestaurantProfileEntity() {
+    public static RestaurantProfileEntity buildRestaurantProfileEntity() {
         var restaurantProfileRequest = buildRestaurantProfileRequest();
-        var restaurantProfile = new RestaurantProfile();
-        restaurantProfile.setUser(buildUserEntity());
-        restaurantProfile.setPhone(buildPhoneEntity());
-        restaurantProfile.setAddress(buildAddressEntity());
+        var restaurantProfile = new RestaurantProfileEntity();
+        restaurantProfile.setUserEntity(buildUserEntity());
+        restaurantProfile.setPhoneEntity(buildPhoneEntity());
+        restaurantProfile.setAddressEntity(buildAddressEntity());
         restaurantProfile.setUpdatedAt(null);
         restaurantProfile.setCreatedAt(ZonedDateTime.now());
         restaurantProfile.setBusinessName(restaurantProfileRequest.getBusinessName());

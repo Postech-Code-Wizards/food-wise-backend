@@ -1,8 +1,9 @@
 package br.com.foodwise.platform.infra.security.filter;
 
-import br.com.foodwise.platform.model.entities.User;
-import br.com.foodwise.platform.model.repositories.UserRepository;
-import br.com.foodwise.platform.service.TokenService;
+import br.com.foodwise.platform.application.facade.TokenFacade;
+import br.com.foodwise.platform.gateway.UserGateway;
+import br.com.foodwise.platform.gateway.database.jpa.entities.UserEntity;
+import br.com.foodwise.platform.infrastructure.security.filter.SecurityFilter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,10 +31,10 @@ import static org.mockito.Mockito.when;
 class SecurityFilterTest {
 
     @Mock
-    private TokenService tokenService;
+    private TokenFacade tokenFacade;
 
     @Mock
-    private UserRepository userRepository;
+    private UserGateway userGateway;
 
     @Mock
     private FilterChain filterChain;
@@ -55,12 +56,12 @@ class SecurityFilterTest {
     void shouldSetAuthenticationWhenTokenIsValid() throws IOException, ServletException {
         var token = "validToken";
         var userLogin = "user@code-wizards.com";
-        var user = mock(User.class);
+        var user = mock(UserEntity.class);
 
         request.addHeader("Authorization", "Bearer " + token);
 
-        when(tokenService.validateToken(token)).thenReturn(userLogin);
-        when(userRepository.findByEmail(userLogin)).thenReturn(user);
+        when(tokenFacade.validateToken(token)).thenReturn(userLogin);
+        when(userGateway.findByEmail(userLogin)).thenReturn(user);
         when(user.getAuthorities()).thenReturn(null);
 
         securityFilter.doFilterInternal(request, response, filterChain);
@@ -85,7 +86,7 @@ class SecurityFilterTest {
         String token = "invalidToken";
         request.addHeader("Authorization", "Bearer " + token);
 
-        when(tokenService.validateToken(token)).thenReturn("");
+        when(tokenFacade.validateToken(token)).thenReturn("");
 
         securityFilter.doFilterInternal(request, response, filterChain);
 

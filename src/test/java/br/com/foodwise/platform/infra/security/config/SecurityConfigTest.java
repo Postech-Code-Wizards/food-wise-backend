@@ -1,6 +1,7 @@
 package br.com.foodwise.platform.infra.security.config;
 
-import br.com.foodwise.platform.infra.security.filter.SecurityFilter;
+import br.com.foodwise.platform.infrastructure.security.config.SecurityConfig;
+import br.com.foodwise.platform.infrastructure.security.filter.SecurityFilter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

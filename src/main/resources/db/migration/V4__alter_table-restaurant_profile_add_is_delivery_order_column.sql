@@ -1,0 +1,1 @@
+ALTER TABLE "restaurant_profile" ADD COLUMN is_delivery_order BOOLEAN;
